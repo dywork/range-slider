@@ -14,7 +14,6 @@
     "@commitlint/cli": "^8.3.4",
     "@types/jasmine": "^3.3.13",
     "cz-customizable": "^6.2.0",
-    "husky": "^4.0.9",
     "karma": "^4.1.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^2.0.0",
@@ -30,11 +29,6 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g './config/git/commitlint.js'"
-    }
   },
   "config": {
     "commitizen": {
