@@ -6,8 +6,8 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server",
-    "test": "karma start config/karma.conf.js",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --config ./config/.eslintrc.js"
+    "test": "karma start karma.conf.js",
+    "lint": "eslint ./src/**/*.ts ./src/**/*.js --config .eslintrc.js"
   },
   "author": "",
   "license": "ISC",

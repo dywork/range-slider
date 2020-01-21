@@ -1,14 +1,14 @@
-import webpackConfig from '../webpack.config';
+import webpackConfig from './webpack.config';
 
 module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
-    files: ['../src/**/*.test.ts'],
+    files: ['src/**/*.test.ts'],
     exclude: [],
     preprocessors: {
-      '../src/**/*.test.ts': ['webpack'],
-      '../src/**/*.test.js': ['webpack'],
+      'src/**/*.test.ts': ['webpack'],
+      'src/**/*.test.js': ['webpack'],
     },
     webpack: {
       module: webpackConfig.module,
