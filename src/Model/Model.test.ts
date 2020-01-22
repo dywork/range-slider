@@ -17,4 +17,12 @@ describe('Model', () => {
     model.setMaxValue(maxValue);
     expect(model.getMaxValue()).toBe(maxValue);
   });
+
+  it('Выдает ошибку если заданный minValue больше текущего maxValue', () => {
+    const maxValue = 5;
+    const minValue = 115;
+    model.setMaxValue(maxValue);
+    const func = model.setMinValue.bind(this, minValue);
+    expect(func).toThrowError('minValue не может быть > maxValue');
+  });
 });
