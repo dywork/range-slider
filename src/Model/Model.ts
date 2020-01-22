@@ -10,7 +10,7 @@ class Model implements IModel {
 
   private maxValue: number;
 
-  constructor(minValue: number, maxValue: number) {
+  constructor(minValue: number = 0, maxValue: number = 100) {
     this.minValue = minValue;
     this.maxValue = maxValue;
   }
