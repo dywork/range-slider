@@ -2,6 +2,7 @@ interface IModel {
   getMinValue(): number;
   setMinValue(value: number): void;
   getMaxValue(): number;
+  setMaxValue(value: number): void;
 }
 
 class Model implements IModel {
@@ -21,6 +22,10 @@ class Model implements IModel {
   };
 
   getMaxValue = () => this.maxValue;
+
+  setMaxValue = (value: number) => {
+    this.maxValue = value;
+  };
 }
 
 export { Model, IModel };
