@@ -1,5 +1,6 @@
 interface IModel {
   getMinValue(): number;
+  setMinValue(value: number): void;
   getMaxValue(): number;
 }
 
@@ -14,6 +15,10 @@ class Model implements IModel {
   }
 
   getMinValue = () => this.minValue;
+
+  setMinValue = (value: number) => {
+    this.minValue = value;
+  };
 
   getMaxValue = () => this.maxValue;
 }
