@@ -26,6 +26,7 @@ yarn-error.log*
 
 #Build generated
 build/
+dist/
 stats.json
 
 #Pixel perfect screenshots
