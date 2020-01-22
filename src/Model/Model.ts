@@ -19,16 +19,20 @@ class Model implements IModel {
 
   setMinValue = (value: number) => {
     if (value > this.getMaxValue()) {
-      throw new Error('minValue не может быть > maxValue');
-    } else {
-      this.minValue = value;
+      this.throwError('minValue не может быть > maxValue');
     }
+
+    this.minValue = value;
   };
 
   getMaxValue = () => this.maxValue;
 
   setMaxValue = (value: number) => {
     this.maxValue = value;
+  };
+
+  private throwError = (errorMsg: string) => {
+    throw new Error(errorMsg);
   };
 }
 
