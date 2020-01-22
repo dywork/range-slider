@@ -1,4 +1,4 @@
-import Model, { IModel } from './Model';
+import { Model, IModel } from './Model';
 
 describe('Model', () => {
   it('Возвращает заданый текст', () => {
