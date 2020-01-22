@@ -27,6 +27,6 @@ describe('Model', () => {
   it('Присваивает заданный maxValue', () => {
     const maxValue = 50;
     model.setMaxValue(maxValue);
-    expect(model.getMinValue()).toBe(maxValue);
+    expect(model.getMaxValue()).toBe(maxValue);
   });
 });
