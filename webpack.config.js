@@ -9,25 +9,20 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {configFile: 'tsconfig.json'},
-          },
-        ],
-      },
-    ],
+        use: 'ts-loader'
+      }
+    ]
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.js']
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './dist')
   },
   devServer: {
     contentBase: path.join(__dirname, './dist'),
     compress: true,
-    hot: true,
-  },
+    hot: true
+  }
 };
