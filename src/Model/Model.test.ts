@@ -17,4 +17,16 @@ describe('Model', () => {
     const maxValue = 115;
     expect(model.getMaxValue()).toBe(maxValue);
   });
+
+  it('Присваивает заданный minValue', () => {
+    const minValue = 10;
+    model.setMinValue(minValue);
+    expect(model.getMinValue()).toBe(minValue);
+  });
+
+  it('Присваивает заданный maxValue', () => {
+    const maxValue = 50;
+    model.setMaxValue(maxValue);
+    expect(model.getMinValue()).toBe(maxValue);
+  });
 });
