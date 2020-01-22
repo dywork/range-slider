@@ -9,10 +9,8 @@ class Model implements IModel {
     this.text = text;
   }
 
-  getText = () => {
-    return this.text;
-  };
+  getText = () => this.text;
 }
 
 export default Model;
-export {IModel};
+export { IModel };
