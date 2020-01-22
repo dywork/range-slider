@@ -1,15 +1,15 @@
 interface IModel {
-  getText(): string;
+  getMinValue(): number;
 }
 
 class Model implements IModel {
-  private text: string;
+  private minValue: number;
 
-  constructor(text: string) {
-    this.text = text;
+  constructor(minValue: number) {
+    this.minValue = minValue;
   }
 
-  getText = () => this.text;
+  getMinValue = () => this.minValue;
 }
 
 export { Model, IModel };
