@@ -25,4 +25,12 @@ describe('Model', () => {
     const func = model.setMinValue.bind(this, minValue);
     expect(func).toThrowError('minValue не может быть > maxValue');
   });
+
+  it('Выдает ошибку если заданный maxValue меньше текущего minValue', () => {
+    const maxValue = 5;
+    const minValue = 99;
+    model.setMinValue(minValue);
+    const func = model.setMaxValue.bind(this, maxValue);
+    expect(func).toThrowError('maxValue не может быть < minValue');
+  });
 });
