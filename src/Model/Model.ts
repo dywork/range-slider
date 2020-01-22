@@ -12,5 +12,4 @@ class Model implements IModel {
   getText = () => this.text;
 }
 
-export default Model;
-export { IModel };
+export { Model, IModel };
