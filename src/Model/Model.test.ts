@@ -6,4 +6,10 @@ describe('Model', () => {
     const model: IModel = new Model(text);
     expect(model.getText()).toBe(text);
   });
+
+  it('Возвращает заданый min value', () => {
+    const minValue = 5;
+    const model: IModel = new Model(minValue);
+    expect(model.getMinValue()).toBe(minValue);
+  });
 });
