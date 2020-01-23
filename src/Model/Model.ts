@@ -5,34 +5,40 @@ interface IModel {
   setMaxValue(value: number): void;
 }
 
+interface IRange {
+  min?: number;
+  max?: number;
+}
+
 class Model implements IModel {
-  private minValue: number;
+  private range: IRange;
 
-  private maxValue: number;
-
-  constructor(minValue: number = 0, maxValue: number = 100) {
-    this.minValue = minValue;
-    this.maxValue = maxValue;
+  constructor(range: IRange = {}) {
+    const { min = 0, max = 100 } = range;
+    this.range = {
+      min,
+      max,
+    };
   }
 
-  getMinValue = () => this.minValue;
+  getMinValue = () => this.range.min;
 
   setMinValue = (value: number) => {
     if (value > this.getMaxValue()) {
       this.throwError('minValue не может быть > maxValue');
     }
 
-    this.minValue = value;
+    this.range.min = value;
   };
 
-  getMaxValue = () => this.maxValue;
+  getMaxValue = () => this.range.max;
 
   setMaxValue = (value: number) => {
     if (value < this.getMinValue()) {
       this.throwError('maxValue не может быть < minValue');
     }
 
-    this.maxValue = value;
+    this.range.max = value;
   };
 
   private throwError = (errorMsg: string) => {
