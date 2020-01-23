@@ -1,7 +1,5 @@
 interface IModel {
   getRange(): IRange;
-  setMinValue(value: number): void;
-  setMaxValue(value: number): void;
 }
 
 interface IRange {
@@ -21,22 +19,6 @@ class Model implements IModel {
   }
 
   getRange = () => this.range;
-
-  setMinValue = (value: number) => {
-    if (value > this.getRange().max) {
-      this.throwError('minValue не может быть > maxValue');
-    }
-
-    this.range.min = value;
-  };
-
-  setMaxValue = (value: number) => {
-    if (value < this.getRange().min) {
-      this.throwError('maxValue не может быть < minValue');
-    }
-
-    this.range.max = value;
-  };
 
   private throwError = (errorMsg: string) => {
     throw new Error(errorMsg);
