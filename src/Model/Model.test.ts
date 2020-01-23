@@ -1,7 +1,7 @@
 import { Model } from './Model';
 
 describe('Model', () => {
-  it('возвращает заданные min и max range value', () => {
+  it('возвращает заданные range.min и range.max', () => {
     const min = 0;
     const max = 100;
     const model = new Model({ min, max });
