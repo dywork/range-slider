@@ -1,9 +1,11 @@
-import { Model, IModel } from './Model';
+import { Model } from './Model';
 
 describe('Model', () => {
   it('возвращает заданные min и max range value', () => {
-    const model: IModel = new Model({ min: 0, max: 100 });
-    expect(model.getRange().min).toBe(0);
-    expect(model.getRange().max).toBe(100);
+    const min = 0;
+    const max = 100;
+    const model = new Model({ min, max });
+    expect(model.getRange().min).toBe(min);
+    expect(model.getRange().max).toBe(max);
   });
 });
