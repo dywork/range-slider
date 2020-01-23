@@ -18,6 +18,12 @@ describe('Model', () => {
     expect(model.getMaxValue()).toBe(maxValue);
   });
 
+  it('Возвращает заданный value.min', () => {
+    const min = 20;
+    const myModel = new Model({ min });
+    expect(myModel.getMinValue()).toBe(min);
+  });
+
   it('Выдает ошибку если заданный minValue больше текущего maxValue', () => {
     const maxValue = 5;
     const minValue = 115;
