@@ -1,6 +1,14 @@
 import { Model } from './Model';
 
 describe('Model', () => {
+  it('возвращает заданное начальное значение', () => {
+    const min = 0;
+    const max = 100;
+    const start = 0;
+    const model = new Model(start, { min, max });
+    expect(model.getStart()).toBe(start);
+  });
+
   it('возвращает заданные range.min и range.max', () => {
     const min = 0;
     const max = 100;
