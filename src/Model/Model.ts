@@ -1,7 +1,6 @@
 interface IModel {
-  getMinValue(): number;
+  getRange(): IRange;
   setMinValue(value: number): void;
-  getMaxValue(): number;
   setMaxValue(value: number): void;
 }
 
@@ -20,6 +19,8 @@ class Model implements IModel {
       max,
     };
   }
+
+  getRange = () => this.range;
 
   getMinValue = () => this.range.min;
 
