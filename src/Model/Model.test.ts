@@ -9,13 +9,13 @@ describe('Model', () => {
   it('Возвращает заданный value.min', () => {
     const min = 20;
     const myModel = new Model({ min });
-    expect(myModel.getMinValue()).toBe(min);
+    expect(myModel.getRange().min).toBe(min);
   });
 
   it('Возвращает заданный value.max', () => {
     const max = 80;
     const myModel = new Model({ max });
-    expect(myModel.getMaxValue()).toBe(max);
+    expect(myModel.getRange().max).toBe(max);
   });
 
   it('Выдает ошибку если заданный minValue больше текущего maxValue', () => {
