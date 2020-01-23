@@ -5,15 +5,15 @@ interface IModel {
 }
 
 interface IRange {
-  min?: number;
-  max?: number;
+  min: number;
+  max: number;
 }
 
 class Model implements IModel {
   private range: IRange;
 
-  constructor(range: IRange = {}) {
-    const { min = 0, max = 100 } = range;
+  constructor(range: IRange) {
+    const { min, max } = range;
     this.range = {
       min,
       max,
