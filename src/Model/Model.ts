@@ -22,20 +22,16 @@ class Model implements IModel {
 
   getRange = () => this.range;
 
-  getMinValue = () => this.range.min;
-
   setMinValue = (value: number) => {
-    if (value > this.getMaxValue()) {
+    if (value > this.getRange().max) {
       this.throwError('minValue не может быть > maxValue');
     }
 
     this.range.min = value;
   };
 
-  getMaxValue = () => this.range.max;
-
   setMaxValue = (value: number) => {
-    if (value < this.getMinValue()) {
+    if (value < this.getRange().min) {
       this.throwError('maxValue не может быть < minValue');
     }
 
