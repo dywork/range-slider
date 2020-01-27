@@ -1,5 +1,6 @@
 interface IModel {
   getRange(): IRange;
+  getStart(): number;
 }
 
 interface IRange {
