@@ -13,8 +13,11 @@ describe('Model', () => {
     expect(model.getStart()).toBe(start);
   });
 
-  it('возвращает заданные range.min и range.max', () => {
+  it('возвращает заданные range.min', () => {
     expect(model.getRange().min).toBe(min);
+  });
+
+  it('возвращает заданные range.max', () => {
     expect(model.getRange().max).toBe(max);
   });
 
