@@ -1,29 +1,32 @@
 import { Model, IModel } from './Model';
 
-const min = 0;
-const max = 100;
-const start = 0;
+const range = {
+  min: 0,
+  max: 100,
+};
+
+const startPosition = 0;
 let model: IModel;
 beforeEach(() => {
-  model = new Model(start, { min, max });
+  model = new Model(startPosition, { min: range.min, max: range.max });
 });
 
 describe('Model', () => {
   it('возвращает заданное начальное значение', () => {
-    expect(model.getStart()).toBe(start);
+    expect(model.getStart()).toBe(startPosition);
   });
 
   it('возвращает заданные range.min', () => {
-    expect(model.getRange().min).toBe(min);
+    expect(model.getRange().min).toBe(range.min);
   });
 
   it('возвращает заданные range.max', () => {
-    expect(model.getRange().max).toBe(max);
+    expect(model.getRange().max).toBe(range.max);
   });
 
   it('сообщает об ошибке если range.min > range.max', () => {
     expect(() => {
-      const myModel = new Model(start, { min: max, max: min });
+      const myModel = new Model(startPosition, { min: range.max, max: range.min });
       return myModel;
     }).toThrowError('range.min не может быть > range.max');
   });
