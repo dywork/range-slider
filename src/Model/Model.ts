@@ -16,7 +16,7 @@ class Model implements IModel {
   constructor(start: number, range: IRange) {
     const { min, max } = range;
 
-    if (min > max) {
+    if (range.min > range.max) {
       this.throwError('range.min не может быть > range.max');
     }
 
