@@ -36,4 +36,4 @@ class Model implements IModel {
   };
 }
 
-export { Model, IModel };
+export { Model, IModel, IRange };
