@@ -9,7 +9,7 @@ class Presenter {
       max: 100,
     };
     const model = new Model(start, range);
-    const view = new View(model.getRange());
+    const view = new View(model.getStart(), model.getRange());
     view.render();
   };
 }
