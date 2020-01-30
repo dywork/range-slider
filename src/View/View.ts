@@ -15,7 +15,7 @@ class View {
     startHTML.textContent = `начальное значение: ${this.start}`;
     document.body.appendChild(startHTML);
     const p = document.createElement('p');
-    p.textContent = `${this.range.min} --- ${this.range.max}`;
+    p.textContent = `рейндж: ${this.range.min} --- ${this.range.max}`;
     document.body.appendChild(p);
   };
 }
