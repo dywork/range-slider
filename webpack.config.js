@@ -17,7 +17,7 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   output: {
-    filename: 'bundle.js',
+    filename: 'range-slider.js',
     path: path.resolve(__dirname, './build'),
   },
   devServer: {
