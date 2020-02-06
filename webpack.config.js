@@ -18,10 +18,10 @@ module.exports = {
   },
   output: {
     filename: 'range-slider.js',
-    path: path.resolve(__dirname, './build'),
+    path: path.resolve(__dirname, './build', '../demo-page'),
   },
   devServer: {
-    contentBase: path.join(__dirname, './build'),
+    contentBase: path.join(__dirname, './demo-page'),
     compress: true,
     hot: true,
   },
