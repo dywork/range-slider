@@ -1,20 +1,17 @@
 import { Model } from '../Model/Model';
 import View from '../View/View';
 
-import { IOptions, IRange } from '../types/options';
+import { IOptions } from '../types/options';
 
 class Presenter {
-  private start: number;
-
-  private range: IRange;
+  private options: IOptions;
 
   constructor(options: IOptions) {
-    this.start = options.start;
-    this.range = options.range;
+    this.options = options;
   }
 
   init = () => {
-    const model = new Model(this.start, this.range);
+    const model = new Model(this.options);
     const view = new View(model.getStart(), model.getRange());
     view.render();
   };
