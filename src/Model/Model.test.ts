@@ -6,9 +6,14 @@ const range = {
 };
 
 const startPosition = 0;
+const options = {
+  start: startPosition,
+  range,
+};
+
 let model: IModel;
 beforeEach(() => {
-  model = new Model(startPosition, { min: range.min, max: range.max });
+  model = new Model(options);
 });
 
 describe('Model', () => {
@@ -26,7 +31,11 @@ describe('Model', () => {
 
   it('сообщает об ошибке если range.min > range.max', () => {
     expect(() => {
-      const myModel = new Model(startPosition, { min: range.max, max: range.min });
+      const myOptions = {
+        start: startPosition,
+        range: { min: range.max, max: range.min },
+      };
+      const myModel = new Model(myOptions);
       return myModel;
     }).toThrowError('range.min не может быть > range.max');
   });
