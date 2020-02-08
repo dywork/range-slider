@@ -6,26 +6,19 @@ interface IModel {
 }
 
 class Model implements IModel {
-  private start: number;
-
-  private range: IRange;
+  private options: IOptions;
 
   constructor(options: IOptions) {
     if (options.range.min > options.range.max) {
       this.throwError('range.min не может быть > range.max');
     }
 
-    const { min, max } = options.range;
-    this.start = options.start;
-    this.range = {
-      min,
-      max,
-    };
+    this.options = options;
   }
 
-  getRange = () => this.range;
+  getRange = () => this.options.range;
 
-  getStart = () => this.start;
+  getStart = () => this.options.start;
 
   private throwError = (errorMsg: string) => {
     throw new Error(errorMsg);
