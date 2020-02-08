@@ -1,4 +1,4 @@
-import { IRange } from '../types/options';
+import { IOptions, IRange } from '../types/options';
 
 interface IModel {
   getRange(): IRange;
@@ -10,15 +10,13 @@ class Model implements IModel {
 
   private range: IRange;
 
-  // TODO обернуть в 1 объект = options
-  constructor(start: number, range: IRange) {
-    const { min, max } = range;
-
-    if (range.min > range.max) {
+  constructor(options: IOptions) {
+    if (options.range.min > options.range.max) {
       this.throwError('range.min не может быть > range.max');
     }
 
-    this.start = start;
+    const { min, max } = options.range;
+    this.start = options.start;
     this.range = {
       min,
       max,
