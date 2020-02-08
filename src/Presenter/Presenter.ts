@@ -1,17 +1,26 @@
-import { Model } from '../Model/Model';
+import { Model, IRange } from '../Model/Model';
 import View from '../View/View';
 
+interface IOptions {
+  start: number;
+  range: IRange;
+}
+
 class Presenter {
+  private start: number;
+
+  private range: IRange;
+
+  constructor(options: IOptions) {
+    this.start = options.start;
+    this.range = options.range;
+  }
+
   init = () => {
-    const start = 0;
-    const range = {
-      min: 0,
-      max: 100,
-    };
-    const model = new Model(start, range);
+    const model = new Model(this.start, this.range);
     const view = new View(model.getStart(), model.getRange());
     view.render();
   };
 }
 
-export default Presenter;
+export { Presenter, IOptions };
