@@ -1,11 +1,8 @@
+import { IRange } from '../types/options';
+
 interface IModel {
   getRange(): IRange;
   getStart(): number;
-}
-
-interface IRange {
-  min: number;
-  max: number;
 }
 
 class Model implements IModel {
@@ -13,6 +10,7 @@ class Model implements IModel {
 
   private range: IRange;
 
+  // TODO обернуть в 1 объект = options
   constructor(start: number, range: IRange) {
     const { min, max } = range;
 
@@ -36,4 +34,4 @@ class Model implements IModel {
   };
 }
 
-export { Model, IModel, IRange };
+export { Model, IModel };
