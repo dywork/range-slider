@@ -1,5 +1,6 @@
 /* eslint-disable func-names */
-import { Presenter, IOptions } from './Presenter/Presenter';
+import Presenter from './Presenter/Presenter';
+import { IOptions } from './types/options';
 
 declare global {
   interface JQuery {
