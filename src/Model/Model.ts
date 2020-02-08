@@ -3,6 +3,7 @@ import { IOptions, IRange } from '../types/options';
 interface IModel {
   getRange(): IRange;
   getStart(): number;
+  getCurrentValue(): number;
 }
 
 class Model implements IModel {
@@ -19,6 +20,8 @@ class Model implements IModel {
   getRange = () => this.options.range;
 
   getStart = () => this.options.start;
+
+  getCurrentValue = () => this.options.currentValue;
 
   private throwError = (errorMsg: string) => {
     throw new Error(errorMsg);
