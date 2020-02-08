@@ -1,10 +1,7 @@
-import { Model, IRange } from '../Model/Model';
+import { Model } from '../Model/Model';
 import View from '../View/View';
 
-interface IOptions {
-  start: number;
-  range: IRange;
-}
+import { IOptions, IRange } from '../types/options';
 
 class Presenter {
   private start: number;
@@ -23,4 +20,4 @@ class Presenter {
   };
 }
 
-export { Presenter, IOptions };
+export default Presenter;
