@@ -5,8 +5,8 @@ const range = {
   max: 100,
 };
 
-const startPosition = 0;
-const currentValue = 0;
+const startPosition = 15;
+const currentValue = 20;
 const options = {
   start: startPosition,
   range,
@@ -41,5 +41,9 @@ describe('Model', () => {
       const myModel = new Model(myOptions);
       return myModel;
     }).toThrowError('range.min не может быть > range.max');
+  });
+
+  it('возвращает заданный currentValue', () => {
+    expect(model.getCurrentValue()).toBe(currentValue);
   });
 });
