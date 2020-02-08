@@ -5,9 +5,12 @@ class View {
 
   private range: IRange;
 
-  constructor(start: number, range: IRange) {
+  private currentValue: number;
+
+  constructor(start: number, range: IRange, currentValue: number) {
     this.start = start;
     this.range = range;
+    this.currentValue = currentValue;
   }
 
   render = () => {
@@ -17,6 +20,9 @@ class View {
     const p = document.createElement('p');
     p.textContent = `рейндж: ${this.range.min} --- ${this.range.max}`;
     document.body.appendChild(p);
+    const currentValueP = document.createElement('p');
+    currentValueP.textContent = `Текущее значение ${this.currentValue}`;
+    document.body.appendChild(currentValueP);
   };
 }
 
