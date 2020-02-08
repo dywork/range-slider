@@ -1,4 +1,4 @@
-import { IRange } from '../Model/Model';
+import { IRange } from '../types/options';
 
 class View {
   private start: number;
