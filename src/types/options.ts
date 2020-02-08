@@ -5,5 +5,6 @@ export interface IRange {
 
 export interface IOptions {
   start: number;
+  currentValue: number;
   range: IRange;
 }

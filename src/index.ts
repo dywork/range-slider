@@ -16,6 +16,7 @@ declare global {
     sliderOptions = $.extend(
       {
         start: 0,
+        currentValue: 0,
         range: {
           min: 0,
           max: 100,
