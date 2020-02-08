@@ -6,9 +6,11 @@ const range = {
 };
 
 const startPosition = 0;
+const currentValue = 0;
 const options = {
   start: startPosition,
   range,
+  currentValue,
 };
 
 let model: IModel;
@@ -34,6 +36,7 @@ describe('Model', () => {
       const myOptions = {
         start: startPosition,
         range: { min: range.max, max: range.min },
+        currentValue,
       };
       const myModel = new Model(myOptions);
       return myModel;
