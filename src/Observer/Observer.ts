@@ -9,6 +9,14 @@ class Observer {
     this.observerList.push(observer);
   };
 
+  removeObserver = (observer: Function) => {
+    const index = this.observerList.indexOf(observer);
+
+    if (index > -1) {
+      this.observerList.splice(index, 1);
+    }
+  };
+
   getCount = () => this.observerList.length;
 }
 
