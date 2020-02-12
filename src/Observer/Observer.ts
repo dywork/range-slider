@@ -6,20 +6,20 @@ class Observer {
   }
 
   addObserver = (observer: Function) => {
-    this.observerList.push(observer);
+    this.getList().push(observer);
   };
 
   removeObserver = (observer: Function) => {
-    const index = this.observerList.indexOf(observer);
+    const index = this.getList().indexOf(observer);
 
     if (index > -1) {
-      this.observerList.splice(index, 1);
+      this.getList().splice(index, 1);
     }
   };
 
   getList = () => this.observerList;
 
-  getCount = () => this.observerList.length;
+  getCount = () => this.getList().length;
 }
 
 export default Observer;
