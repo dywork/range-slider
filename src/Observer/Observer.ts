@@ -1,4 +1,11 @@
-class Observer {
+interface IObserver {
+  addObserver(observer: Function): void;
+  removeObserver(observer: Function): void;
+  getList(): Function[];
+  getCount(): Number;
+}
+
+class Observer implements IObserver {
   private observerList: Function[];
 
   constructor() {
@@ -22,4 +29,4 @@ class Observer {
   getCount = () => this.getList().length;
 }
 
-export default Observer;
+export { Observer, IObserver };
