@@ -21,7 +21,7 @@ class View {
     p.textContent = `рейндж: ${this.range.min} --- ${this.range.max}`;
     document.body.appendChild(p);
     const currentValueP = document.createElement('p');
-    currentValueP.textContent = `Текущее значение ${this.currentValue}`;
+    currentValueP.textContent = `Текущее значение: ${this.currentValue}`;
     document.body.appendChild(currentValueP);
   };
 }
