@@ -17,6 +17,8 @@ class Observer {
     }
   };
 
+  getList = () => this.observerList;
+
   getCount = () => this.observerList.length;
 }
 
