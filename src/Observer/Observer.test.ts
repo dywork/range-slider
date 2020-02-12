@@ -1,8 +1,12 @@
-import Observer from './Observer';
+import { Observer, IObserver } from './Observer';
+
+let observer: IObserver;
+beforeEach(() => {
+  observer = new Observer();
+});
 
 describe('Observer', () => {
   it('Добавляет нового наблюдателя', () => {
-    const observer = new Observer();
     const observerEvent = () => {
       const message = 'Сообщение из observer.test';
       // eslint-disable-next-line no-console
@@ -13,7 +17,6 @@ describe('Observer', () => {
   });
 
   it('Удаляет конкретный observer', () => {
-    const observer = new Observer();
     const observerEventOne = () => {
       const message = 'Сообщение из observer.test №1';
       // eslint-disable-next-line no-console
