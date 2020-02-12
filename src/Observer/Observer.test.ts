@@ -34,4 +34,21 @@ describe('Observer', () => {
     expect(observer.getCount()).toBe(1);
     expect(observer.getList()[0]).toBe(observerEventSecond);
   });
+
+  it('Оповещает всех об изменении данных', () => {
+    const observerEventOne = jasmine.createSpy('observerEventOne', (data: string) => {
+      // eslint-disable-next-line no-console
+      console.log(`observer #1 ${data}`);
+    });
+    const observerEventSecond = jasmine.createSpy('observerEventOne', (data: string) => {
+      // eslint-disable-next-line no-console
+      console.log(`observer #2 ${data}`);
+    });
+    observer.addObserver(observerEventOne);
+    observer.addObserver(observerEventSecond);
+    const newData = 'новые данные';
+    observer.notifyAll(newData);
+    expect(observerEventOne).toHaveBeenCalledWith(newData);
+    expect(observerEventSecond).toHaveBeenCalledWith(newData);
+  });
 });
