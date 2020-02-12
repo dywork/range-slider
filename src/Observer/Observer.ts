@@ -3,6 +3,7 @@ interface IObserver {
   removeObserver(observer: Function): void;
   getList(): Function[];
   getCount(): Number;
+  notifyAll(data?: string | number): void;
 }
 
 class Observer implements IObserver {
@@ -27,6 +28,14 @@ class Observer implements IObserver {
   getList = () => this.observerList;
 
   getCount = () => this.getList().length;
+
+  notifyAll = (data?: string | number) => {
+    if (this.getCount() > 0) {
+      this.getList().forEach((observer: Function) => {
+        observer(data);
+      });
+    }
+  };
 }
 
 export { Observer, IObserver };
