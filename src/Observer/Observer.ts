@@ -13,6 +13,10 @@ class Observer implements IObserver {
     this.observerList = [];
   }
 
+  getList = () => this.observerList;
+
+  getCount = () => this.getList().length;
+
   addObserver = (observer: Function) => {
     this.getList().push(observer);
   };
@@ -24,10 +28,6 @@ class Observer implements IObserver {
       this.getList().splice(index, 1);
     }
   };
-
-  getList = () => this.observerList;
-
-  getCount = () => this.getList().length;
 
   notifyAll = (data?: string | number) => {
     if (this.getCount() > 0) {
