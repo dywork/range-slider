@@ -1,6 +1,10 @@
 import { IRange } from '../types/options';
 
-class View {
+interface IView {
+  render(): void;
+}
+
+class View implements IView {
   private start: number;
 
   private range: IRange;
@@ -26,4 +30,4 @@ class View {
   };
 }
 
-export default View;
+export { View, IView };
