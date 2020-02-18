@@ -1,10 +1,10 @@
 /* eslint-disable func-names */
+import { IModelOptions } from './Model/Model';
 import Presenter from './Presenter/Presenter';
-import { IOptions } from './types/options';
 
 declare global {
   interface JQuery {
-    rangeSlider(options: IOptions): void;
+    rangeSlider(options: IModelOptions): void;
   }
 }
 
