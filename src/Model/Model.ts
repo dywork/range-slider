@@ -1,4 +1,4 @@
-import { IOptions, IRange } from '../types/options';
+import { IRange } from '../types/options';
 
 interface IModel {
   getRange(): IRange;
@@ -6,10 +6,16 @@ interface IModel {
   getCurrentValue(): number;
 }
 
-class Model implements IModel {
-  private options: IOptions;
+interface IModelOptions {
+  start: number;
+  currentValue: number;
+  range: IRange;
+}
 
-  constructor(options: IOptions) {
+class Model implements IModel {
+  private options: IModelOptions;
+
+  constructor(options: IModelOptions) {
     if (options.range.min > options.range.max) {
       this.throwError('range.min не может быть > range.max');
     }
@@ -28,4 +34,4 @@ class Model implements IModel {
   };
 }
 
-export { Model, IModel };
+export { Model, IModel, IModelOptions };
