@@ -1,5 +1,6 @@
 /* eslint-disable func-names */
-import { IModelOptions } from './Model/Model';
+import { Model, IModelOptions } from './Model/Model';
+import { View } from './View/View';
 import Presenter from './Presenter/Presenter';
 
 declare global {
@@ -26,7 +27,9 @@ declare global {
     );
     // Выбранный элемент будет в this, т.е. это уже объект JQuery, а не элемент DOM
     // Код плагина (может быть на JS)
-    const presenter = new Presenter(sliderOptions);
+    const model = new Model(sliderOptions);
+    const view = new View(model.getStart(), model.getRange(), model.getCurrentValue());
+    const presenter = new Presenter(model, view);
     presenter.init();
   };
 }(jQuery));
