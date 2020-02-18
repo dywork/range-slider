@@ -7,11 +7,7 @@ interface IObserver {
 }
 
 class Observer implements IObserver {
-  private observerList: Function[];
-
-  constructor() {
-    this.observerList = [];
-  }
+  private observerList: Function[] = [];
 
   getList = () => this.observerList;
 
