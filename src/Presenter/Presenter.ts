@@ -1,19 +1,18 @@
-import { Model } from '../Model/Model';
-import View from '../View/View';
-
-import { IOptions } from '../types/options';
+import { IModel } from '../Model/Model';
+import { IView } from '../View/View';
 
 class Presenter {
-  private options: IOptions;
+  private model: IModel;
 
-  constructor(options: IOptions) {
-    this.options = options;
+  private view: IView;
+
+  constructor(model: IModel, view: IView) {
+    this.model = model;
+    this.view = view;
   }
 
   init = () => {
-    const model = new Model(this.options);
-    const view = new View(model.getStart(), model.getRange(), model.getCurrentValue());
-    view.render();
+    this.view.render();
   };
 }
 
