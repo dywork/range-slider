@@ -26,7 +26,7 @@ declare global {
       sliderOptions,
     );
     const model = new Model(sliderOptions);
-    const view = new View(model.getStart(), model.getRange(), model.getCurrentValue());
+    const view = new View(model.getOptions());
     const presenter = new Presenter(model, view);
     presenter.init();
     // Вернуть this (jQuery объект)

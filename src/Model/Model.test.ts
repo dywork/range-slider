@@ -19,16 +19,20 @@ beforeEach(() => {
 });
 
 describe('Model', () => {
+  it('возвращает заданный объект options', () => {
+    expect(model.getOptions()).toBe(options);
+  });
+
   it('возвращает заданное начальное значение', () => {
-    expect(model.getStart()).toBe(startPosition);
+    expect(model.getOptions().start).toBe(startPosition);
   });
 
   it('возвращает заданные range.min', () => {
-    expect(model.getRange().min).toBe(range.min);
+    expect(model.getOptions().range.min).toBe(range.min);
   });
 
   it('возвращает заданные range.max', () => {
-    expect(model.getRange().max).toBe(range.max);
+    expect(model.getOptions().range.max).toBe(range.max);
   });
 
   it('сообщает об ошибке если range.min > range.max', () => {
@@ -44,6 +48,6 @@ describe('Model', () => {
   });
 
   it('возвращает заданный currentValue', () => {
-    expect(model.getCurrentValue()).toBe(currentValue);
+    expect(model.getOptions().currentValue).toBe(currentValue);
   });
 });
