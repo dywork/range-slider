@@ -32,7 +32,7 @@ class View implements IView {
 
   getViewMaxValue = () => {
     const viewMaxValue = document.createElement('p');
-    viewMaxValue.textContent = `Максимальное значение: ${this.viewOptions.minValue}`;
+    viewMaxValue.textContent = `Максимальное значение: ${this.viewOptions.maxValue}`;
     return viewMaxValue;
   };
 
