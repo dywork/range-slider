@@ -46,4 +46,4 @@ class View implements IView {
   };
 }
 
-export default View;
+export { View, IView };
