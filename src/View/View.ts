@@ -17,6 +17,12 @@ class View implements IView {
   constructor(viewOptions: IViewOptions) {
     this.viewOptions = viewOptions;
   }
+
+  renderCurrentValue = () => {
+    const paragraph = document.createElement('p');
+    paragraph.textContent = `Текущее значение: ${this.viewOptions.currentValue}`;
+    document.body.appendChild(paragraph);
+  };
 }
 
 export default View;
