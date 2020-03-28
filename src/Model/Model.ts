@@ -18,4 +18,4 @@ class Model implements IModel {
   getOptions = () => this.options;
 }
 
-export default Model;
+export { Model, IModel };
