@@ -4,28 +4,28 @@ interface IView {
   render(): void;
 }
 
+interface IViewOptions {
+  start: number;
+  range: IRange;
+  currentValue: number;
+}
+
 class View implements IView {
-  private start: number;
+  private options: IViewOptions;
 
-  private range: IRange;
-
-  private currentValue: number;
-
-  constructor(start: number, range: IRange, currentValue: number) {
-    this.start = start;
-    this.range = range;
-    this.currentValue = currentValue;
+  constructor(options: IViewOptions) {
+    this.options = options;
   }
 
   render = () => {
     const startHTML = document.createElement('p');
-    startHTML.textContent = `начальное значение: ${this.start}`;
+    startHTML.textContent = `начальное значение: ${this.options.start}`;
     document.body.appendChild(startHTML);
     const p = document.createElement('p');
-    p.textContent = `рейндж: ${this.range.min} --- ${this.range.max}`;
+    p.textContent = `рейндж: ${this.options.range.min} --- ${this.options.range.max}`;
     document.body.appendChild(p);
     const currentValueP = document.createElement('p');
-    currentValueP.textContent = `Текущее значение: ${this.currentValue}`;
+    currentValueP.textContent = `Текущее значение: ${this.options.currentValue}`;
     document.body.appendChild(currentValueP);
   };
 }
