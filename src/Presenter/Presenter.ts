@@ -1,7 +1,11 @@
 import { IModel } from '../Model/Model';
 import { IView } from '../View/View';
 
-class Presenter {
+interface IPresenter {
+  init(): void;
+}
+
+class Presenter implements IPresenter {
   private model: IModel;
 
   private view: IView;
@@ -10,6 +14,10 @@ class Presenter {
     this.model = Model;
     this.view = View;
   }
+
+  init() {
+    this.view.render();
+  }
 }
 
-export default Presenter;
+export { Presenter, IPresenter };
