@@ -1,7 +1,7 @@
 interface IView {
-  renderCurrentValue(): void;
-  renderMinValue(): void;
-  renderMaxValue(): void;
+  getViewCurrentValue(): void;
+  getViewMinValue(): void;
+  getViewMaxValue(): void;
   render(): void;
 }
 
@@ -18,7 +18,7 @@ class View implements IView {
     this.viewOptions = viewOptions;
   }
 
-  renderCurrentValue = () => {
+  getViewCurrentValue = () => {
     const paragraph = document.createElement('p');
     paragraph.textContent = `Текущее значение: ${this.viewOptions.currentValue}`;
     document.body.appendChild(paragraph);
