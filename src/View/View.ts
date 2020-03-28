@@ -23,6 +23,12 @@ class View implements IView {
     viewCurrentValue.textContent = `Текущее значение: ${this.viewOptions.currentValue}`;
     return viewCurrentValue;
   };
+
+  getViewMinValue = () => {
+    const viewMinValue = document.createElement('p');
+    viewMinValue.textContent = `Минимальное значение: ${this.viewOptions.minValue}`;
+    return viewMinValue;
+  };
 }
 
 export default View;
