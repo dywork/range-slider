@@ -14,6 +14,8 @@ class Model implements IModel {
   constructor(options: IOptions) {
     this.options = options;
   }
+
+  getOptions = () => this.options;
 }
 
 export default Model;
