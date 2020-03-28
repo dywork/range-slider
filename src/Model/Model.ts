@@ -1,7 +1,14 @@
-class Model {
-  private options;
+interface IOptions {
+  currentValue: number;
+  minValue: number;
+  maxValue: number;
+}
 
-  constructor(options) {
+
+class Model {
+  private options: IOptions;
+
+  constructor(options: IOptions) {
     this.options = options;
   }
 }
