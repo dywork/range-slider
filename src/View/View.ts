@@ -1,7 +1,6 @@
+import Observer from '../Observer/Observer';
+
 interface IView {
-  getViewCurrentValue(): HTMLParagraphElement;
-  getViewMinValue(): HTMLParagraphElement;
-  getViewMaxValue(): HTMLParagraphElement;
   render(): void;
 }
 
@@ -11,26 +10,27 @@ interface IViewOptions {
   maxValue: number;
 }
 
-class View implements IView {
+class View extends Observer implements IView {
   private viewOptions: IViewOptions;
 
   constructor(viewOptions: IViewOptions) {
+    super();
     this.viewOptions = viewOptions;
   }
 
-  getViewCurrentValue = () => {
+  private getViewCurrentValue = () => {
     const viewCurrentValue = document.createElement('p');
     viewCurrentValue.textContent = `Текущее значение: ${this.viewOptions.currentValue}`;
     return viewCurrentValue;
   };
 
-  getViewMinValue = () => {
+  private getViewMinValue = () => {
     const viewMinValue = document.createElement('p');
     viewMinValue.textContent = `Минимальное значение: ${this.viewOptions.minValue}`;
     return viewMinValue;
   };
 
-  getViewMaxValue = () => {
+  private getViewMaxValue = () => {
     const viewMaxValue = document.createElement('p');
     viewMaxValue.textContent = `Максимальное значение: ${this.viewOptions.maxValue}`;
     return viewMaxValue;
