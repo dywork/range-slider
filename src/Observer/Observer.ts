@@ -1,8 +1,8 @@
 interface IObserver {
   getObservers(): Function[];
-  add(observer: Function): void;
-  remove(observer: Function): void;
-  notify(data?: Object): void;
+  addObserver(observer: Function): void;
+  removeObserver(observer: Function): void;
+  notifyObservers(data?: Object): void;
 }
 
 class Observer implements IObserver {
@@ -14,11 +14,11 @@ class Observer implements IObserver {
 
   getObservers = () => this.observers;
 
-  add = (observer: Function) => {
+  addObserver = (observer: Function) => {
     this.getObservers().push(observer);
   };
 
-  remove = (observer: Function) => {
+  removeObserver = (observer: Function) => {
     const index = this.getObservers().indexOf(observer);
     const isFind = index > -1;
 
@@ -27,7 +27,7 @@ class Observer implements IObserver {
     }
   };
 
-  notify = (data?: Object) => {
+  notifyObservers = (data?: Object) => {
     const isHaveObservers = this.getObservers().length > 0;
 
     if (isHaveObservers) {
