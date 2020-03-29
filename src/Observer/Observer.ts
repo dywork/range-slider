@@ -18,8 +18,8 @@ class Observer implements IObserver {
   }
 
   subscribe = (subName: string) => {
-    const event = new Subscriber(subName);
-    this.subscribers[subName] = event;
+    const subscriber = new Subscriber(subName);
+    this.subscribers[subName] = subscriber;
   };
 
   notify = (subName: string, data: any) => {
