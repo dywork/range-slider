@@ -1,5 +1,6 @@
-import { IModel } from '../Model/Model';
-import { IView } from '../View/View';
+import { Model, IModel } from '../Model/Model';
+import { View, IView } from '../View/View';
+import ISliderOptions from '../interfaces/ISliderOptions';
 
 interface IPresenter {
   init(): void;
@@ -10,9 +11,9 @@ class Presenter implements IPresenter {
 
   private view: IView;
 
-  constructor(Model: IModel, View: IView) {
-    this.model = Model;
-    this.view = View;
+  constructor(sliderOptions: ISliderOptions) {
+    this.model = new Model(sliderOptions);
+    this.view = new View(this.model.getOptions());
   }
 
   init() {
