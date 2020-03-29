@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   watch: true,
-  entry: './src/slider',
+  entry: './src/Slider',
   devtool: 'inline-source-map',
   mode: 'development',
   module: {
