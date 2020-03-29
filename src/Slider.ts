@@ -1,8 +1,8 @@
-import { Presenter, IPresenter } from './Presenter/Presenter';
+import { Presenter } from './Presenter/Presenter';
 import Observer from './Observer/Observer';
 
 class Slider extends Observer {
-  private presenter: IPresenter;
+  private presenter: Presenter;
 
   constructor() {
     super();
@@ -11,6 +11,8 @@ class Slider extends Observer {
 
   init = () => {
     this.presenter.init();
+    this.addObserver(this.presenter.notifyObservers);
+    this.presenter.addObserver((data: Object) => this.notifyObservers(data));
   };
 }
 
