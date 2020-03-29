@@ -1,14 +1,24 @@
-import { Model } from './Model/Model';
-import { View } from './View/View';
-import { Presenter } from './Presenter/Presenter';
+import { Model, IModel } from './Model/Model';
+import { View, IView } from './View/View';
+import { Presenter, IPresenter } from './Presenter/Presenter';
 import Observer from './Observer/Observer';
 
 class Slider extends Observer {
+  private model: IModel;
+
+  private view: IView;
+
+  private presenter: IPresenter;
+
+  constructor() {
+    super();
+    this.model = new Model({ currentValue: 0, minValue: 0, maxValue: 100 });
+    this.view = new View(this.model.getOptions());
+    this.presenter = new Presenter(this.model, this.view);
+  }
+
   init = () => {
-    const myModel = new Model({ currentValue: 0, minValue: 0, maxValue: 100 });
-    const myView = new View(myModel.getOptions());
-    const myPresenter = new Presenter(myModel, myView);
-    myPresenter.init();
+    this.presenter.init();
   };
 }
 
