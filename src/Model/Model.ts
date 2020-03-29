@@ -1,17 +1,13 @@
-interface IModel {
-  getOptions(): IOptions;
-}
+import ISliderOptions from '../interfaces/ISliderOptions';
 
-interface IOptions {
-  currentValue: number;
-  minValue: number;
-  maxValue: number;
+interface IModel {
+  getOptions(): ISliderOptions;
 }
 
 class Model implements IModel {
-  private options: IOptions;
+  private options: ISliderOptions;
 
-  constructor(options: IOptions) {
+  constructor(options: ISliderOptions) {
     this.options = options;
   }
 
