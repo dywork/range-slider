@@ -17,8 +17,6 @@ declare global {
       {
         start: 0,
         currentValue: 0,
-        minValue: 0,
-        maxValue: 100,
         range: {
           min: 0,
           max: 100,

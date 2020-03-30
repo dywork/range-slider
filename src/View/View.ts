@@ -15,9 +15,11 @@ class View extends Observer implements IView {
 
   redrawValue = (sliderOptions: ISliderOptions) => {
     const viewMinValue = document.querySelector('#viewMinValue');
-    viewMinValue.textContent = `Минимальное значение: ${sliderOptions.minValue}`;
+    const minValue = this.viewOptions.range.min;
+    viewMinValue.textContent = `Минимальное значение: ${minValue}`;
     const viewMaxValue = document.querySelector('#viewMaxValue');
-    viewMaxValue.textContent = `Максимальное значение: ${sliderOptions.maxValue}`;
+    const maxValue = this.viewOptions.range.max;
+    viewMaxValue.textContent = `Максимальное значение: ${maxValue}`;
     const viewCurrentValue = document.querySelector('#viewCurrentValue');
     viewCurrentValue.textContent = `Текущее значение: ${sliderOptions.currentValue}`;
   };
@@ -64,13 +66,15 @@ class View extends Observer implements IView {
 
   private getViewMinValue = () => {
     const viewMinValue = document.createElement('p');
-    viewMinValue.textContent = `Минимальное значение: ${this.viewOptions.minValue}`;
+    const minValue = this.viewOptions.range.min;
+    viewMinValue.textContent = `Минимальное значение: ${minValue}`;
     return viewMinValue;
   };
 
   private getViewMaxValue = () => {
     const viewMaxValue = document.createElement('p');
-    viewMaxValue.textContent = `Максимальное значение: ${this.viewOptions.maxValue}`;
+    const maxValue = this.viewOptions.range.max;
+    viewMaxValue.textContent = `Максимальное значение: ${maxValue}`;
     return viewMaxValue;
   };
 
