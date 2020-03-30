@@ -14,5 +14,4 @@ class Slider extends Observer {
   };
 }
 
-const slider = new Slider();
-slider.init();
+export default Slider;
