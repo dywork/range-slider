@@ -33,4 +33,4 @@ class Presenter extends Observer implements IPresenter {
   };
 }
 
-export { Presenter, IPresenter };
+export default Presenter;

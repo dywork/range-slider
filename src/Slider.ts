@@ -1,4 +1,4 @@
-import { Presenter } from './Presenter/Presenter';
+import Presenter from './Presenter/Presenter';
 import ISliderOptions from './interfaces/ISliderOptions';
 
 class Slider {
