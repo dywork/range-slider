@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 import Slider from './Slider';
 import ISliderOptions from './interfaces/ISliderOptions';
 
