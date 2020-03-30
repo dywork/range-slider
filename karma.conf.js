@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const webpackConfig = require('./webpack.config');
 
 module.exports = function (config) {
