@@ -11,8 +11,6 @@ class Slider extends Observer {
 
   init = () => {
     this.presenter.init();
-    this.addObserver(this.presenter.notifyObservers);
-    this.presenter.addObserver((data: Object) => this.notifyObservers(data));
   };
 }
 
