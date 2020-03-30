@@ -1,12 +1,13 @@
 import { Presenter } from './Presenter/Presenter';
 import Observer from './Observer/Observer';
+import ISliderOptions from './interfaces/ISliderOptions';
 
 class Slider extends Observer {
   private presenter: Presenter;
 
-  constructor() {
+  constructor(sliderOptions: ISliderOptions) {
     super();
-    this.presenter = new Presenter({ currentValue: 0, minValue: 0, maxValue: 100 });
+    this.presenter = new Presenter(sliderOptions);
   }
 
   init = () => {
