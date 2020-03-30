@@ -1,9 +1,8 @@
 import Subscriber from './Subscriber';
 
 interface IObserver {
-  subscribe(subName: string): void;
+  subscribe(subName: string, callback: Function): void;
   notify(subName: string, data: any): void;
-  addEventListener(subName: string, callback: Function): void;
 }
 
 interface ISubscribers {
@@ -17,17 +16,14 @@ class Observer implements IObserver {
     this.subscribers = {};
   }
 
-  subscribe = (subName: string) => {
+  subscribe = (subName: string, callback: Function) => {
     const subscriber = new Subscriber(subName);
+    subscriber.registerCallback(callback);
     this.subscribers[subName] = subscriber;
   };
 
   notify = (subName: string, data: any) => {
     this.subscribers[subName].callbacks.forEach((callback: Function) => callback(data));
-  };
-
-  addEventListener = (subName: string, callback: Function) => {
-    this.subscribers[subName].registerCallback(callback);
   };
 }
 
