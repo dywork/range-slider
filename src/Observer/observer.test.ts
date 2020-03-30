@@ -1,8 +1,14 @@
 import Observer from './Observer';
 
+let observer: Observer;
+
+beforeEach(() => {
+  observer = new Observer();
+});
+
 describe('Observer', () => {
   it('подписывает', () => {
-    const observer = new Observer();
+    observer = new Observer();
     spyOn(observer, 'subscribe');
     const testSubCallBack = () => {};
     observer.subscribe('testSub', testSubCallBack);
@@ -10,7 +16,7 @@ describe('Observer', () => {
   });
 
   it('оповещает', () => {
-    const observer = new Observer();
+    observer = new Observer();
     const testData = { text: 'hello from test' };
     const testSubCallBack = jasmine.createSpy('testSubCallBack', (data: Object) => {
       // eslint-disable-next-line no-console
