@@ -1,22 +1,60 @@
 import Observer from '../Observer/Observer';
+import ISliderOptions from '../interfaces/ISliderOptions';
 
 interface IView {
   render(): void;
 }
 
-interface IViewOptions {
-  currentValue: number;
-  minValue: number;
-  maxValue: number;
-}
-
 class View extends Observer implements IView {
-  private viewOptions: IViewOptions;
+  private viewOptions: ISliderOptions;
 
-  constructor(viewOptions: IViewOptions) {
+  constructor(viewOptions: ISliderOptions) {
     super();
     this.viewOptions = viewOptions;
   }
+
+  redrawValue = (sliderOptions: ISliderOptions) => {
+    const viewMinValue = document.querySelector('#viewMinValue');
+    viewMinValue.textContent = `Минимальное значение: ${sliderOptions.minValue}`;
+    const viewMaxValue = document.querySelector('#viewMaxValue');
+    viewMaxValue.textContent = `Максимальное значение: ${sliderOptions.maxValue}`;
+    const viewCurrentValue = document.querySelector('#viewCurrentValue');
+    viewCurrentValue.textContent = `Текущее значение: ${sliderOptions.currentValue}`;
+  };
+
+  render = () => {
+    const viewMinValue = this.getViewMinValue();
+    viewMinValue.id = 'viewMinValue';
+    const viewMaxValue = this.getViewMaxValue();
+    viewMaxValue.id = 'viewMaxValue';
+    const viewCurrentValue = this.getViewCurrentValue();
+    viewCurrentValue.id = 'viewCurrentValue';
+    const minusBtn = this.getBtn('-');
+    minusBtn.addEventListener('click', this.onClickMinus);
+    const plusBtn = this.getBtn('+');
+    plusBtn.addEventListener('click', this.onClickPlus);
+    document.body.appendChild(viewMinValue);
+    document.body.appendChild(viewMaxValue);
+    document.body.appendChild(viewCurrentValue);
+    document.body.appendChild(minusBtn);
+    document.body.appendChild(plusBtn);
+  };
+
+  private onClickMinus = (evt: Event) => {
+    evt.preventDefault();
+    const newCurrentValue = this.viewOptions.currentValue - 1;
+    const sliderOptions = this.viewOptions;
+    sliderOptions.currentValue = newCurrentValue;
+    this.notify('sliderOptionsUpdate', this.viewOptions);
+  };
+
+  private onClickPlus = (evt: Event) => {
+    evt.preventDefault();
+    const newCurrentValue = this.viewOptions.currentValue + 1;
+    const sliderOptions = this.viewOptions;
+    sliderOptions.currentValue = newCurrentValue;
+    this.notify('sliderOptionsUpdate', this.viewOptions);
+  };
 
   private getViewCurrentValue = () => {
     const viewCurrentValue = document.createElement('p');
@@ -36,14 +74,11 @@ class View extends Observer implements IView {
     return viewMaxValue;
   };
 
-  render = () => {
-    const viewMinValue = this.getViewMinValue();
-    const viewMaxValue = this.getViewMaxValue();
-    const viewCurrentValue = this.getViewCurrentValue();
-    document.body.appendChild(viewMinValue);
-    document.body.appendChild(viewMaxValue);
-    document.body.appendChild(viewCurrentValue);
+  private getBtn = (btnName: string) => {
+    const btn = document.createElement('button');
+    btn.textContent = btnName;
+    return btn;
   };
 }
 
-export { View, IView };
+export default View;
