@@ -16,6 +16,8 @@ declare global {
       {
         start: 0,
         currentValue: 0,
+        minValue: 0,
+        maxValue: 100,
         range: {
           min: 0,
           max: 100,
@@ -23,7 +25,7 @@ declare global {
       },
       sliderOptions,
     );
-    const slider = new Slider();
+    const slider = new Slider(sliderOptions);
     slider.init();
     // Вернуть this (jQuery объект)
   };
