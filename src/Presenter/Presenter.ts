@@ -1,5 +1,5 @@
-import { Model, IModel } from '../Model/Model';
-import { View, IView } from '../View/View';
+import Model from '../Model/Model';
+import View from '../View/View';
 import ISliderOptions from '../interfaces/ISliderOptions';
 import Observer from '../Observer/Observer';
 
@@ -8,9 +8,9 @@ interface IPresenter {
 }
 
 class Presenter extends Observer implements IPresenter {
-  private model: IModel;
+  private model: Model;
 
-  private view: IView;
+  private view: View;
 
   constructor(sliderOptions: ISliderOptions) {
     super();
@@ -19,8 +19,18 @@ class Presenter extends Observer implements IPresenter {
   }
 
   init() {
+    this.view.subscribe('sliderOptionsUpdate', this.onChangeSliderOptions);
+    this.model.subscribe('sliderOptionsUpdate', this.onSliderOptionsUpdate);
     this.view.render();
   }
+
+  private onChangeSliderOptions = (newSliderOptions: ISliderOptions) => {
+    this.model.updateSliderOptions(newSliderOptions);
+  };
+
+  private onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
+    this.view.redrawValue(sliderOptions);
+  };
 }
 
 export { Presenter, IPresenter };
