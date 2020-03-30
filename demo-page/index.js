@@ -1,3 +1,3 @@
 $(document).ready(function() {
-  $().rangeSlider({ start: 20, range: { min: 20, max: 100 }, currentValue: 10 });
+  $().rangeSlider({ currentValue: 20, range: { min: 20, max: 100 } });
 });

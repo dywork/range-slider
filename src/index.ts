@@ -1,11 +1,10 @@
 /* eslint-disable func-names */
-import { Model, IModelOptions } from './Model/Model';
-import { View } from './View/View';
-import Presenter from './Presenter/Presenter';
+import Slider from './Slider';
+import ISliderOptions from './interfaces/ISliderOptions';
 
 declare global {
   interface JQuery {
-    rangeSlider(options: IModelOptions): void;
+    rangeSlider(options: ISliderOptions): void;
   }
 }
 
@@ -25,10 +24,8 @@ declare global {
       },
       sliderOptions,
     );
-    const model = new Model(sliderOptions);
-    const view = new View(model.getOptions());
-    const presenter = new Presenter(model, view);
-    presenter.init();
+    const slider = new Slider(sliderOptions);
+    slider.init();
     // Вернуть this (jQuery объект)
   };
 }(jQuery));

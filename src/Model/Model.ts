@@ -1,31 +1,24 @@
-import { IRange } from '../types/options';
+import Observer from '../Observer/Observer';
+import ISliderOptions from '../interfaces/ISliderOptions';
 
 interface IModel {
-  getOptions(): IModelOptions;
+  getOptions(): ISliderOptions;
 }
 
-interface IModelOptions {
-  start: number;
-  currentValue: number;
-  range: IRange;
-}
+class Model extends Observer implements IModel {
+  private sliderOptions: ISliderOptions;
 
-class Model implements IModel {
-  private options: IModelOptions;
-
-  constructor(options: IModelOptions) {
-    if (options.range.min > options.range.max) {
-      this.throwError('range.min не может быть > range.max');
-    }
-
-    this.options = options;
+  constructor(sliderOptions: ISliderOptions) {
+    super();
+    this.sliderOptions = sliderOptions;
   }
 
-  getOptions = () => this.options;
+  getOptions = () => this.sliderOptions;
 
-  private throwError = (errorMsg: string) => {
-    throw new Error(errorMsg);
+  updateSliderOptions = (newSliderOptions: ISliderOptions) => {
+    this.sliderOptions = newSliderOptions;
+    this.notify('sliderOptionsUpdate', this.sliderOptions);
   };
 }
 
-export { Model, IModel, IModelOptions };
+export default Model;

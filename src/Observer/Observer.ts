@@ -1,37 +1,30 @@
+import Subscriber from './Subscriber';
+
 interface IObserver {
-  addObserver(observer: Function): void;
-  removeObserver(observer: Function): void;
-  getList(): Function[];
-  getCount(): Number;
-  notifyAll(data?: any): void;
+  subscribe(subName: string, callback: Function): void;
+  notify(subName: string, data: any): void;
+}
+
+interface ISubscribers {
+  [index: string]: Subscriber;
 }
 
 class Observer implements IObserver {
-  private observerList: Function[] = [];
+  private subscribers: ISubscribers;
 
-  getList = () => this.observerList;
+  constructor() {
+    this.subscribers = {};
+  }
 
-  getCount = () => this.getList().length;
-
-  addObserver = (observer: Function) => {
-    this.getList().push(observer);
+  subscribe = (subName: string, callback: Function) => {
+    const subscriber = new Subscriber(subName);
+    subscriber.registerCallback(callback);
+    this.subscribers[subName] = subscriber;
   };
 
-  removeObserver = (observer: Function) => {
-    const index = this.getList().indexOf(observer);
-
-    if (index > -1) {
-      this.getList().splice(index, 1);
-    }
-  };
-
-  notifyAll = (data?: any) => {
-    if (this.getCount() > 0) {
-      this.getList().forEach((observer: Function) => {
-        observer(data);
-      });
-    }
+  notify = (subName: string, data: any) => {
+    this.subscribers[subName].callbacks.forEach((callback: Function) => callback(data));
   };
 }
 
-export { Observer, IObserver };
+export default Observer;
