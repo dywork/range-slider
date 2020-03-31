@@ -1,5 +1,6 @@
 import Presenter from './Presenter/Presenter';
 import ISliderOptions from './interfaces/ISliderOptions';
+import './style/style.scss';
 
 class Slider {
   private presenter: Presenter;
