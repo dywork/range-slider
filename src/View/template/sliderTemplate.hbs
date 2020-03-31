@@ -1,11 +1,14 @@
-<section class="range-slider">
+<div class="range-slider">
   <div class="range-slider__wrap">
-    <p class="range-slider__min-value">Минимальное значение: <span id="sliderMinValue">{{range.min}}</span></p>
-    <p class="range-slider__max-value">Максимальное значение: <span id="sliderMaxValue">{{range.max}}</span></p>
-    <p class="range-slider__current-value">Текущее значение: <span id="sliderCurrentValue">{{currentValue}}</span></p>
+    <div class="range-slider__bar">
+      <div class="range-slider__scale" style="width: 60%;"></div>
+    </div>
+    <div class="range-slider__toggle">
+      <input id="sliderCurrentValue" type="text" value="{{currentValue}}">
+    </div>
     <div class="range-slider__controls">
       <button id="rangeSliderBtnMinus">-</button>
       <button id="rangeSliderBtnPlus">+</button>
     </div>
   </div>
-</section>
+</div>
