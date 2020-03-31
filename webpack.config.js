@@ -1,4 +1,5 @@
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   watch: true,
@@ -15,6 +16,20 @@ module.exports = {
         test: /\.hbs/,
         loader: 'handlebars-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [autoprefixer()],
+            },
+          },
+          'sass-loader',
+        ],
       },
     ],
   },
