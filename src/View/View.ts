@@ -10,11 +10,7 @@ interface IView {
 class View extends Observer implements IView {
   private viewOptions: ISliderOptions;
 
-  private viewMinValue: HTMLSpanElement;
-
-  private viewMaxValue: HTMLSpanElement;
-
-  private viewCurrentValue: HTMLSpanElement;
+  private viewCurrentValue: HTMLInputElement;
 
   constructor(viewOptions: ISliderOptions) {
     super();
@@ -22,26 +18,19 @@ class View extends Observer implements IView {
   }
 
   redrawValue = (sliderOptions: ISliderOptions) => {
-    const minValue = this.viewOptions.range.min;
-    this.viewMinValue.textContent = `${minValue}`;
-    const maxValue = this.viewOptions.range.max;
-    this.viewMaxValue.textContent = `${maxValue}`;
-    this.viewCurrentValue.textContent = `${sliderOptions.currentValue}`;
+    this.viewCurrentValue.value = `${sliderOptions.currentValue}`;
   };
 
   render = () => {
     const sliderView = document.createElement('div');
     sliderView.innerHTML = sliderTemplate({
       currentValue: this.viewOptions.currentValue,
-      range: this.viewOptions.range,
     });
     document.body.appendChild(sliderView);
     const minusBtn = document.querySelector('#rangeSliderBtnMinus');
     const plusBtn = document.querySelector('#rangeSliderBtnPlus');
     minusBtn.addEventListener('click', this.onClickMinus);
     plusBtn.addEventListener('click', this.onClickPlus);
-    this.viewMinValue = document.querySelector('#sliderMinValue');
-    this.viewMaxValue = document.querySelector('#sliderMaxValue');
     this.viewCurrentValue = document.querySelector('#sliderCurrentValue');
   };
 
