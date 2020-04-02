@@ -5,8 +5,8 @@ import './style/style.scss';
 class Slider {
   private presenter: Presenter;
 
-  constructor(sliderOptions: ISliderOptions) {
-    this.presenter = new Presenter(sliderOptions);
+  constructor(domParent: HTMLElement, sliderOptions: ISliderOptions) {
+    this.presenter = new Presenter(domParent, sliderOptions);
   }
 
   init = () => {
