@@ -10,12 +10,11 @@ declare global {
 
 (function (jquery) {
   const $ = jquery;
+
   $.fn.rangeSlider = function (options) {
     let sliderOptions = options;
-    // Устанавливаем значения по умолчанию
     sliderOptions = $.extend(
       {
-        start: 0,
         currentValue: 0,
         range: {
           min: 0,
@@ -24,8 +23,9 @@ declare global {
       },
       sliderOptions,
     );
-    const slider = new Slider(sliderOptions);
+
+    const domParent = this[0];
+    const slider = new Slider(domParent, sliderOptions);
     slider.init();
-    // Вернуть this (jQuery объект)
   };
 }(jQuery));
