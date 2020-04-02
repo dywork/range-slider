@@ -12,10 +12,10 @@ class Presenter extends Observer implements IPresenter {
 
   private view: View;
 
-  constructor(sliderOptions: ISliderOptions) {
+  constructor(domParent: HTMLElement, sliderOptions: ISliderOptions) {
     super();
     this.model = new Model(sliderOptions);
-    this.view = new View(this.model.getOptions());
+    this.view = new View(domParent, this.model.getOptions());
   }
 
   init() {
