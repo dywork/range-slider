@@ -8,46 +8,49 @@ interface IView {
 }
 
 class View extends Observer implements IView {
+  private domParent: HTMLElement;
+
   private viewOptions: ISliderOptions;
 
-  private viewCurrentValue: HTMLInputElement;
-
-  constructor(viewOptions: ISliderOptions) {
+  constructor(domParent: HTMLElement, viewOptions: ISliderOptions) {
     super();
+    this.domParent = domParent;
     this.viewOptions = viewOptions;
   }
 
   redrawValue = (sliderOptions: ISliderOptions) => {
-    this.viewCurrentValue.value = `${sliderOptions.currentValue}`;
+    console.log(sliderOptions);
   };
 
-  render = () => {
-    const sliderView = document.createElement('div');
-    sliderView.innerHTML = sliderTemplate({
+  render() {
+    this.fixOverflow();
+    const sliderContainer = this.createSliderContainer();
+    this.domParent.appendChild(sliderContainer);
+  }
+
+  private fixOverflow = () => {
+    const isHaveClass = document.body.classList.contains('range-slider-overflow');
+    if (!isHaveClass) {
+      document.body.classList.add('range-slider-overflow');
+    }
+  };
+
+  private createSliderContainer = () => {
+    const sliderContainer = document.createElement('div');
+    sliderContainer.classList.add('range-slider');
+    const templateOptions = {
       currentValue: this.viewOptions.currentValue,
-    });
-    document.body.appendChild(sliderView);
-    const minusBtn = document.querySelector('#rangeSliderBtnMinus');
-    const plusBtn = document.querySelector('#rangeSliderBtnPlus');
-    minusBtn.addEventListener('click', this.onClickMinus);
-    plusBtn.addEventListener('click', this.onClickPlus);
-    this.viewCurrentValue = document.querySelector('#sliderCurrentValue');
+      scaleWidth: this.getScaleWidth(),
+      togglePosition: this.viewOptions.currentValue,
+    };
+    sliderContainer.innerHTML = sliderTemplate(templateOptions);
+    return sliderContainer;
   };
 
-  private onClickMinus = (evt: Event) => {
-    evt.preventDefault();
-    const newCurrentValue = this.viewOptions.currentValue - 1;
-    const sliderOptions = this.viewOptions;
-    sliderOptions.currentValue = newCurrentValue;
-    this.notify('sliderOptionsUpdate', this.viewOptions);
-  };
-
-  private onClickPlus = (evt: Event) => {
-    evt.preventDefault();
-    const newCurrentValue = this.viewOptions.currentValue + 1;
-    const sliderOptions = this.viewOptions;
-    sliderOptions.currentValue = newCurrentValue;
-    this.notify('sliderOptionsUpdate', this.viewOptions);
+  private getScaleWidth = () => {
+    const { currentValue } = this.viewOptions;
+    const scaleWidth = currentValue / 1000;
+    return scaleWidth;
   };
 }
 
