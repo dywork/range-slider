@@ -1,14 +1,8 @@
-<div class="range-slider">
-  <div class="range-slider__wrap">
-    <div class="range-slider__bar">
-      <div class="range-slider__scale" style="width: 60%;"></div>
-    </div>
-    <div class="range-slider__toggle">
-      <input id="sliderCurrentValue" type="text" value="{{currentValue}}">
-    </div>
-    <div class="range-slider__controls">
-      <button id="rangeSliderBtnMinus">-</button>
-      <button id="rangeSliderBtnPlus">+</button>
-    </div>
+<div class="range-slider__wrap">
+  <div class="range-slider__bar">
+    <div class="range-slider__scale" style="transform: scale({{scaleWidth}}, 1);"></div>
+  </div>
+  <div class="range-slider__toggle" style="transform: translate({{togglePosition}}%, 0px);">
+    <input class="range-slider__handle" type="text" value="{{currentValue}}">
   </div>
 </div>
