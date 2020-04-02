@@ -24,8 +24,7 @@ class View extends Observer implements IView {
 
   render() {
     this.fixOverflow();
-    const sliderContainer = this.createSliderContainer();
-    this.domParent.appendChild(sliderContainer);
+    this.mountSlider();
   }
 
   private fixOverflow = () => {
@@ -33,6 +32,11 @@ class View extends Observer implements IView {
     if (!isHaveClass) {
       document.body.classList.add('range-slider-overflow');
     }
+  };
+
+  private mountSlider = () => {
+    const sliderContainer = this.createSliderContainer();
+    this.domParent.appendChild(sliderContainer);
   };
 
   private createSliderContainer = () => {
