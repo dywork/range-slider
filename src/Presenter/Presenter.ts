@@ -24,16 +24,16 @@ class Presenter extends Observer implements IPresenter {
   }
 
   private subscribeModules = () => {
-    this.view.subscribe('sliderOptionsUpdate', this.onChangeSliderOptions);
+    this.view.subscribe('sliderOptionsUpdate', this.dispatchSliderOptions);
     this.model.subscribe('sliderOptionsUpdate', this.onSliderOptionsUpdate);
   };
 
-  private onChangeSliderOptions = (newSliderOptions: ISliderOptions) => {
+  private dispatchSliderOptions = (newSliderOptions: ISliderOptions) => {
     this.model.updateSliderOptions(newSliderOptions);
   };
 
   private onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
-    this.view.redrawValue(sliderOptions);
+    this.view.updateSliderOptions(sliderOptions);
   };
 }
 
