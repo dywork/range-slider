@@ -1,5 +1,6 @@
 import Observer from '../Observer/Observer';
 import ISliderOptions from '../interfaces/ISliderOptions';
+import sliderClassName from './sliderClassName';
 
 const sliderTemplate = require('./template/sliderTemplate.hbs');
 
@@ -11,6 +12,14 @@ class View extends Observer implements IView {
   private domParent: HTMLElement;
 
   private viewOptions: ISliderOptions;
+
+  private slider: HTMLDivElement;
+
+  private scale: HTMLDivElement;
+
+  private toggle: HTMLDivElement;
+
+  private handle: HTMLDivElement;
 
   constructor(domParent: HTMLElement, viewOptions: ISliderOptions) {
     super();
@@ -25,6 +34,7 @@ class View extends Observer implements IView {
   render() {
     this.fixOverflow();
     this.mountSlider();
+    this.saveDomElement();
   }
 
   private fixOverflow = () => {
@@ -49,6 +59,13 @@ class View extends Observer implements IView {
     };
     sliderContainer.innerHTML = sliderTemplate(templateOptions);
     return sliderContainer;
+  };
+
+  private saveDomElement = () => {
+    this.slider = this.domParent.querySelector(`.${sliderClassName.slider}`);
+    this.scale = this.domParent.querySelector(`.${sliderClassName.scale}`);
+    this.toggle = this.domParent.querySelector(`.${sliderClassName.toggle}`);
+    this.handle = this.domParent.querySelector(`.${sliderClassName.handle}`);
   };
 
   private getScaleWidth = () => {
