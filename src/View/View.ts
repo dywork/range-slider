@@ -21,26 +21,30 @@ class View extends Observer implements IView {
 
   private handle: HTMLDivElement;
 
+  private percentOfSliderWidth: number;
+
   constructor(domParent: HTMLElement, viewOptions: ISliderOptions) {
     super();
     this.domParent = domParent;
     this.viewOptions = viewOptions;
   }
 
-  redrawValue = (sliderOptions: ISliderOptions) => {
-    console.log(sliderOptions);
+  updateSliderOptions = (newSliderOptions: ISliderOptions) => {
+    this.viewOptions = newSliderOptions;
+    this.redrawValue();
   };
 
-  render() {
+  render = () => {
     this.fixOverflow();
     this.mountSlider();
     this.saveDomElement();
-  }
+    this.setToggleListener();
+  };
 
   private fixOverflow = () => {
-    const isHaveClass = document.body.classList.contains('range-slider-overflow');
+    const isHaveClass = document.body.classList.contains(sliderClassName.overflowFix);
     if (!isHaveClass) {
-      document.body.classList.add('range-slider-overflow');
+      document.body.classList.add(sliderClassName.overflowFix);
     }
   };
 
@@ -51,11 +55,12 @@ class View extends Observer implements IView {
 
   private createSliderContainer = () => {
     const sliderContainer = document.createElement('div');
-    sliderContainer.classList.add('range-slider');
+    sliderContainer.classList.add(sliderClassName.slider);
     const templateOptions = {
+      sliderClassName,
       currentValue: this.viewOptions.currentValue,
-      scaleWidth: this.getScaleWidth(),
-      togglePosition: this.viewOptions.currentValue,
+      scaleWidth: this.getStartScaleWidth(),
+      togglePosition: this.getStartTogglePosition(),
     };
     sliderContainer.innerHTML = sliderTemplate(templateOptions);
     return sliderContainer;
@@ -68,10 +73,77 @@ class View extends Observer implements IView {
     this.handle = this.domParent.querySelector(`.${sliderClassName.handle}`);
   };
 
-  private getScaleWidth = () => {
-    const { currentValue } = this.viewOptions;
-    const scaleWidth = currentValue / 1000;
+  private redrawValue = () => {
+    const togglePercent = this.percentOfSliderWidth * 1000;
+    this.scale.setAttribute('style', `transform: scale(${this.percentOfSliderWidth}, 1);`);
+    this.toggle.setAttribute('style', `transform: translate(${togglePercent}%, 0px);`);
+    this.handle.setAttribute('value', `${this.viewOptions.currentValue}`);
+  };
+
+  private dispatchSliderOptions = (newSliderOptions: ISliderOptions) => {
+    this.notify('sliderOptionsUpdate', newSliderOptions);
+  };
+
+  private setToggleListener = () => {
+    this.handle.addEventListener('mousedown', this.onToggleMouseDown);
+  };
+
+  private getStartScaleWidth = () => {
+    const { currentValue, range } = this.viewOptions;
+    const { min, max } = range;
+    const scaleWidth = (currentValue - min) / (max - min);
     return scaleWidth;
+  };
+
+  private getStartTogglePosition = () => {
+    const togglePosition = this.getStartScaleWidth() * 1000;
+    return togglePosition;
+  };
+
+  private getPercentOfSliderWidth = (value: number) => {
+    let percent = value / this.slider.offsetWidth;
+    if (percent > 1) percent = 1;
+    if (percent < 0) percent = 0;
+    return percent;
+  };
+
+  private getCleanCoordX = (clickPageX: number) => {
+    const halfHandleWidth = this.handle.offsetWidth / 2;
+    const leftToggleMargin = 7;
+    const cleanCoordX = clickPageX - this.slider.offsetLeft - halfHandleWidth + leftToggleMargin;
+    return cleanCoordX;
+  };
+
+  private getCurrentValueByPercent = (percent: number) => {
+    const { range } = this.viewOptions;
+    const { min, max } = range;
+    const newCurrentValue = percent * (max - min) + min;
+    const decimal = 2;
+    return +newCurrentValue.toFixed(decimal);
+  };
+
+  private onToggleMouseDown = (evt: MouseEvent) => {
+    evt.preventDefault();
+
+    const onMouseMove = (moveEvt: MouseEvent) => {
+      moveEvt.preventDefault();
+      const cleanCoordX = this.getCleanCoordX(moveEvt.pageX);
+      this.percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
+      const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
+      const newViewOptions = this.viewOptions;
+      newViewOptions.currentValue = newCurrentValue;
+      this.dispatchSliderOptions(newViewOptions);
+    };
+
+    const onMouseUp = (upEvt: MouseEvent) => {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   };
 }
 
