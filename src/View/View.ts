@@ -69,6 +69,7 @@ class View extends Observer implements IView {
       currentValue: this.modelOptions.currentValue,
       scaleWidth: this.getStartScaleWidth(),
       togglePosition: this.getStartTogglePosition(),
+      isThumb: this.viewOptions.isThumb,
     };
     sliderContainer.innerHTML = sliderTemplate(templateOptions);
     return sliderContainer;
