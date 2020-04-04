@@ -1,24 +1,28 @@
 import Observer from '../Observer/Observer';
-import ISliderOptions from '../interfaces/ISliderOptions';
 
 interface IModel {
-  getOptions(): ISliderOptions;
+  getOptions(): IModelOptions;
+}
+
+interface IModelOptions {
+  currentValue: number;
+  range: { min: number; max: number };
 }
 
 class Model extends Observer implements IModel {
-  private sliderOptions: ISliderOptions;
+  private sliderOptions: IModelOptions;
 
-  constructor(sliderOptions: ISliderOptions) {
+  constructor(sliderOptions: IModelOptions) {
     super();
     this.sliderOptions = sliderOptions;
   }
 
   getOptions = () => this.sliderOptions;
 
-  updateSliderOptions = (newSliderOptions: ISliderOptions) => {
+  updateSliderOptions = (newSliderOptions: IModelOptions) => {
     this.sliderOptions = newSliderOptions;
     this.notify('sliderOptionsUpdate', this.sliderOptions);
   };
 }
 
-export default Model;
+export { Model, IModelOptions };
