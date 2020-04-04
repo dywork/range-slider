@@ -1,7 +1,6 @@
-import Model from './Model';
-import ISliderOptions from '../interfaces/ISliderOptions';
+import { Model, IModelOptions } from './Model';
 
-let sliderOptions: ISliderOptions;
+let sliderOptions: IModelOptions;
 let model: Model;
 
 beforeEach(() => {
@@ -17,7 +16,7 @@ describe('Model', () => {
   });
 
   it('обновляет настройки слайдера', () => {
-    const newSliderOptions: ISliderOptions = { currentValue: 20, range: { min: 20, max: 30 } };
+    const newSliderOptions: IModelOptions = { currentValue: 20, range: { min: 20, max: 30 } };
     model.subscribe('sliderOptionsUpdate', () => {});
     model.updateSliderOptions(newSliderOptions);
     expect(model.getOptions().currentValue).toBe(newSliderOptions.currentValue);

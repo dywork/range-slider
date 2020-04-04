@@ -1,11 +1,13 @@
 import Presenter from './Presenter';
-import ISliderOptions from '../interfaces/ISliderOptions';
+import { IModelOptions } from '../Model/Model';
+import { IViewOptions } from '../View/View';
 
 describe('Presenter', () => {
   it('инициализируется', () => {
-    const sliderOptions: ISliderOptions = { currentValue: 0, range: { min: 0, max: 100 } };
-    const parentDom = document.createElement('div');
-    const presenter = new Presenter(parentDom, sliderOptions);
+    const sliderOptions: IModelOptions = { currentValue: 0, range: { min: 0, max: 100 } };
+    const domParent = document.createElement('div');
+    const viewOptions: IViewOptions = { domParent, isThumb: true };
+    const presenter = new Presenter(viewOptions, sliderOptions);
     spyOn(presenter, 'init');
     presenter.init();
     expect.call(presenter.init);
