@@ -1,6 +1,5 @@
-import Model from '../Model/Model';
-import View from '../View/View';
-import ISliderOptions from '../interfaces/ISliderOptions';
+import { Model, IModelOptions } from '../Model/Model';
+import { View, IViewOptions } from '../View/View';
 import Observer from '../Observer/Observer';
 
 interface IPresenter {
@@ -12,10 +11,10 @@ class Presenter extends Observer implements IPresenter {
 
   private view: View;
 
-  constructor(domParent: HTMLElement, sliderOptions: ISliderOptions) {
+  constructor(viewOptions: IViewOptions, modelOptions: IModelOptions) {
     super();
-    this.model = new Model(sliderOptions);
-    this.view = new View(domParent, this.model.getOptions());
+    this.model = new Model(modelOptions);
+    this.view = new View(viewOptions, this.model.getOptions());
   }
 
   init() {
@@ -28,11 +27,11 @@ class Presenter extends Observer implements IPresenter {
     this.model.subscribe('sliderOptionsUpdate', this.onSliderOptionsUpdate);
   };
 
-  private dispatchSliderOptions = (newSliderOptions: ISliderOptions) => {
+  private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
     this.model.updateSliderOptions(newSliderOptions);
   };
 
-  private onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
+  private onSliderOptionsUpdate = (sliderOptions: IModelOptions) => {
     this.view.updateSliderOptions(sliderOptions);
   };
 }
