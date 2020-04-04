@@ -4,5 +4,8 @@
   </div>
   <div class={{sliderClassName.toggle}} style="transform: translate({{togglePosition}}%, 0px);">
     <input class={{sliderClassName.handle}} type="text" value="{{currentValue}}">
+    {{#if isThumb}}
+      <div class={{sliderClassName.thumb}}></div>
+    {{/if}}
   </div>
 </div>
