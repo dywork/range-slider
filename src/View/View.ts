@@ -1,5 +1,5 @@
 import Observer from '../Observer/Observer';
-import ISliderOptions from '../interfaces/ISliderOptions';
+import { IModelOptions } from '../Model/Model';
 import sliderClassName from './sliderClassName';
 
 const sliderTemplate = require('./template/sliderTemplate.hbs');
@@ -8,10 +8,17 @@ interface IView {
   render(): void;
 }
 
-class View extends Observer implements IView {
-  private domParent: HTMLElement;
+interface IViewOptions {
+  domParent: HTMLElement;
+  isThumb: boolean;
+}
 
-  private viewOptions: ISliderOptions;
+class View extends Observer implements IView {
+  private viewOptions: IViewOptions;
+
+  private modelOptions: IModelOptions;
+
+  private domParent: HTMLElement;
 
   private slider: HTMLDivElement;
 
@@ -23,14 +30,15 @@ class View extends Observer implements IView {
 
   private percentOfSliderWidth: number;
 
-  constructor(domParent: HTMLElement, viewOptions: ISliderOptions) {
+  constructor(viewOptions: IViewOptions, modelOptions: IModelOptions) {
     super();
-    this.domParent = domParent;
     this.viewOptions = viewOptions;
+    this.domParent = this.viewOptions.domParent;
+    this.modelOptions = modelOptions;
   }
 
-  updateSliderOptions = (newSliderOptions: ISliderOptions) => {
-    this.viewOptions = newSliderOptions;
+  updateSliderOptions = (newSliderOptions: IModelOptions) => {
+    this.modelOptions = newSliderOptions;
     this.redrawValue();
   };
 
@@ -58,7 +66,7 @@ class View extends Observer implements IView {
     sliderContainer.classList.add(sliderClassName.slider);
     const templateOptions = {
       sliderClassName,
-      currentValue: this.viewOptions.currentValue,
+      currentValue: this.modelOptions.currentValue,
       scaleWidth: this.getStartScaleWidth(),
       togglePosition: this.getStartTogglePosition(),
     };
@@ -77,10 +85,10 @@ class View extends Observer implements IView {
     const togglePercent = this.percentOfSliderWidth * 1000;
     this.scale.setAttribute('style', `transform: scale(${this.percentOfSliderWidth}, 1);`);
     this.toggle.setAttribute('style', `transform: translate(${togglePercent}%, 0px);`);
-    this.handle.setAttribute('value', `${this.viewOptions.currentValue}`);
+    this.handle.setAttribute('value', `${this.modelOptions.currentValue}`);
   };
 
-  private dispatchSliderOptions = (newSliderOptions: ISliderOptions) => {
+  private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
     this.notify('sliderOptionsUpdate', newSliderOptions);
   };
 
@@ -89,7 +97,7 @@ class View extends Observer implements IView {
   };
 
   private getStartScaleWidth = () => {
-    const { currentValue, range } = this.viewOptions;
+    const { currentValue, range } = this.modelOptions;
     const { min, max } = range;
     const scaleWidth = (currentValue - min) / (max - min);
     return scaleWidth;
@@ -115,7 +123,7 @@ class View extends Observer implements IView {
   };
 
   private getCurrentValueByPercent = (percent: number) => {
-    const { range } = this.viewOptions;
+    const { range } = this.modelOptions;
     const { min, max } = range;
     const newCurrentValue = percent * (max - min) + min;
     const decimal = 2;
@@ -130,9 +138,9 @@ class View extends Observer implements IView {
       const cleanCoordX = this.getCleanCoordX(moveEvt.pageX);
       this.percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
       const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
-      const newViewOptions = this.viewOptions;
-      newViewOptions.currentValue = newCurrentValue;
-      this.dispatchSliderOptions(newViewOptions);
+      const newmodelOptions = this.modelOptions;
+      newmodelOptions.currentValue = newCurrentValue;
+      this.dispatchSliderOptions(newmodelOptions);
     };
 
     const onMouseUp = (upEvt: MouseEvent) => {
@@ -147,4 +155,4 @@ class View extends Observer implements IView {
   };
 }
 
-export default View;
+export { View, IViewOptions };
