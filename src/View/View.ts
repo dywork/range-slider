@@ -28,6 +28,8 @@ class View extends Observer implements IView {
 
   private handle: HTMLDivElement;
 
+  private thumb?: HTMLDivElement;
+
   private percentOfSliderWidth: number;
 
   constructor(viewOptions: IViewOptions, modelOptions: IModelOptions) {
@@ -80,6 +82,9 @@ class View extends Observer implements IView {
     this.scale = this.domParent.querySelector(`.${sliderClassName.scale}`);
     this.toggle = this.domParent.querySelector(`.${sliderClassName.toggle}`);
     this.handle = this.domParent.querySelector(`.${sliderClassName.handle}`);
+    if (this.viewOptions.isThumb) {
+      this.thumb = this.domParent.querySelector(`.${sliderClassName.thumb}`);
+    }
   };
 
   private redrawValue = () => {
@@ -87,6 +92,9 @@ class View extends Observer implements IView {
     this.scale.setAttribute('style', `transform: scale(${this.percentOfSliderWidth}, 1);`);
     this.toggle.setAttribute('style', `transform: translate(${togglePercent}%, 0px);`);
     this.handle.setAttribute('value', `${this.modelOptions.currentValue}`);
+    if (this.viewOptions.isThumb) {
+      this.thumb.textContent = `${this.modelOptions.currentValue}`;
+    }
   };
 
   private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
