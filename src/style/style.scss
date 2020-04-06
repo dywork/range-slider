@@ -42,6 +42,7 @@
 .range-slider__handle {
   box-sizing: border-box;
   position: absolute;
+  z-index: 1;
   display: block;
   width: 14px;
   height: 14px;
@@ -50,4 +51,18 @@
   border: none;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.range-slider__thumb {
+  position: absolute;
+  top: -25px;
+  left: -13px;
+  z-index: 0;
+  width: 41px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  color: $textColor;
+  font-size: 14px;
+  text-align: center;
+  background: $mainColor;
 }
