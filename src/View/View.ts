@@ -50,7 +50,7 @@ class View extends Observer implements IView {
     this.fixOverflow();
     this.mountSlider();
     this.saveDomElement();
-    this.setToggleListener();
+    this.setListeners();
   };
 
   private fixOverflow = () => {
@@ -104,7 +104,7 @@ class View extends Observer implements IView {
     this.notify('sliderOptionsUpdate', newSliderOptions);
   };
 
-  private setToggleListener = () => {
+  private setListeners = () => {
     this.bar.addEventListener('mousedown', this.onBarMouseDown);
     this.handle.addEventListener('mousedown', this.onToggleMouseDown);
   };
