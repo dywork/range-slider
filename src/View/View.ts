@@ -154,6 +154,7 @@ class View extends Observer implements IView {
 
   private onBarMouseDown = (evt: MouseEvent) => {
     evt.preventDefault();
+    this.changeCurrentValue(evt.pageX);
   };
 
   private onToggleMouseDown = (evt: MouseEvent) => {
