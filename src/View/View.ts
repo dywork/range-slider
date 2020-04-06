@@ -109,6 +109,15 @@ class View extends Observer implements IView {
     this.handle.addEventListener('mousedown', this.onToggleMouseDown);
   };
 
+  changeCurrentValue = (pageX: number) => {
+    const cleanCoordX = this.getCleanCoordX(pageX);
+    this.percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
+    const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
+    const newmodelOptions = this.modelOptions;
+    newmodelOptions.currentValue = newCurrentValue;
+    this.dispatchSliderOptions(newmodelOptions);
+  };
+
   private getStartScaleWidth = () => {
     const { currentValue, range } = this.modelOptions;
     const { min, max } = range;
@@ -145,7 +154,6 @@ class View extends Observer implements IView {
 
   private onBarMouseDown = (evt: MouseEvent) => {
     evt.preventDefault();
-    console.log('click');
   };
 
   private onToggleMouseDown = (evt: MouseEvent) => {
@@ -153,12 +161,7 @@ class View extends Observer implements IView {
 
     const onMouseMove = (moveEvt: MouseEvent) => {
       moveEvt.preventDefault();
-      const cleanCoordX = this.getCleanCoordX(moveEvt.pageX);
-      this.percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
-      const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
-      const newmodelOptions = this.modelOptions;
-      newmodelOptions.currentValue = newCurrentValue;
-      this.dispatchSliderOptions(newmodelOptions);
+      this.changeCurrentValue(moveEvt.pageX);
     };
 
     const onMouseUp = (upEvt: MouseEvent) => {
