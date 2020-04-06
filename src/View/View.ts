@@ -22,6 +22,8 @@ class View extends Observer implements IView {
 
   private slider: HTMLDivElement;
 
+  private bar: HTMLDivElement;
+
   private scale: HTMLDivElement;
 
   private toggle: HTMLDivElement;
@@ -79,6 +81,7 @@ class View extends Observer implements IView {
 
   private saveDomElement = () => {
     this.slider = this.domParent.querySelector(`.${sliderClassName.slider}`);
+    this.bar = this.domParent.querySelector(`.${sliderClassName.bar}`);
     this.scale = this.domParent.querySelector(`.${sliderClassName.scale}`);
     this.toggle = this.domParent.querySelector(`.${sliderClassName.toggle}`);
     this.handle = this.domParent.querySelector(`.${sliderClassName.handle}`);
@@ -102,6 +105,7 @@ class View extends Observer implements IView {
   };
 
   private setToggleListener = () => {
+    this.bar.addEventListener('mousedown', this.onBarMouseDown);
     this.handle.addEventListener('mousedown', this.onToggleMouseDown);
   };
 
@@ -137,6 +141,11 @@ class View extends Observer implements IView {
     const newCurrentValue = percent * (max - min) + min;
     const decimal = 2;
     return +newCurrentValue.toFixed(decimal);
+  };
+
+  private onBarMouseDown = (evt: MouseEvent) => {
+    evt.preventDefault();
+    console.log('click');
   };
 
   private onToggleMouseDown = (evt: MouseEvent) => {
