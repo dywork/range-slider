@@ -4,7 +4,7 @@ let sliderOptions: IModelOptions;
 let model: Model;
 
 beforeEach(() => {
-  sliderOptions = { currentValue: 0, range: { min: 0, max: 100 } };
+  sliderOptions = { currentValue: 0, range: { min: 0, max: 100 }, step: 0 };
   model = new Model(sliderOptions);
 });
 
@@ -16,7 +16,11 @@ describe('Model', () => {
   });
 
   it('обновляет настройки слайдера', () => {
-    const newSliderOptions: IModelOptions = { currentValue: 20, range: { min: 20, max: 30 } };
+    const newSliderOptions: IModelOptions = {
+      currentValue: 20,
+      range: { min: 20, max: 30 },
+      step: 0,
+    };
     model.subscribe('sliderOptionsUpdate', () => {});
     model.updateSliderOptions(newSliderOptions);
     expect(model.getOptions().currentValue).toBe(newSliderOptions.currentValue);
