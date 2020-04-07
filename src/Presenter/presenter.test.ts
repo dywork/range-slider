@@ -4,7 +4,7 @@ import { IViewOptions } from '../View/View';
 
 describe('Presenter', () => {
   it('инициализируется', () => {
-    const sliderOptions: IModelOptions = { currentValue: 0, range: { min: 0, max: 100 } };
+    const sliderOptions: IModelOptions = { currentValue: 0, range: { min: 0, max: 100 }, step: 0 };
     const domParent = document.createElement('div');
     const viewOptions: IViewOptions = { domParent, isThumb: true };
     const presenter = new Presenter(viewOptions, sliderOptions);
