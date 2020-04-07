@@ -7,6 +7,7 @@ interface ISliderOptions {
   currentValue: number;
   range: { min: number; max: number };
   isThumb: boolean;
+  step: number;
 }
 
 class Slider {
@@ -29,8 +30,8 @@ class Slider {
   };
 
   private getModelOptions = (sliderOptions: ISliderOptions) => {
-    const { currentValue, range } = sliderOptions;
-    const modelOptions = { currentValue, range };
+    const { currentValue, range, step } = sliderOptions;
+    const modelOptions = { currentValue, range, step };
     return modelOptions;
   };
 }
