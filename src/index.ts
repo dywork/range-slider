@@ -21,6 +21,7 @@ declare global {
           max: 100,
         },
         isThumb: true,
+        step: 0,
       },
       sliderOptions,
     );
