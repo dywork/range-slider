@@ -7,6 +7,7 @@ interface IModel {
 interface IModelOptions {
   currentValue: number;
   range: { min: number; max: number };
+  step: number;
 }
 
 class Model extends Observer implements IModel {
