@@ -155,25 +155,25 @@ class View extends Observer implements IView {
   private onBarMouseDown = (evt: MouseEvent) => {
     evt.preventDefault();
     this.changeCurrentValue(evt.pageX);
+    document.addEventListener('mousemove', this.onToggleMove);
+    document.addEventListener('mouseup', this.onToggleUp);
   };
 
   private onToggleMouseDown = (evt: MouseEvent) => {
     evt.preventDefault();
+    document.addEventListener('mousemove', this.onToggleMove);
+    document.addEventListener('mouseup', this.onToggleUp);
+  };
 
-    const onMouseMove = (moveEvt: MouseEvent) => {
-      moveEvt.preventDefault();
-      this.changeCurrentValue(moveEvt.pageX);
-    };
+  private onToggleMove = (evt: MouseEvent) => {
+    evt.preventDefault();
+    this.changeCurrentValue(evt.pageX);
+  };
 
-    const onMouseUp = (upEvt: MouseEvent) => {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+  private onToggleUp = (evt: MouseEvent) => {
+    evt.preventDefault();
+    document.removeEventListener('mousemove', this.onToggleMove);
+    document.removeEventListener('mouseup', this.onToggleUp);
   };
 }
 
