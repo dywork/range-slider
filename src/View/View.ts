@@ -113,9 +113,9 @@ class View extends Observer implements IView {
     const cleanCoordX = this.getCleanCoordX(pageX);
     this.percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
     const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
-    const newmodelOptions = this.modelOptions;
-    newmodelOptions.currentValue = newCurrentValue;
-    this.dispatchSliderOptions(newmodelOptions);
+    const newModelOptions = this.modelOptions;
+    newModelOptions.currentValue = newCurrentValue;
+    this.dispatchSliderOptions(newModelOptions);
   };
 
   private getStartScaleWidth = () => {
