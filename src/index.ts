@@ -22,6 +22,7 @@ declare global {
         },
         isThumb: true,
         step: 0,
+        decimal: 2,
       },
       sliderOptions,
     );
