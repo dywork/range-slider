@@ -130,8 +130,7 @@ class View extends Observer implements IView {
 
   private getStartScaleWidth = () => {
     const { currentValue, range } = this.modelOptions;
-    const { min, max } = range;
-    const scaleWidth = (currentValue - min) / (max - min);
+    const scaleWidth = (currentValue - range.min) / (range.max - range.min);
     return scaleWidth;
   };
 
@@ -156,8 +155,7 @@ class View extends Observer implements IView {
 
   private getCurrentValueByPercent = (percent: number) => {
     const { range, step } = this.modelOptions;
-    const { min, max } = range;
-    const newCurrentValue = percent * (max - min) + min;
+    const newCurrentValue = percent * (range.max - range.min) + range.min;
     if (step) {
       return this.getStepCurrentValue(newCurrentValue);
     }
