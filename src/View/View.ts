@@ -91,13 +91,23 @@ class View extends Observer implements IView {
   };
 
   private redrawValue = () => {
-    const togglePercent = this.percentOfSliderWidth * 1000;
-    this.scale.setAttribute('style', `transform: scale(${this.percentOfSliderWidth}, 1);`);
-    this.toggle.setAttribute('style', `transform: translate(${togglePercent}%, 0px);`);
-    this.handle.setAttribute('value', `${this.modelOptions.currentValue}`);
-    if (this.viewOptions.isThumb) {
-      this.thumb.textContent = `${this.modelOptions.currentValue}`;
+    const { currentValue, step } = this.modelOptions;
+    const { isThumb } = this.viewOptions;
+    let scaleWidth = this.percentOfSliderWidth;
+    let togglePercent = this.percentOfSliderWidth * 1000;
+
+    if (isThumb) {
+      this.thumb.textContent = `${currentValue}`;
     }
+
+    if (step) {
+      scaleWidth = this.getStartScaleWidth();
+      togglePercent = this.getStartTogglePosition();
+    }
+
+    this.handle.setAttribute('value', `${currentValue}`);
+    this.scale.setAttribute('style', `transform: scale(${scaleWidth}, 1);`);
+    this.toggle.setAttribute('style', `transform: translate(${togglePercent}%, 0px);`);
   };
 
   private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
@@ -145,11 +155,30 @@ class View extends Observer implements IView {
   };
 
   private getCurrentValueByPercent = (percent: number) => {
-    const { range } = this.modelOptions;
+    const { range, step } = this.modelOptions;
     const { min, max } = range;
     const newCurrentValue = percent * (max - min) + min;
+    if (step) {
+      return this.getStepCurrentValue(newCurrentValue);
+    }
     const decimal = 2;
     return +newCurrentValue.toFixed(decimal);
+  };
+
+  private getStepCurrentValue = (currentValue: number) => {
+    const { step, range } = this.modelOptions;
+    let stepCurrentValue = Math.round((currentValue - range.min) / step) * step + range.min;
+    const isLastStepLess = +currentValue.toFixed() - range.max === 0;
+
+    if (isLastStepLess) {
+      stepCurrentValue = range.max;
+    }
+
+    if (stepCurrentValue >= range.max) {
+      stepCurrentValue = range.max;
+    }
+
+    return stepCurrentValue;
   };
 
   private onBarMouseDown = (evt: MouseEvent) => {
