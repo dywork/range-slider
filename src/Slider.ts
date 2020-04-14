@@ -8,6 +8,7 @@ interface ISliderOptions {
   range: { min: number; max: number };
   isThumb: boolean;
   step: number;
+  decimal: number;
 }
 
 class Slider {
@@ -24,8 +25,8 @@ class Slider {
   };
 
   private getViewOptions = (sliderOptions: ISliderOptions) => {
-    const { domParent, isThumb } = sliderOptions;
-    const viewOptions: IViewOptions = { domParent, isThumb };
+    const { domParent, isThumb, decimal } = sliderOptions;
+    const viewOptions: IViewOptions = { domParent, isThumb, decimal };
     return viewOptions;
   };
 
