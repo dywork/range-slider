@@ -11,6 +11,7 @@ interface IView {
 interface IViewOptions {
   domParent: HTMLElement;
   isThumb: boolean;
+  decimal: number;
 }
 
 class View extends Observer implements IView {
@@ -155,11 +156,12 @@ class View extends Observer implements IView {
 
   private getCurrentValueByPercent = (percent: number) => {
     const { range, step } = this.modelOptions;
+    const { decimal } = this.viewOptions;
     const newCurrentValue = percent * (range.max - range.min) + range.min;
     if (step) {
       return this.getStepCurrentValue(newCurrentValue);
     }
-    const decimal = 2;
+
     return +newCurrentValue.toFixed(decimal);
   };
 
