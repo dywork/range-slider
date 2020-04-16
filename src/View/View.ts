@@ -149,11 +149,11 @@ class View extends Observer implements IView {
 
   private getToggleTransformStyle = () => {
     const isVertical = this.viewOptions.orientation === 'vertical';
-    const togglePercent = this.getTogglePosition();
+    const togglePosition = this.getTogglePosition();
     if (isVertical) {
-      return `transform: translate(0px, ${togglePercent}%);`;
+      return `transform: translate(0px, ${togglePosition}%);`;
     }
-    return `transform: translate(${togglePercent}%, 0px);`;
+    return `transform: translate(${togglePosition}%, 0px);`;
   };
 
   private getScalePosition = () => {
