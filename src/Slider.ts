@@ -9,6 +9,7 @@ interface ISliderOptions {
   isThumb: boolean;
   step: number;
   decimal: number;
+  orientation: string;
 }
 
 class Slider {
@@ -25,8 +26,20 @@ class Slider {
   };
 
   private getViewOptions = (sliderOptions: ISliderOptions) => {
-    const { domParent, isThumb, decimal } = sliderOptions;
-    const viewOptions: IViewOptions = { domParent, isThumb, decimal };
+    const {
+      domParent,
+      isThumb,
+      decimal,
+      orientation,
+    } = sliderOptions;
+
+    const viewOptions: IViewOptions = {
+      domParent,
+      isThumb,
+      decimal,
+      orientation,
+    };
+
     return viewOptions;
   };
 
