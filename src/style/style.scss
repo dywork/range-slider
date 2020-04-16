@@ -11,9 +11,29 @@
   height: 100%;
 }
 
+.range-slider--vertical {
+  .range-slider__bar {
+    width: 4px;
+    height: 100%;
+  }
+
+  .range-slider__toggle {
+    top: -5px;
+    left: -5px;
+    width: auto;
+    height: 10%;
+  }
+
+  .range-slider__thumb {
+    top: -4px;
+    left: 22px;
+  }
+}
+
 .range-slider__bar {
   position: relative;
   height: 4px;
+  border: none;
   border-radius: 4px;
   background-color: lighten($mainColor, 35%);
   cursor: pointer;
