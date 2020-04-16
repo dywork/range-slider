@@ -7,11 +7,13 @@ interface ISliderClassName {
   toggle: string;
   handle: string;
   thumb: string;
+  sliderVertical: string;
 }
 
 const sliderClassName: ISliderClassName = {
   overflowFix: 'range-slider-overflow',
   slider: 'range-slider',
+  sliderVertical: 'range-slider--vertical',
   wrap: 'range-slider__wrap',
   bar: 'range-slider__bar',
   scale: 'range-slider__scale',
