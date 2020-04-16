@@ -39,8 +39,6 @@ class View extends Observer implements IView {
 
   private thumb?: HTMLDivElement;
 
-  private percentOfSliderWidth: number;
-
   constructor(viewOptions: IViewOptions, modelOptions: IModelOptions) {
     super();
     this.viewOptions = viewOptions;
@@ -125,15 +123,15 @@ class View extends Observer implements IView {
     const isVertical = this.viewOptions.orientation === 'vertical';
     if (isVertical) {
       const cleanCoordY = this.getCleanCoordY(clickCoord.y);
-      this.percentOfSliderWidth = this.getPercentOfSliderHeight(cleanCoordY);
-      const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
+      const percentOfSliderHeight = this.getPercentOfSliderHeight(cleanCoordY);
+      const newCurrentValue = this.getCurrentValueByPercent(percentOfSliderHeight);
       const newModelOptions = this.modelOptions;
       newModelOptions.currentValue = newCurrentValue;
       this.dispatchSliderOptions(newModelOptions);
     } else {
       const cleanCoordX = this.getCleanCoordX(clickCoord.x);
-      this.percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
-      const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
+      const percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
+      const newCurrentValue = this.getCurrentValueByPercent(percentOfSliderWidth);
       const newModelOptions = this.modelOptions;
       newModelOptions.currentValue = newCurrentValue;
       this.dispatchSliderOptions(newModelOptions);
