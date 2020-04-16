@@ -1,5 +1,6 @@
 /* eslint-disable func-names */
 import { Slider, ISliderOptions } from './Slider';
+import defaultOptions from './defaultOptions';
 
 declare global {
   interface JQuery {
@@ -15,14 +16,7 @@ declare global {
     sliderOptions = $.extend(
       {
         domParent: this[0],
-        currentValue: 0,
-        range: {
-          min: 0,
-          max: 100,
-        },
-        isThumb: true,
-        step: 0,
-        decimal: 2,
+        ...defaultOptions,
       },
       sliderOptions,
     );
