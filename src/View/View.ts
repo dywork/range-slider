@@ -80,8 +80,8 @@ class View extends Observer implements IView {
     const templateOptions = {
       sliderClassName,
       currentValue: this.modelOptions.currentValue,
-      scalePosition: this.getStartScalePosition(),
-      togglePosition: this.getStartTogglePosition(),
+      scalePosition: this.getScalePosition(),
+      togglePosition: this.getTogglePosition(),
       isThumb: this.viewOptions.isThumb,
     };
     sliderContainer.innerHTML = sliderTemplate(templateOptions);
@@ -110,8 +110,8 @@ class View extends Observer implements IView {
     }
 
     if (step) {
-      scalePosition = this.getStartScalePosition();
-      togglePercent = this.getStartTogglePosition();
+      scalePosition = this.getScalePosition();
+      togglePercent = this.getTogglePosition();
     }
 
     this.handle.setAttribute('value', `${currentValue}`);
@@ -153,14 +153,14 @@ class View extends Observer implements IView {
     }
   };
 
-  private getStartScalePosition = () => {
+  private getScalePosition = () => {
     const { currentValue, range } = this.modelOptions;
     const scalePosition = (currentValue - range.min) / (range.max - range.min);
     return scalePosition;
   };
 
-  private getStartTogglePosition = () => {
-    const togglePosition = this.getStartScalePosition() * 1000;
+  private getTogglePosition = () => {
+    const togglePosition = this.getScalePosition() * 1000;
     return togglePosition;
   };
 
