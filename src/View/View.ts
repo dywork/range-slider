@@ -12,6 +12,12 @@ interface IViewOptions {
   domParent: HTMLElement;
   isThumb: boolean;
   decimal: number;
+  orientation: string;
+}
+
+interface IClickCoord {
+  x: number;
+  y: number;
 }
 
 class View extends Observer implements IView {
@@ -69,6 +75,8 @@ class View extends Observer implements IView {
   private createSliderContainer = () => {
     const sliderContainer = document.createElement('div');
     sliderContainer.classList.add(sliderClassName.slider);
+    const isVertical = this.viewOptions.orientation === 'vertical';
+    if (isVertical) sliderContainer.classList.add(sliderClassName.sliderVertical);
     const templateOptions = {
       sliderClassName,
       currentValue: this.modelOptions.currentValue,
@@ -107,8 +115,14 @@ class View extends Observer implements IView {
     }
 
     this.handle.setAttribute('value', `${currentValue}`);
-    this.scale.setAttribute('style', `transform: scale(${scaleWidth}, 1);`);
-    this.toggle.setAttribute('style', `transform: translate(${togglePercent}%, 0px);`);
+    const isVertical = this.viewOptions.orientation === 'vertical';
+    if (isVertical) {
+      this.scale.setAttribute('style', `transform: scale(1, ${scaleWidth});`);
+      this.toggle.setAttribute('style', `transform: translate(0px, ${togglePercent}%);`);
+    } else {
+      this.scale.setAttribute('style', `transform: scale(${scaleWidth}, 1);`);
+      this.toggle.setAttribute('style', `transform: translate(${togglePercent}%, 0px);`);
+    }
   };
 
   private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
@@ -120,13 +134,23 @@ class View extends Observer implements IView {
     this.handle.addEventListener('mousedown', this.onToggleMouseDown);
   };
 
-  changeCurrentValue = (pageX: number) => {
-    const cleanCoordX = this.getCleanCoordX(pageX);
-    this.percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
-    const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
-    const newModelOptions = this.modelOptions;
-    newModelOptions.currentValue = newCurrentValue;
-    this.dispatchSliderOptions(newModelOptions);
+  changeCurrentValue = (clickCoord: IClickCoord) => {
+    const isVertical = this.viewOptions.orientation === 'vertical';
+    if (isVertical) {
+      const cleanCoordY = this.getCleanCoordY(clickCoord.y);
+      this.percentOfSliderWidth = this.getPercentOfSliderHeight(cleanCoordY);
+      const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
+      const newModelOptions = this.modelOptions;
+      newModelOptions.currentValue = newCurrentValue;
+      this.dispatchSliderOptions(newModelOptions);
+    } else {
+      const cleanCoordX = this.getCleanCoordX(clickCoord.x);
+      this.percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
+      const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
+      const newModelOptions = this.modelOptions;
+      newModelOptions.currentValue = newCurrentValue;
+      this.dispatchSliderOptions(newModelOptions);
+    }
   };
 
   private getStartScaleWidth = () => {
@@ -147,11 +171,25 @@ class View extends Observer implements IView {
     return percent;
   };
 
+  private getPercentOfSliderHeight = (value: number) => {
+    let percent = value / this.slider.offsetHeight;
+    if (percent > 1) percent = 1;
+    if (percent < 0) percent = 0;
+    return percent;
+  };
+
   private getCleanCoordX = (clickPageX: number) => {
     const halfHandleWidth = this.handle.offsetWidth / 2;
     const leftToggleMargin = 7;
     const cleanCoordX = clickPageX - this.slider.offsetLeft - halfHandleWidth + leftToggleMargin;
     return cleanCoordX;
+  };
+
+  private getCleanCoordY = (clickPageY: number) => {
+    const halfHandleWidth = this.handle.offsetWidth / 2;
+    const leftToggleMargin = 5;
+    const cleanCoordY = clickPageY - this.slider.offsetTop - halfHandleWidth + leftToggleMargin;
+    return cleanCoordY;
   };
 
   private getCurrentValueByPercent = (percent: number) => {
@@ -183,7 +221,7 @@ class View extends Observer implements IView {
 
   private onBarMouseDown = (evt: MouseEvent) => {
     evt.preventDefault();
-    this.changeCurrentValue(evt.pageX);
+    this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
     document.addEventListener('mousemove', this.onToggleMove);
     document.addEventListener('mouseup', this.onToggleUp);
   };
@@ -196,7 +234,7 @@ class View extends Observer implements IView {
 
   private onToggleMove = (evt: MouseEvent) => {
     evt.preventDefault();
-    this.changeCurrentValue(evt.pageX);
+    this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
   };
 
   private onToggleUp = (evt: MouseEvent) => {
