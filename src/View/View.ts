@@ -27,6 +27,8 @@ class View extends Observer implements IView {
 
   private domParent: HTMLElement;
 
+  private isVertical: boolean;
+
   private slider: HTMLDivElement;
 
   private bar: HTMLDivElement;
@@ -42,8 +44,9 @@ class View extends Observer implements IView {
   constructor(viewOptions: IViewOptions, modelOptions: IModelOptions) {
     super();
     this.viewOptions = viewOptions;
-    this.domParent = this.viewOptions.domParent;
     this.modelOptions = modelOptions;
+    this.domParent = this.viewOptions.domParent;
+    this.isVertical = this.viewOptions.orientation === 'vertical';
   }
 
   updateSliderOptions = (newSliderOptions: IModelOptions) => {
@@ -73,8 +76,11 @@ class View extends Observer implements IView {
   private createSliderContainer = () => {
     const sliderContainer = document.createElement('div');
     sliderContainer.classList.add(sliderClassName.slider);
-    const isVertical = this.viewOptions.orientation === 'vertical';
-    if (isVertical) sliderContainer.classList.add(sliderClassName.sliderVertical);
+
+    if (this.isVertical) {
+      sliderContainer.classList.add(sliderClassName.sliderVertical);
+    }
+
     const templateOptions = {
       sliderClassName,
       currentValue: this.modelOptions.currentValue,
@@ -120,8 +126,7 @@ class View extends Observer implements IView {
   };
 
   changeCurrentValue = (clickCoord: IClickCoord) => {
-    const isVertical = this.viewOptions.orientation === 'vertical';
-    if (isVertical) {
+    if (this.isVertical) {
       const cleanCoordY = this.getCleanCoordY(clickCoord.y);
       const percentOfSliderHeight = this.getPercentOfSliderHeight(cleanCoordY);
       const newCurrentValue = this.getCurrentValueByPercent(percentOfSliderHeight);
@@ -139,20 +144,22 @@ class View extends Observer implements IView {
   };
 
   private getScaleTransformStyle = () => {
-    const isVertical = this.viewOptions.orientation === 'vertical';
     const scalePosition = this.getScalePosition();
-    if (isVertical) {
+
+    if (this.isVertical) {
       return `transform: scale(1, ${scalePosition});`;
     }
+
     return `transform: scale(${scalePosition}, 1);`;
   };
 
   private getToggleTransformStyle = () => {
-    const isVertical = this.viewOptions.orientation === 'vertical';
     const togglePosition = this.getTogglePosition();
-    if (isVertical) {
+
+    if (this.isVertical) {
       return `transform: translate(0px, ${togglePosition}%);`;
     }
+
     return `transform: translate(${togglePosition}%, 0px);`;
   };
 
