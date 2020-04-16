@@ -100,29 +100,16 @@ class View extends Observer implements IView {
   };
 
   private redrawValue = () => {
-    const { currentValue, step } = this.modelOptions;
+    const { currentValue } = this.modelOptions;
     const { isThumb } = this.viewOptions;
-    let scalePosition = this.percentOfSliderWidth;
-    let togglePercent = this.percentOfSliderWidth * 1000;
 
     if (isThumb) {
       this.thumb.textContent = `${currentValue}`;
     }
 
-    if (step) {
-      scalePosition = this.getScalePosition();
-      togglePercent = this.getTogglePosition();
-    }
-
     this.handle.setAttribute('value', `${currentValue}`);
-    const isVertical = this.viewOptions.orientation === 'vertical';
-    if (isVertical) {
-      this.scale.setAttribute('style', `transform: scale(1, ${scalePosition});`);
-      this.toggle.setAttribute('style', `transform: translate(0px, ${togglePercent}%);`);
-    } else {
-      this.scale.setAttribute('style', `transform: scale(${scalePosition}, 1);`);
-      this.toggle.setAttribute('style', `transform: translate(${togglePercent}%, 0px);`);
-    }
+    this.scale.setAttribute('style', this.getScaleTransformStyle());
+    this.toggle.setAttribute('style', this.getToggleTransformStyle());
   };
 
   private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
