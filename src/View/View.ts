@@ -127,13 +127,14 @@ class View extends Observer implements IView {
 
   private changeCurrentValue = (clickCoord: IClickCoord) => {
     const { offsetWidth, offsetHeight } = this.slider;
-    const cleanCoordX = this.getCleanCoordX(clickCoord.x);
-    const percentOfSliderWidth = this.getPercent(cleanCoordX, offsetWidth);
+    // const cleanCoordX = this.getCleanCoordX(clickCoord.x);
+    const cleanCoord = this.getCleanCoord(clickCoord);
+    const percentOfSliderWidth = this.getPercent(cleanCoord, offsetWidth);
     let newCurrentValue = this.getCurrentValueByPercent(percentOfSliderWidth);
 
     if (this.isVertical) {
-      const cleanCoordY = this.getCleanCoordY(clickCoord.y);
-      const percentOfSliderHeight = this.getPercent(cleanCoordY, offsetHeight);
+      // const cleanCoordY = this.getCleanCoordY(clickCoord.y);
+      const percentOfSliderHeight = this.getPercent(cleanCoord, offsetHeight);
       newCurrentValue = this.getCurrentValueByPercent(percentOfSliderHeight);
     }
 
@@ -180,18 +181,14 @@ class View extends Observer implements IView {
     return percent;
   };
 
-  private getCleanCoordX = (clickPageX: number) => {
+  private getCleanCoord = (clickCoord: IClickCoord) => {
     const halfHandleWidth = this.handle.offsetWidth / 2;
-    const leftToggleMargin = 7;
-    const cleanCoordX = clickPageX - this.slider.offsetLeft - halfHandleWidth + leftToggleMargin;
-    return cleanCoordX;
-  };
-
-  private getCleanCoordY = (clickPageY: number) => {
-    const halfHandleWidth = this.handle.offsetWidth / 2;
-    const leftToggleMargin = 5;
-    const cleanCoordY = clickPageY - this.slider.offsetTop - halfHandleWidth + leftToggleMargin;
-    return cleanCoordY;
+    const leftToggleMargin = this.isVertical ? 5 : 7;
+    const sliderOffset = this.isVertical ? this.slider.offsetTop : this.slider.offsetLeft;
+    const cleanCoord = this.isVertical
+      ? clickCoord.y - sliderOffset - halfHandleWidth + leftToggleMargin
+      : clickCoord.x - sliderOffset - halfHandleWidth + leftToggleMargin;
+    return cleanCoord;
   };
 
   private getCurrentValueByPercent = (percent: number) => {
