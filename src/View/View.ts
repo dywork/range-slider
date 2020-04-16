@@ -177,9 +177,8 @@ class View extends Observer implements IView {
     const halfHandleWidth = this.handle.offsetWidth / 2;
     const leftToggleMargin = this.isVertical ? 5 : 7;
     const sliderOffset = this.isVertical ? this.slider.offsetTop : this.slider.offsetLeft;
-    const cleanCoord = this.isVertical
-      ? clickCoord.y - sliderOffset - halfHandleWidth + leftToggleMargin
-      : clickCoord.x - sliderOffset - halfHandleWidth + leftToggleMargin;
+    const interfering = sliderOffset - halfHandleWidth + leftToggleMargin;
+    const cleanCoord = this.isVertical ? clickCoord.y - interfering : clickCoord.x - interfering;
     return cleanCoord;
   };
 
