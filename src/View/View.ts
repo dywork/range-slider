@@ -80,8 +80,8 @@ class View extends Observer implements IView {
     const templateOptions = {
       sliderClassName,
       currentValue: this.modelOptions.currentValue,
-      scalePosition: this.getScalePosition(),
-      togglePosition: this.getTogglePosition(),
+      scaleTransformStyle: this.getScaleTransformStyle(),
+      toggleTransformStyle: this.getToggleTransformStyle(),
       isThumb: this.viewOptions.isThumb,
     };
     sliderContainer.innerHTML = sliderTemplate(templateOptions);
@@ -151,6 +151,24 @@ class View extends Observer implements IView {
       newModelOptions.currentValue = newCurrentValue;
       this.dispatchSliderOptions(newModelOptions);
     }
+  };
+
+  private getScaleTransformStyle = () => {
+    const isVertical = this.viewOptions.orientation === 'vertical';
+    const scalePosition = this.getScalePosition();
+    if (isVertical) {
+      return `transform: scale(1, ${scalePosition});`;
+    }
+    return `transform: scale(${scalePosition}, 1);`;
+  };
+
+  private getToggleTransformStyle = () => {
+    const isVertical = this.viewOptions.orientation === 'vertical';
+    const togglePercent = this.getTogglePosition();
+    if (isVertical) {
+      return `transform: translate(0px, ${togglePercent}%);`;
+    }
+    return `transform: translate(${togglePercent}%, 0px);`;
   };
 
   private getScalePosition = () => {

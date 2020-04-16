@@ -1,8 +1,8 @@
 <div class={{sliderClassName.wrap}}>
   <div class={{sliderClassName.bar}}>
-    <div class={{sliderClassName.scale}} style="transform: scale({{scalePosition}}, 1);"></div>
+    <div class={{sliderClassName.scale}} style="{{scaleTransformStyle}}"></div>
   </div>
-  <div class={{sliderClassName.toggle}} style="transform: translate({{togglePosition}}%, 0px);">
+  <div class={{sliderClassName.toggle}} style="{{toggleTransformStyle}}">
     <input class={{sliderClassName.handle}} type="text" value="{{currentValue}}">
     {{#if isThumb}}
       <div class={{sliderClassName.thumb}}>{{currentValue}}</div>
