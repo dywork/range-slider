@@ -125,7 +125,7 @@ class View extends Observer implements IView {
     this.handle.addEventListener('mousedown', this.onToggleMouseDown);
   };
 
-  changeCurrentValue = (clickCoord: IClickCoord) => {
+  private changeCurrentValue = (clickCoord: IClickCoord) => {
     if (this.isVertical) {
       const cleanCoordY = this.getCleanCoordY(clickCoord.y);
       const percentOfSliderHeight = this.getPercentOfSliderHeight(cleanCoordY);
