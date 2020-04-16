@@ -80,7 +80,7 @@ class View extends Observer implements IView {
     const templateOptions = {
       sliderClassName,
       currentValue: this.modelOptions.currentValue,
-      scaleWidth: this.getStartScaleWidth(),
+      scalePosition: this.getStartScalePosition(),
       togglePosition: this.getStartTogglePosition(),
       isThumb: this.viewOptions.isThumb,
     };
@@ -102,7 +102,7 @@ class View extends Observer implements IView {
   private redrawValue = () => {
     const { currentValue, step } = this.modelOptions;
     const { isThumb } = this.viewOptions;
-    let scaleWidth = this.percentOfSliderWidth;
+    let scalePosition = this.percentOfSliderWidth;
     let togglePercent = this.percentOfSliderWidth * 1000;
 
     if (isThumb) {
@@ -110,17 +110,17 @@ class View extends Observer implements IView {
     }
 
     if (step) {
-      scaleWidth = this.getStartScaleWidth();
+      scalePosition = this.getStartScalePosition();
       togglePercent = this.getStartTogglePosition();
     }
 
     this.handle.setAttribute('value', `${currentValue}`);
     const isVertical = this.viewOptions.orientation === 'vertical';
     if (isVertical) {
-      this.scale.setAttribute('style', `transform: scale(1, ${scaleWidth});`);
+      this.scale.setAttribute('style', `transform: scale(1, ${scalePosition});`);
       this.toggle.setAttribute('style', `transform: translate(0px, ${togglePercent}%);`);
     } else {
-      this.scale.setAttribute('style', `transform: scale(${scaleWidth}, 1);`);
+      this.scale.setAttribute('style', `transform: scale(${scalePosition}, 1);`);
       this.toggle.setAttribute('style', `transform: translate(${togglePercent}%, 0px);`);
     }
   };
@@ -153,14 +153,14 @@ class View extends Observer implements IView {
     }
   };
 
-  private getStartScaleWidth = () => {
+  private getStartScalePosition = () => {
     const { currentValue, range } = this.modelOptions;
-    const scaleWidth = (currentValue - range.min) / (range.max - range.min);
-    return scaleWidth;
+    const scalePosition = (currentValue - range.min) / (range.max - range.min);
+    return scalePosition;
   };
 
   private getStartTogglePosition = () => {
-    const togglePosition = this.getStartScaleWidth() * 1000;
+    const togglePosition = this.getStartScalePosition() * 1000;
     return togglePosition;
   };
 
