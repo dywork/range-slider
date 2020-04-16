@@ -126,18 +126,9 @@ class View extends Observer implements IView {
   };
 
   private changeCurrentValue = (clickCoord: IClickCoord) => {
-    const { offsetWidth, offsetHeight } = this.slider;
-    // const cleanCoordX = this.getCleanCoordX(clickCoord.x);
     const cleanCoord = this.getCleanCoord(clickCoord);
-    const percentOfSliderWidth = this.getPercent(cleanCoord, offsetWidth);
-    let newCurrentValue = this.getCurrentValueByPercent(percentOfSliderWidth);
-
-    if (this.isVertical) {
-      // const cleanCoordY = this.getCleanCoordY(clickCoord.y);
-      const percentOfSliderHeight = this.getPercent(cleanCoord, offsetHeight);
-      newCurrentValue = this.getCurrentValueByPercent(percentOfSliderHeight);
-    }
-
+    const percentOfSlider = this.getPercent(cleanCoord);
+    const newCurrentValue = this.getCurrentValueByPercent(percentOfSlider);
     const newModelOptions = this.modelOptions;
     newModelOptions.currentValue = newCurrentValue;
     this.dispatchSliderOptions(newModelOptions);
@@ -174,8 +165,9 @@ class View extends Observer implements IView {
     return togglePosition;
   };
 
-  private getPercent = (value: number, divider: number) => {
-    let percent = value / divider;
+  private getPercent = (value: number) => {
+    const offset = this.isVertical ? this.slider.offsetHeight : this.slider.offsetWidth;
+    let percent = value / offset;
     if (percent > 1) percent = 1;
     if (percent < 0) percent = 0;
     return percent;
