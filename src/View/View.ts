@@ -1,4 +1,6 @@
 import Observer from '../Observer/Observer';
+import DoubleToggleView from './DoubleToggleView';
+import IViewOptions from './IViewOptions';
 import { IModelOptions } from '../Model/Model';
 import sliderClassName from './sliderClassName';
 
@@ -6,13 +8,6 @@ const sliderTemplate = require('./template/sliderTemplate.hbs');
 
 interface IView {
   render(): void;
-}
-
-interface IViewOptions {
-  domParent: HTMLElement;
-  isThumb: boolean;
-  decimal: number;
-  orientation: string;
 }
 
 interface IClickCoord {
@@ -41,12 +36,18 @@ class View extends Observer implements IView {
 
   private thumb?: HTMLDivElement;
 
+  private doubleToggle?: DoubleToggleView;
+
   constructor(viewOptions: IViewOptions, modelOptions: IModelOptions) {
     super();
     this.viewOptions = viewOptions;
     this.modelOptions = modelOptions;
     this.domParent = this.viewOptions.domParent;
     this.isVertical = this.viewOptions.orientation === 'vertical';
+    const isDouble = Array.isArray(this.modelOptions.currentValue);
+    if (isDouble) {
+      this.doubleToggle = new DoubleToggleView(viewOptions, modelOptions);
+    }
   }
 
   updateSliderOptions = (newSliderOptions: IModelOptions) => {
@@ -56,9 +57,13 @@ class View extends Observer implements IView {
 
   render = () => {
     this.fixOverflow();
-    this.mountSlider();
-    this.saveDomElement();
-    this.setListeners();
+    if (this.doubleToggle) {
+      this.doubleToggle.render();
+    } else {
+      this.mountSlider();
+      this.saveDomElement();
+      this.setListeners();
+    }
   };
 
   private fixOverflow = () => {
@@ -156,7 +161,7 @@ class View extends Observer implements IView {
 
   private getScalePosition = () => {
     const { currentValue, range } = this.modelOptions;
-    const scalePosition = (currentValue - range.min) / (range.max - range.min);
+    const scalePosition = (+currentValue - range.min) / (range.max - range.min);
     return scalePosition;
   };
 
@@ -234,4 +239,4 @@ class View extends Observer implements IView {
   };
 }
 
-export { View, IViewOptions };
+export default View;
