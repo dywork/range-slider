@@ -5,6 +5,7 @@ import sliderClassName from './sliderClassName';
 const sliderTemplate = require('./template/sliderTemplate.hbs');
 
 interface IToggle {
+  currentValue: number;
   node: HTMLDivElement;
   handle: HTMLDivElement;
   thumb?: HTMLDivElement;
@@ -37,6 +38,7 @@ class DoubleToggle {
   render = () => {
     this.mountSlider();
     this.saveDomElement();
+    this.renderFirstValue();
   };
 
   private mountSlider = () => {
@@ -71,6 +73,21 @@ class DoubleToggle {
     this.toggles = currenValues.map(this.getToggleObj);
   };
 
+  private renderFirstValue = () => {
+    const currentValues: number[] = [];
+    this.toggles.forEach((toggle: IToggle) => {
+      // eslint-disable-next-line object-curly-newline
+      const { currentValue, node, handle, thumb } = toggle;
+      node.setAttribute('style', this.getToggleTransformStyle(currentValue));
+      handle.setAttribute('value', `${currentValue}`);
+      if (thumb) {
+        thumb.textContent = `${currentValue}`;
+      }
+      currentValues.push(currentValue);
+    });
+    this.scale.setAttribute('style', this.getScaleTransformStyle(currentValues));
+  };
+
   private getToggleObj = (currentValue: number, index: number) => {
     const { isThumb } = this.viewOptions;
     const node = this.domParent.querySelectorAll(`.${sliderClassName.toggle}`)[
@@ -89,6 +106,43 @@ class DoubleToggle {
       handle,
       thumb,
     };
+  };
+
+  private getScaleTransformStyle = (currentValues: number[]) => {
+    const scalePositions = [
+      this.getScalePosition(currentValues[0]),
+      this.getScalePosition(currentValues[1]),
+    ];
+
+    const translateScale = scalePositions[0] * 100;
+    const scalePosition = scalePositions[1] - translateScale * 0.01;
+
+    if (this.isVertical) {
+      return `transform: translate(0px, ${translateScale}%) scale(1, ${scalePosition});`;
+    }
+
+    return `transform: translate(${translateScale}%, 0px) scale(${scalePosition}, 1);`;
+  };
+
+  private getToggleTransformStyle = (currentValue: number) => {
+    const togglePosition = this.getTogglePosition(currentValue);
+
+    if (this.isVertical) {
+      return `transform: translate(0px, ${togglePosition}%);`;
+    }
+
+    return `transform: translate(${togglePosition}%, 0px);`;
+  };
+
+  private getScalePosition = (currentValue: number) => {
+    const { range } = this.modelOptions;
+    const scalePosition = (+currentValue - range.min) / (range.max - range.min);
+    return scalePosition;
+  };
+
+  private getTogglePosition = (currentValue: number) => {
+    const togglePosition = this.getScalePosition(currentValue) * 1000;
+    return togglePosition;
   };
 }
 
