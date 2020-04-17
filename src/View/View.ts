@@ -62,6 +62,7 @@ class View extends Observer implements IView {
     } else {
       this.mountSlider();
       this.saveDomElement();
+      this.renderFirstValue();
       this.setListeners();
     }
   };
@@ -79,6 +80,7 @@ class View extends Observer implements IView {
   };
 
   private createSliderContainer = () => {
+    const { isThumb } = this.viewOptions;
     const sliderContainer = document.createElement('div');
     sliderContainer.classList.add(sliderClassName.slider);
 
@@ -86,15 +88,20 @@ class View extends Observer implements IView {
       sliderContainer.classList.add(sliderClassName.sliderVertical);
     }
 
-    const templateOptions = {
-      sliderClassName,
-      currentValue: this.modelOptions.currentValue,
-      scaleTransformStyle: this.getScaleTransformStyle(),
-      toggleTransformStyle: this.getToggleTransformStyle(),
-      isThumb: this.viewOptions.isThumb,
-    };
+    const templateOptions = { sliderClassName, isThumb };
     sliderContainer.innerHTML = sliderTemplate(templateOptions);
     return sliderContainer;
+  };
+
+  private renderFirstValue = () => {
+    const { currentValue } = this.modelOptions;
+    const { isThumb } = this.viewOptions;
+    this.scale.setAttribute('style', this.getScaleTransformStyle());
+    this.toggle.setAttribute('style', this.getToggleTransformStyle());
+    this.handle.setAttribute('value', `${currentValue}`);
+    if (isThumb) {
+      this.thumb.textContent = `${currentValue}`;
+    }
   };
 
   private saveDomElement = () => {

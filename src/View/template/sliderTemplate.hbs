@@ -1,11 +1,26 @@
 <div class={{sliderClassName.wrap}}>
   <div class={{sliderClassName.bar}}>
-    <div class={{sliderClassName.scale}} style="{{scaleTransformStyle}}"></div>
+    <div class={{sliderClassName.scale}}></div>
   </div>
-  <div class={{sliderClassName.toggle}} style="{{toggleTransformStyle}}">
-    <input class={{sliderClassName.handle}} type="text" value="{{currentValue}}">
-    {{#if isThumb}}
-      <div class={{sliderClassName.thumb}}>{{currentValue}}</div>
-    {{/if}}
-  </div>
+  {{#if isDouble}}
+    <div class={{sliderClassName.toggle}}>
+      <input class={{sliderClassName.handle}} type="text">
+      {{#if isThumb}}
+        <div class={{sliderClassName.thumb}}></div>
+      {{/if}}
+    </div>
+    <div class={{sliderClassName.toggle}}>
+      <input class={{sliderClassName.handle}} type="text">
+      {{#if isThumb}}
+        <div class={{sliderClassName.thumb}}></div>
+      {{/if}}
+    </div>
+  {{else}}
+    <div class={{sliderClassName.toggle}}>
+      <input class={{sliderClassName.handle}} type="text">
+      {{#if isThumb}}
+        <div class={{sliderClassName.thumb}}></div>
+      {{/if}}
+    </div>
+  {{/if}}
 </div>
