@@ -5,7 +5,7 @@ interface IModel {
 }
 
 interface IModelOptions {
-  currentValue: number;
+  currentValue: number | number[];
   range: { min: number; max: number };
   step: number;
 }

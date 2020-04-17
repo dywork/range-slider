@@ -1,10 +1,10 @@
 import Presenter from './Presenter/Presenter';
-import { IViewOptions } from './View/View';
+import IViewOptions from './View/IViewOptions';
 import './style/style.scss';
 
 interface ISliderOptions {
   domParent: HTMLElement;
-  currentValue: number;
+  currentValue: number | number[];
   range: { min: number; max: number };
   isThumb: boolean;
   step: number;
