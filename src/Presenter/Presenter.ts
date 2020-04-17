@@ -1,5 +1,6 @@
 import { Model, IModelOptions } from '../Model/Model';
-import { View, IViewOptions } from '../View/View';
+import View from '../View/View';
+import IViewOptions from '../View/IViewOptions';
 import Observer from '../Observer/Observer';
 
 interface IPresenter {

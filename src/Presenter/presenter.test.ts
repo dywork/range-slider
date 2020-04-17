@@ -1,6 +1,6 @@
 import Presenter from './Presenter';
 import { IModelOptions } from '../Model/Model';
-import { IViewOptions } from '../View/View';
+import IViewOptions from '../View/IViewOptions';
 
 describe('Presenter', () => {
   it('инициализируется', () => {
