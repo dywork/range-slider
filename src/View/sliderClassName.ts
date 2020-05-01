@@ -5,6 +5,7 @@ interface ISliderClassName {
   bar: string;
   scale: string;
   toggle: string;
+  toggleActive: string;
   handle: string;
   thumb: string;
   sliderVertical: string;
@@ -18,6 +19,7 @@ const sliderClassName: ISliderClassName = {
   bar: 'range-slider__bar',
   scale: 'range-slider__scale',
   toggle: 'range-slider__toggle',
+  toggleActive: 'range-slider__toggle--active',
   handle: 'range-slider__handle',
   thumb: 'range-slider__thumb',
 };
