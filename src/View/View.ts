@@ -63,7 +63,6 @@ class View extends Observer implements IView {
   };
 
   render = () => {
-    this.fixOverflow();
     if (this.doubleToggle) {
       this.doubleToggle.render();
     } else {
@@ -71,13 +70,6 @@ class View extends Observer implements IView {
       this.saveDomElement();
       this.renderFirstValue();
       this.setListeners();
-    }
-  };
-
-  private fixOverflow = () => {
-    const isHaveClass = document.body.classList.contains(sliderClassName.overflowFix);
-    if (!isHaveClass) {
-      document.body.classList.add(sliderClassName.overflowFix);
     }
   };
 
