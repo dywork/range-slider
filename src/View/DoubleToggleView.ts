@@ -38,7 +38,7 @@ class DoubleToggle {
   render = () => {
     this.mountSlider();
     this.saveDomElement();
-    this.renderFirstValue();
+    this.renderValue();
   };
 
   private mountSlider = () => {
@@ -73,7 +73,7 @@ class DoubleToggle {
     this.toggles = currenValues.map(this.getToggleObj);
   };
 
-  private renderFirstValue = () => {
+  private renderValue = () => {
     const currentValues: number[] = [];
     this.toggles.forEach((toggle: IToggle) => {
       // eslint-disable-next-line object-curly-newline
