@@ -63,14 +63,13 @@ class DoubleToggle {
   };
 
   private saveDomElement = () => {
-    let currenValues: number[];
-    if (Array.isArray(this.modelOptions.currentValue)) {
-      currenValues = this.modelOptions.currentValue;
-    }
     this.slider = this.domParent.querySelector(`.${sliderClassName.slider}`);
     this.bar = this.domParent.querySelector(`.${sliderClassName.bar}`);
     this.scale = this.domParent.querySelector(`.${sliderClassName.scale}`);
-    this.toggles = currenValues.map(this.getToggleObj);
+    if (this.modelOptions.currentValue instanceof Array) {
+      const { currentValue } = this.modelOptions;
+      this.toggles = currentValue.map(this.getToggleObj);
+    }
   };
 
   private renderValue = () => {
