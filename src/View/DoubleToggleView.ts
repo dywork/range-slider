@@ -75,21 +75,6 @@ class DoubleToggle extends Observer {
     }
   };
 
-  private renderValue = () => {
-    const currentValues: number[] = [];
-    this.toggles.forEach((toggle: IToggle) => {
-      // eslint-disable-next-line object-curly-newline
-      const { currentValue, node, handle, thumb } = toggle;
-      node.setAttribute('style', this.getToggleTransformStyle(currentValue));
-      handle.setAttribute('value', `${currentValue}`);
-      if (thumb) {
-        thumb.textContent = `${currentValue}`;
-      }
-      currentValues.push(currentValue);
-    });
-    this.scale.setAttribute('style', this.getScaleTransformStyle(currentValues));
-  };
-
   private getToggleObj = (currentValue: number, index: number) => {
     const { isThumb } = this.viewOptions;
     const node = this.domParent.querySelectorAll(`.${sliderClassName.toggle}`)[
@@ -112,6 +97,31 @@ class DoubleToggle extends Observer {
     };
   };
 
+  private renderValue = () => {
+    const currentValues: number[] = [];
+    this.toggles.forEach((toggle: IToggle) => {
+      // eslint-disable-next-line object-curly-newline
+      const { currentValue, node, handle, thumb } = toggle;
+      node.setAttribute('style', this.getToggleTransformStyle(currentValue));
+      handle.setAttribute('value', `${currentValue}`);
+      if (thumb) {
+        thumb.textContent = `${currentValue}`;
+      }
+      currentValues.push(currentValue);
+    });
+    this.scale.setAttribute('style', this.getScaleTransformStyle(currentValues));
+  };
+
+  private getToggleTransformStyle = (currentValue: number) => {
+    const togglePosition = this.getTogglePosition(currentValue);
+
+    if (this.isVertical) {
+      return `transform: translate(0px, ${togglePosition}%);`;
+    }
+
+    return `transform: translate(${togglePosition}%, 0px);`;
+  };
+
   private getScaleTransformStyle = (currentValues: number[]) => {
     const scalePositions = [
       this.getScalePosition(currentValues[0]),
@@ -126,16 +136,6 @@ class DoubleToggle extends Observer {
     }
 
     return `transform: translate(${translateScale}%, 0px) scale(${scalePosition}, 1);`;
-  };
-
-  private getToggleTransformStyle = (currentValue: number) => {
-    const togglePosition = this.getTogglePosition(currentValue);
-
-    if (this.isVertical) {
-      return `transform: translate(0px, ${togglePosition}%);`;
-    }
-
-    return `transform: translate(${togglePosition}%, 0px);`;
   };
 
   private getScalePosition = (currentValue: number) => {
