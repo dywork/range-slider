@@ -9,6 +9,7 @@ interface IToggle {
   currentValue: number;
   node: HTMLDivElement;
   handle: HTMLDivElement;
+  isHandleMove: boolean;
   thumb?: HTMLDivElement;
 }
 
@@ -100,11 +101,13 @@ class DoubleToggle extends Observer {
     const thumb = isThumb
       ? (this.domParent.querySelectorAll(`.${sliderClassName.thumb}`)[index] as HTMLDivElement)
       : null;
+    const isHandleMove = false;
 
     return {
       currentValue,
       node,
       handle,
+      isHandleMove,
       thumb,
     };
   };
