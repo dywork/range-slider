@@ -24,6 +24,8 @@ class View extends Observer implements IView {
 
   private isVertical: boolean;
 
+  private isDouble: boolean;
+
   private slider: HTMLDivElement;
 
   private bar: HTMLDivElement;
@@ -44,15 +46,20 @@ class View extends Observer implements IView {
     this.modelOptions = modelOptions;
     this.domParent = this.viewOptions.domParent;
     this.isVertical = this.viewOptions.orientation === 'vertical';
-    const isDouble = Array.isArray(this.modelOptions.currentValue);
-    if (isDouble) {
+    this.isDouble = Array.isArray(this.modelOptions.currentValue);
+    if (this.isDouble) {
       this.doubleToggle = new DoubleToggleView(viewOptions, modelOptions);
+      this.doubleToggle.subscribe('sliderOptionsUpdate', this.dispatchSliderOptions);
     }
   }
 
   updateSliderOptions = (newSliderOptions: IModelOptions) => {
     this.modelOptions = newSliderOptions;
-    this.redrawValue();
+    if (this.isDouble) {
+      this.doubleToggle.updateModelOptions(newSliderOptions);
+    } else {
+      this.redrawValue();
+    }
   };
 
   render = () => {
