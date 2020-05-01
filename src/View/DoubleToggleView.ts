@@ -102,14 +102,14 @@ class DoubleToggle extends Observer {
 
   private getToggleObj = (currentValue: number, index: number) => {
     const { isThumb } = this.viewOptions;
-    const node = this.domParent.querySelectorAll(`.${sliderClassName.toggle}`)[
-      index
-    ] as HTMLDivElement;
-    const handle = this.domParent.querySelectorAll(`.${sliderClassName.handle}`)[
-      index
-    ] as HTMLDivElement;
+    const node = <HTMLDivElement>(
+      this.domParent.querySelectorAll(`.${sliderClassName.toggle}`)[index]
+    );
+    const handle = <HTMLDivElement>(
+      this.domParent.querySelectorAll(`.${sliderClassName.handle}`)[index]
+    );
     const thumb = isThumb
-      ? (this.domParent.querySelectorAll(`.${sliderClassName.thumb}`)[index] as HTMLDivElement)
+      ? <HTMLDivElement> this.domParent.querySelectorAll(`.${sliderClassName.thumb}`)[index]
       : null;
 
     return {
@@ -150,7 +150,18 @@ class DoubleToggle extends Observer {
   private changeCurrentValue = (clickCoord: IClickCoord) => {
     const cleanCoord = this.getCleanCoord(clickCoord);
     const percentOfSlider = this.getPercent(cleanCoord);
-    const newCurrentValue = this.getCurrentValueByPercent(percentOfSlider);
+    let newCurrentValue = this.getCurrentValueByPercent(percentOfSlider);
+    const nearValue = this.getNearValue();
+    const isActiveToggleFirst = this.activeToggleIndex === 0;
+    let isOutOfRange = false;
+
+    if (isActiveToggleFirst) {
+      isOutOfRange = newCurrentValue === nearValue || newCurrentValue > nearValue;
+    } else {
+      isOutOfRange = newCurrentValue === nearValue || newCurrentValue < nearValue;
+    }
+
+    newCurrentValue = isOutOfRange ? nearValue : newCurrentValue;
     const newModelOptions = { ...this.modelOptions };
     if (newModelOptions.currentValue instanceof Array) {
       newModelOptions.currentValue[this.activeToggleIndex] = newCurrentValue;
@@ -161,7 +172,7 @@ class DoubleToggle extends Observer {
 
   private getCleanCoord = (clickCoord: IClickCoord) => {
     const toggle = this.toggles[this.activeToggleIndex].node;
-    const halfHandleWidth = toggle.offsetWidth / 2;
+    const halfHandleWidth = toggle.offsetWidth / 4;
     const leftToggleMargin = this.isVertical ? 5 : 7;
     const sliderOffset = this.isVertical ? this.slider.offsetTop : this.slider.offsetLeft;
     const interfering = sliderOffset - halfHandleWidth + leftToggleMargin;
@@ -202,6 +213,14 @@ class DoubleToggle extends Observer {
     }
 
     return stepCurrentValue;
+  };
+
+  private getNearValue = () => {
+    if (this.activeToggleIndex) {
+      return this.toggles[0].currentValue;
+    }
+
+    return this.toggles[1].currentValue;
   };
 
   private getToggleTransformStyle = (currentValue: number) => {
@@ -251,6 +270,8 @@ class DoubleToggle extends Observer {
     const activeToggleIndex = this.getCurrentValueIndex(evt.target);
     if (activeToggleIndex !== -1) {
       this.activeToggleIndex = activeToggleIndex;
+      const toggleNode = this.toggles[activeToggleIndex].node;
+      toggleNode.classList.add(sliderClassName.toggleActive);
       document.addEventListener('mousemove', this.onToggleMove);
       document.addEventListener('mouseup', this.onToggleUp);
     }
@@ -262,54 +283,12 @@ class DoubleToggle extends Observer {
 
   private onToggleUp = (evt: MouseEvent) => {
     evt.preventDefault();
+    const toggleNode = this.toggles[this.activeToggleIndex].node;
+    toggleNode.classList.remove(sliderClassName.toggleActive);
     this.activeToggleIndex = -1;
     document.removeEventListener('mousemove', this.onToggleMove);
     document.removeEventListener('mouseup', this.onToggleUp);
   };
-
-  // private onToggleMouseDown = (evt: MouseEvent) => {
-  //   evt.preventDefault();
-  //   this.toggleIndex = this.getCurrentValueIndex(evt.target);
-
-  //   const onMouseMove = (moveEvt: MouseEvent) => {
-  //     moveEvt.preventDefault();
-  //     console.log(toggleIndex);
-  //   };
-
-  //   const onMouseUp = (upEvt: MouseEvent) => {
-  //     upEvt.preventDefault();
-  //     this.toggles[toggleIndex].isHandleMove = false;
-  //     document.removeEventListener('mousemove', onMouseMove);
-  //     document.removeEventListener('mouseup', onMouseUp);
-  //   };
-
-  //   document.addEventListener('mousemove', onMouseMove);
-  //   document.addEventListener('mouseup', onMouseUp);
-  // };
-
-  // private onToggleMouseDown = (evt: MouseEvent) => {
-  //   evt.preventDefault();
-
-  //   const onMouseMove = (moveEvt: MouseEvent) => {
-  //     moveEvt.preventDefault();
-  //     const cleanCoordX = this.getCleanCoordX(moveEvt.pageX);
-  //     this.percentOfSliderWidth = this.getPercentOfSliderWidth(cleanCoordX);
-  //     const newCurrentValue = this.getCurrentValueByPercent(this.percentOfSliderWidth);
-  //     const newViewOptions = this.viewOptions;
-  //     newViewOptions.currentValue = newCurrentValue;
-  //     this.dispatchSliderOptions(newViewOptions);
-  //   };
-
-  //   const onMouseUp = (upEvt: MouseEvent) => {
-  //     upEvt.preventDefault();
-
-  //     document.removeEventListener('mousemove', onMouseMove);
-  //     document.removeEventListener('mouseup', onMouseUp);
-  //   };
-
-  //   document.addEventListener('mousemove', onMouseMove);
-  //   document.addEventListener('mouseup', onMouseUp);
-  // };
 }
 
 export default DoubleToggle;
