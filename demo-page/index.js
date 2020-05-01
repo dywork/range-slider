@@ -22,4 +22,10 @@ $(document).ready(function () {
     step: 5,
     orientation: 'vertical',
   });
+
+  $('#fifthSlider').rangeSlider({
+    currentValue: [15, 27],
+    range: { min: 13, max: 30 },
+    isThumb: true,
+  });
 });
