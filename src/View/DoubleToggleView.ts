@@ -1,3 +1,4 @@
+import Observer from '../Observer/Observer';
 import IViewOptions from './IViewOptions';
 import { IModelOptions } from '../Model/Model';
 import sliderClassName from './sliderClassName';
@@ -11,7 +12,7 @@ interface IToggle {
   thumb?: HTMLDivElement;
 }
 
-class DoubleToggle {
+class DoubleToggle extends Observer {
   private viewOptions: IViewOptions;
 
   private modelOptions: IModelOptions;
@@ -29,6 +30,7 @@ class DoubleToggle {
   private toggles: Array<IToggle>;
 
   constructor(viewOptions: IViewOptions, modelOptions: IModelOptions) {
+    super();
     this.viewOptions = viewOptions;
     this.modelOptions = modelOptions;
     this.domParent = this.viewOptions.domParent;
