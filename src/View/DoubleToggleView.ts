@@ -140,7 +140,8 @@ class DoubleToggle extends Observer {
   };
 
   private setListeners = () => {
-    // this.bar.addEventListener('mousedown', this.onBarMouseDown);
+    this.bar.addEventListener('mousedown', this.onBarMouseDown);
+    this.scale.addEventListener('mousedown', this.onScaleMouseDown);
     this.toggles.forEach((toggle: IToggle) => {
       const { handle } = toggle;
       handle.addEventListener('mousedown', this.onToggleMouseDown);
@@ -186,6 +187,35 @@ class DoubleToggle extends Observer {
     if (percent > 1) percent = 1;
     if (percent < 0) percent = 0;
     return percent;
+  };
+
+  private getPercentByScale = (value: number) => {
+    if (this.isVertical) {
+      const offset = this.slider.offsetTop;
+      const scaleHeight = this.scale.getBoundingClientRect().height;
+      console.log(`toggle offset top: ${this.toggles[0].handle.offsetTop}`);
+      console.log(this.scale.getBoundingClientRect().height);
+      console.log(`y: ${value}`);
+      console.log(`offset: ${offset}`);
+      const result = value - offset - 14 - 5;
+      console.log(result);
+      return result / scaleHeight;
+      // const offset = this.slider.offsetTop;
+      // const scaleHeight = this.scale.getBoundingClientRect().height;
+      // const margin = this.scale.getBoundingClientRect().top;
+      // const pureClick = margin - value - 14 - 5;
+      // console.log(`pureClick: ${pureClick}`);
+      // console.log(pureClick / scaleHeight);
+      // const result = pureClick / scaleHeight;
+      // return result;
+      // const offset = this.scale.getBoundingClientRect().top;
+    }
+
+    const { width, height, top, left } = this.scale.getBoundingClientRect();
+    const side = this.isVertical ? height : width;
+    const margin = this.isVertical ? top : left;
+    const offset = this.isVertical ? this.slider.offsetTop : this.slider.offsetLeft;
+    return -((margin - offset - value) / side);
   };
 
   private getCurrentValueByPercent = (percent: number) => {
@@ -265,6 +295,22 @@ class DoubleToggle extends Observer {
     return index;
   };
 
+  private getToggleIndexByBar = (clickCoord: IClickCoord) => {
+    const percentClickOfSlider = this.isVertical
+      ? this.getPercent(clickCoord.y)
+      : this.getPercent(clickCoord.x);
+
+    return Math.round(percentClickOfSlider);
+  };
+
+  getToggleIndexByScale = (clickCoord: IClickCoord) => {
+    const percentClickOfScale = this.isVertical
+      ? this.getPercentByScale(clickCoord.y)
+      : this.getPercentByScale(clickCoord.x);
+
+    return Math.round(percentClickOfScale);
+  };
+
   private onToggleMouseDown = (evt: MouseEvent) => {
     evt.preventDefault();
     const activeToggleIndex = this.getCurrentValueIndex(evt.target);
@@ -272,6 +318,33 @@ class DoubleToggle extends Observer {
       this.activeToggleIndex = activeToggleIndex;
       const toggleNode = this.toggles[activeToggleIndex].node;
       toggleNode.classList.add(sliderClassName.toggleActive);
+      document.addEventListener('mousemove', this.onToggleMove);
+      document.addEventListener('mouseup', this.onToggleUp);
+    }
+  };
+
+  private onBarMouseDown = (evt: MouseEvent) => {
+    evt.preventDefault();
+    const activeToggleIndex = this.getToggleIndexByBar({ x: evt.pageX, y: evt.pageY });
+    if (activeToggleIndex !== -1) {
+      this.activeToggleIndex = activeToggleIndex;
+      const toggleNode = this.toggles[activeToggleIndex].node;
+      toggleNode.classList.add(sliderClassName.toggleActive);
+      this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
+      document.addEventListener('mousemove', this.onToggleMove);
+      document.addEventListener('mouseup', this.onToggleUp);
+    }
+  };
+
+  private onScaleMouseDown = (evt: MouseEvent) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    const activeToggleIndex = this.getToggleIndexByScale({ x: evt.pageX, y: evt.pageY });
+    if (activeToggleIndex !== -1) {
+      this.activeToggleIndex = activeToggleIndex;
+      const toggleNode = this.toggles[activeToggleIndex].node;
+      toggleNode.classList.add(sliderClassName.toggleActive);
+      this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
       document.addEventListener('mousemove', this.onToggleMove);
       document.addEventListener('mouseup', this.onToggleUp);
     }
