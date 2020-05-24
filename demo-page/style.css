@@ -1,3 +1,7 @@
+body {
+  background: #20262E;
+}
+
 .container {
   padding: 20px;
   padding-top: 40px;
@@ -13,7 +17,7 @@
 }
 
 .box {
-  width: 350px;
+  width: 1250px;
   margin-bottom: 50px;
 }
 
