@@ -28,4 +28,26 @@ $(document).ready(function () {
     range: { min: 13, max: 30 },
     isThumb: true,
   });
+
+  $('#sixthSlider').rangeSlider({
+    currentValue: [15, 27],
+    range: { min: 13, max: 30 },
+    step: 5,
+    isThumb: true,
+  });
+
+  $('#seventhSlider').rangeSlider({
+    currentValue: [15, 27],
+    range: { min: 13, max: 30 },
+    isThumb: true,
+    orientation: 'vertical',
+  });
+
+  $('#eighthSlider').rangeSlider({
+    currentValue: [15, 27],
+    range: { min: 13, max: 30 },
+    step: 5,
+    isThumb: true,
+    orientation: 'vertical',
+  });
 });
