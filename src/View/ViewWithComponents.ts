@@ -3,6 +3,7 @@ import DoubleToggleView from './DoubleToggleView';
 import IViewOptions from './IViewOptions';
 import { IModelOptions } from '../Model/Model';
 import sliderClassName from './sliderClassName';
+import Scale from './components/Scale/Scale';
 import Toggle from './components/Toggle/Toggle';
 import Thumb from './components/Thumb/Thumb';
 
@@ -72,10 +73,14 @@ class View extends Observer implements IView {
       this.saveDomElement();
       this.renderFirstValue();
       this.setListeners();
+      const container = document.createElement('div');
+      const scale = new Scale().getHtml();
       const toggle = new Toggle().getHtml();
       const thumb = new Thumb(this.modelOptions.currentValue).getHtml();
       toggle.appendChild(thumb);
-      console.log(toggle);
+      container.appendChild(scale);
+      container.appendChild(toggle);
+      console.log(container);
     }
   };
 
