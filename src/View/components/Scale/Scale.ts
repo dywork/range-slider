@@ -22,20 +22,35 @@ class Scale {
     return scale.firstChild;
   };
 
-  getPosition = () => {
-    const { currentValue, range } = this.modelOptions;
+  getPosition = (currentValue: number) => {
+    const { range } = this.modelOptions;
     const scalePosition = (+currentValue - range.min) / (range.max - range.min);
     return scalePosition;
   };
 
   private getTransformStyle = () => {
-    const scalePosition = this.getPosition();
+    const { currentValue } = this.modelOptions;
+    let scalePositions = [];
 
-    if (this.isVertical) {
-      return `transform: scale(1, ${scalePosition});`;
+    if (currentValue instanceof Array) {
+      scalePositions = currentValue.map((value: number) => this.getPosition(value));
+      const translateScale = scalePositions[0] * 100;
+      const totalPosition = scalePositions[1] - translateScale * 0.01;
+
+      if (this.isVertical) {
+        return `transform: translate(0px, ${translateScale}%) scale(1, ${totalPosition});`;
+      }
+
+      return `transform: translate(${translateScale}%, 0px) scale(${totalPosition}, 1);`;
     }
 
-    return `transform: scale(${scalePosition}, 1);`;
+    const totalPosition = this.getPosition(currentValue);
+
+    if (this.isVertical) {
+      return `transform: scale(1, ${totalPosition});`;
+    }
+
+    return `transform: scale(${totalPosition}, 1);`;
   };
 }
 
