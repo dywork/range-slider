@@ -18,12 +18,12 @@ class Scale {
     const scale = document.createElement('div');
     scale.innerHTML = scaleTemplate(templateOptions);
     const scaleView = scale.querySelector(`.${sliderClassName.scale}`);
-    scaleView.setAttribute('style', this.getScaleTransformStyle());
+    scaleView.setAttribute('style', this.getTransformStyle());
     return scale.firstChild;
   };
 
-  private getScaleTransformStyle = () => {
-    const scalePosition = this.getScalePosition();
+  private getTransformStyle = () => {
+    const scalePosition = this.getPosition();
 
     if (this.isVertical) {
       return `transform: scale(1, ${scalePosition});`;
@@ -32,7 +32,7 @@ class Scale {
     return `transform: scale(${scalePosition}, 1);`;
   };
 
-  private getScalePosition = () => {
+  private getPosition = () => {
     const { currentValue, range } = this.modelOptions;
     const scalePosition = (+currentValue - range.min) / (range.max - range.min);
     return scalePosition;
