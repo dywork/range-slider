@@ -22,6 +22,12 @@ class Scale {
     return scale.firstChild;
   };
 
+  getPosition = () => {
+    const { currentValue, range } = this.modelOptions;
+    const scalePosition = (+currentValue - range.min) / (range.max - range.min);
+    return scalePosition;
+  };
+
   private getTransformStyle = () => {
     const scalePosition = this.getPosition();
 
@@ -30,12 +36,6 @@ class Scale {
     }
 
     return `transform: scale(${scalePosition}, 1);`;
-  };
-
-  private getPosition = () => {
-    const { currentValue, range } = this.modelOptions;
-    const scalePosition = (+currentValue - range.min) / (range.max - range.min);
-    return scalePosition;
   };
 }
 
