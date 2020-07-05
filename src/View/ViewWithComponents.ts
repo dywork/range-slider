@@ -74,13 +74,14 @@ class View extends Observer implements IView {
       this.renderFirstValue();
       this.setListeners();
       const container = document.createElement('div');
-      const scale = new Scale().getHtml();
+      const scale = new Scale(this.modelOptions, this.isVertical).getHtml();
       const toggle = new Toggle().getHtml();
       const thumb = new Thumb(this.modelOptions.currentValue).getHtml();
       toggle.appendChild(thumb);
       container.appendChild(scale);
       container.appendChild(toggle);
       console.log(container);
+      console.log();
     }
   };
 
