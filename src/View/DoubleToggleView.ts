@@ -193,12 +193,7 @@ class DoubleToggle extends Observer {
     if (this.isVertical) {
       const offset = this.slider.offsetTop;
       const scaleHeight = this.scale.getBoundingClientRect().height;
-      console.log(`toggle offset top: ${this.toggles[0].handle.offsetTop}`);
-      console.log(this.scale.getBoundingClientRect().height);
-      console.log(`y: ${value}`);
-      console.log(`offset: ${offset}`);
       const result = value - offset - 14 - 5;
-      console.log(result);
       return result / scaleHeight;
       // const offset = this.slider.offsetTop;
       // const scaleHeight = this.scale.getBoundingClientRect().height;
