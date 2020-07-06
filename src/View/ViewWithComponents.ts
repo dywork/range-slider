@@ -4,7 +4,7 @@ import { IModelOptions } from '../Model/Model';
 import Scale from './components/Scale/Scale';
 import Toggle from './components/Toggle/Toggle';
 import Thumb from './components/Thumb/Thumb';
-import sliderClassName from './sliderClassName';
+import sliderClassName from './utils/sliderClassName';
 
 interface IToggle {
   main: Toggle;

@@ -1,7 +1,7 @@
 import Observer from '../Observer/Observer';
 import IViewOptions from './IViewOptions';
 import { IModelOptions } from '../Model/Model';
-import sliderClassName from './sliderClassName';
+import sliderClassName from './utils/sliderClassName';
 
 const sliderTemplate = require('./template/sliderTemplate.hbs');
 

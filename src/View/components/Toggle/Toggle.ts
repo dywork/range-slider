@@ -1,4 +1,4 @@
-import sliderClassName from '../../sliderClassName';
+import sliderClassName from '../../utils/sliderClassName';
 
 const toggleTemplate = require('./template.hbs');
 

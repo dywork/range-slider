@@ -1,5 +1,5 @@
 import { IModelOptions } from '../../../Model/Model';
-import sliderClassName from '../../sliderClassName';
+import sliderClassName from '../../utils/sliderClassName';
 
 const scaleTemplate = require('./template.hbs');
 
