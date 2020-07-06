@@ -2,8 +2,14 @@ import sliderClassName from '../../utils/sliderClassName';
 
 const thumbTemplate = require('./template.hbs');
 
+interface IDomNode {
+  thumb: Element;
+}
+
 class Thumb {
   private value: number | number[];
+
+  private domNode: IDomNode;
 
   constructor(value: number | number[]) {
     this.value = value;
@@ -14,6 +20,12 @@ class Thumb {
     const thumb = document.createElement('div');
     thumb.innerHTML = thumbTemplate(templateOptions);
     return thumb.firstChild;
+  };
+
+  getDomNode = () => this.domNode;
+
+  setDomNode = (domNode: IDomNode) => {
+    this.domNode = domNode;
   };
 }
 
