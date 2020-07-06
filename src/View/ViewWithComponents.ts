@@ -6,16 +6,21 @@ import Toggle from './components/Toggle/Toggle';
 import Thumb from './components/Thumb/Thumb';
 import sliderClassName from './sliderClassName';
 
-interface IView {
-  render(): void;
+interface IToggle {
+  main: Toggle;
+  thumb: Thumb | null;
 }
 
-class View extends Observer implements IView {
+class View extends Observer {
   private viewOptions: IViewOptions;
 
   private modelOptions: IModelOptions;
 
   private domParent: HTMLElement;
+
+  private scale: Scale;
+
+  private toggles: IToggle[];
 
   private isVertical: boolean;
 
@@ -25,6 +30,8 @@ class View extends Observer implements IView {
     this.modelOptions = modelOptions;
     this.domParent = this.viewOptions.domParent;
     this.isVertical = this.viewOptions.orientation === 'vertical';
+    this.scale = new Scale(this.modelOptions, this.isVertical);
+    this.toggles = this.getToggles();
   }
 
   updateSliderOptions = (newSliderOptions: IModelOptions) => {
@@ -34,6 +41,32 @@ class View extends Observer implements IView {
 
   render = () => {
     this.mountSlider();
+    console.log(this.toggles);
+  };
+
+  private getToggles = () => {
+    const { currentValue } = this.modelOptions;
+    const { isThumb } = this.viewOptions;
+
+    if (currentValue instanceof Array) {
+      return currentValue.map((value: number) => {
+        const scalePosition = this.scale.getPosition(value);
+        const toggle = {
+          main: new Toggle(scalePosition, this.isVertical),
+          thumb: isThumb ? new Thumb(value) : null,
+        };
+
+        return toggle;
+      });
+    }
+
+    const scalePosition = this.scale.getPosition(currentValue);
+    const toggle = {
+      main: new Toggle(scalePosition, this.isVertical),
+      thumb: isThumb ? new Thumb(currentValue) : null,
+    };
+
+    return [toggle];
   };
 
   private mountSlider = () => {
@@ -50,12 +83,12 @@ class View extends Observer implements IView {
     }
 
     const scale = new Scale(this.modelOptions, this.isVertical);
-    const toggle = new Toggle(scale.getPosition(), this.isVertical).getHtml();
+    // const toggle = new Toggle(scale.getPosition(), this.isVertical).getHtml();
     const thumb = new Thumb(this.modelOptions.currentValue).getHtml();
 
-    toggle.appendChild(thumb);
+    // toggle.appendChild(thumb);
     sliderContainer.appendChild(scale.getHtml());
-    sliderContainer.appendChild(toggle);
+    // sliderContainer.appendChild(toggle);
 
     return sliderContainer;
   };
