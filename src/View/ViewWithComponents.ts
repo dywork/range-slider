@@ -102,10 +102,28 @@ class View extends Observer {
   };
 
   private saveDom = () => {
+    this.saveScaleDom();
+    this.saveTogglesDom();
+    const { isThumb } = this.viewOptions;
+    if (isThumb) {
+      this.saveThumbDom();
+    }
+    console.log(this.scale.getDomNode());
+    this.toggles.forEach((item) => {
+      console.log(item.main.getDomNode());
+      console.log(item.thumb.getDomNode());
+    });
+  };
+
+  private saveScaleDom = () => this.scale.setDomNode(this.getScaleDom());
+
+  private getScaleDom = () => {
     const bar = this.domParent.querySelector(`.${sliderClassName.bar}`);
     const scale = this.domParent.querySelector(`.${sliderClassName.scale}`);
-    const scaleDom = { scale, bar };
-    this.scale.setDomNode(scaleDom);
+    return { scale, bar };
+  };
+
+  private saveTogglesDom = () => {
     const domToggles = this.domParent.querySelectorAll(`.${sliderClassName.toggle}`);
     domToggles.forEach((domToggle, index) => {
       const domNode = {
@@ -115,13 +133,13 @@ class View extends Observer {
 
       this.toggles[index].main.setDomNode(domNode);
     });
-    const { isThumb } = this.viewOptions;
-    if (isThumb) {
-      const domThumbs = this.domParent.querySelectorAll(`.${sliderClassName.thumb}`);
-      domThumbs.forEach((domThumb, index) => {
-        this.toggles[index].thumb.setDomNode({ thumb: domThumb });
-      });
-    }
+  };
+
+  private saveThumbDom = () => {
+    const domThumbs = this.domParent.querySelectorAll(`.${sliderClassName.thumb}`);
+    domThumbs.forEach((domThumb, index) => {
+      this.toggles[index].thumb.setDomNode({ thumb: domThumb });
+    });
   };
 }
 
