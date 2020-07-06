@@ -41,6 +41,7 @@ class View extends Observer {
 
   render = () => {
     this.mountSlider();
+    this.saveDom();
   };
 
   private getToggles = () => {
@@ -98,6 +99,14 @@ class View extends Observer {
     });
 
     return sliderContainer;
+  };
+
+  private saveDom = () => {
+    const bar = this.domParent.querySelector(`.${sliderClassName.bar}`);
+    const scale = this.domParent.querySelector(`.${sliderClassName.scale}`);
+    const scaleDom = { scale, bar };
+    this.scale.setDomNode(scaleDom);
+    console.log(this.scale.getDomNode());
   };
 }
 
