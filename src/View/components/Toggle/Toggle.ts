@@ -7,8 +7,15 @@ interface IToggleProps {
   isVertical: boolean;
 }
 
+interface IDomNode {
+  toggle: Element;
+  handle: Element;
+}
+
 class Toggle {
   private props: IToggleProps;
+
+  private domNode: IDomNode;
 
   constructor(props: IToggleProps) {
     this.props = props;
@@ -21,6 +28,12 @@ class Toggle {
     const viewToggle = toggle.querySelector(`.${sliderClassName.toggle}`);
     viewToggle.setAttribute('style', this.getTransformStyle());
     return toggle.firstChild;
+  };
+
+  getDomNode = () => this.domNode;
+
+  setDomNode = (domNode: IDomNode) => {
+    this.domNode = domNode;
   };
 
   private getTransformStyle = () => {
