@@ -41,7 +41,6 @@ class View extends Observer {
 
   render = () => {
     this.mountSlider();
-    console.log(this.toggles);
   };
 
   private getToggles = () => {
@@ -82,13 +81,13 @@ class View extends Observer {
       sliderContainer.classList.add(sliderClassName.sliderVertical);
     }
 
-    const scale = new Scale(this.modelOptions, this.isVertical);
-    // const toggle = new Toggle(scale.getPosition(), this.isVertical).getHtml();
-    const thumb = new Thumb(this.modelOptions.currentValue).getHtml();
+    sliderContainer.appendChild(this.scale.getHtml());
 
-    // toggle.appendChild(thumb);
-    sliderContainer.appendChild(scale.getHtml());
-    // sliderContainer.appendChild(toggle);
+    this.toggles.forEach((toggle: IToggle) => {
+      const toggleHtml = toggle.main.getHtml();
+      if (toggle.thumb) toggleHtml.appendChild(toggle.thumb.getHtml());
+      sliderContainer.appendChild(toggleHtml);
+    });
 
     return sliderContainer;
   };
