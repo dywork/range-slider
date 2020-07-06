@@ -106,7 +106,22 @@ class View extends Observer {
     const scale = this.domParent.querySelector(`.${sliderClassName.scale}`);
     const scaleDom = { scale, bar };
     this.scale.setDomNode(scaleDom);
-    console.log(this.scale.getDomNode());
+    const domToggles = this.domParent.querySelectorAll(`.${sliderClassName.toggle}`);
+    domToggles.forEach((domToggle, index) => {
+      const domNode = {
+        toggle: domToggle,
+        handle: domToggle.querySelector(`.${sliderClassName.handle}`),
+      };
+
+      this.toggles[index].main.setDomNode(domNode);
+    });
+    const { isThumb } = this.viewOptions;
+    if (isThumb) {
+      const domThumbs = this.domParent.querySelectorAll(`.${sliderClassName.thumb}`);
+      domThumbs.forEach((domThumb, index) => {
+        this.toggles[index].thumb.setDomNode({ thumb: domThumb });
+      });
+    }
   };
 }
 
