@@ -8,8 +8,15 @@ interface IScaleProps {
   isVertical: boolean;
 }
 
+interface IDomNode {
+  bar: Element;
+  scale: Element;
+}
+
 class Scale {
   private props: IScaleProps;
+
+  private domNode: IDomNode;
 
   constructor(props: IScaleProps) {
     this.props = props;
@@ -28,6 +35,12 @@ class Scale {
     const { range } = this.props;
     const scalePosition = (+currentValue - range.min) / (range.max - range.min);
     return scalePosition;
+  };
+
+  getDomNode = () => this.domNode;
+
+  setDomNode = (domNode: IDomNode) => {
+    this.domNode = domNode;
   };
 
   private getTransformStyle = () => {
