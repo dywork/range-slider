@@ -2,14 +2,16 @@ import sliderClassName from '../../utils/sliderClassName';
 
 const toggleTemplate = require('./template.hbs');
 
+interface IToggleProps {
+  scalePosition: number;
+  isVertical: boolean;
+}
+
 class Toggle {
-  private scalePosition: number;
+  private props: IToggleProps;
 
-  private isVertical: boolean;
-
-  constructor(scalePosition: number, isVertical: boolean) {
-    this.scalePosition = scalePosition;
-    this.isVertical = isVertical;
+  constructor(props: IToggleProps) {
+    this.props = props;
   }
 
   getHtml = () => {
@@ -22,9 +24,10 @@ class Toggle {
   };
 
   private getTransformStyle = () => {
+    const { isVertical } = this.props;
     const togglePosition = this.getPosition();
 
-    if (this.isVertical) {
+    if (isVertical) {
       return `transform: translate(0px, ${togglePosition}%);`;
     }
 
@@ -32,9 +35,10 @@ class Toggle {
   };
 
   private getPosition = () => {
-    const togglePosition = this.scalePosition * 1000;
+    const { scalePosition } = this.props;
+    const togglePosition = scalePosition * 1000;
     return togglePosition;
   };
 }
 
-export default Toggle;
+export { Toggle, IToggleProps };
