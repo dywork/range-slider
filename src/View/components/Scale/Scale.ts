@@ -1,16 +1,18 @@
-import { IModelOptions } from '../../../Model/Model';
 import sliderClassName from '../../utils/sliderClassName';
 
 const scaleTemplate = require('./template.hbs');
 
+interface IScaleProps {
+  currentValue: number | number[];
+  range: { min: number; max: number };
+  isVertical: boolean;
+}
+
 class Scale {
-  private modelOptions: IModelOptions;
+  private props: IScaleProps;
 
-  private isVertical: boolean;
-
-  constructor(modelOptions: IModelOptions, isVertical: boolean) {
-    this.modelOptions = modelOptions;
-    this.isVertical = isVertical;
+  constructor(props: IScaleProps) {
+    this.props = props;
   }
 
   getHtml = () => {
@@ -23,13 +25,13 @@ class Scale {
   };
 
   getPosition = (currentValue: number) => {
-    const { range } = this.modelOptions;
+    const { range } = this.props;
     const scalePosition = (+currentValue - range.min) / (range.max - range.min);
     return scalePosition;
   };
 
   private getTransformStyle = () => {
-    const { currentValue } = this.modelOptions;
+    const { currentValue, isVertical } = this.props;
     let scalePositions = [];
 
     if (currentValue instanceof Array) {
@@ -37,7 +39,7 @@ class Scale {
       const translateScale = scalePositions[0] * 100;
       const totalPosition = scalePositions[1] - translateScale * 0.01;
 
-      if (this.isVertical) {
+      if (isVertical) {
         return `transform: translate(0px, ${translateScale}%) scale(1, ${totalPosition});`;
       }
 
@@ -46,7 +48,7 @@ class Scale {
 
     const totalPosition = this.getPosition(currentValue);
 
-    if (this.isVertical) {
+    if (isVertical) {
       return `transform: scale(1, ${totalPosition});`;
     }
 
@@ -54,4 +56,4 @@ class Scale {
   };
 }
 
-export default Scale;
+export { Scale, IScaleProps };
