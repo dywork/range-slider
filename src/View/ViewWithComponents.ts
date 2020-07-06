@@ -1,7 +1,7 @@
 import Observer from '../Observer/Observer';
 import IViewOptions from './IViewOptions';
 import { IModelOptions } from '../Model/Model';
-import Scale from './components/Scale/Scale';
+import { Scale, IScaleProps } from './components/Scale/Scale';
 import Toggle from './components/Toggle/Toggle';
 import Thumb from './components/Thumb/Thumb';
 import sliderClassName from './utils/sliderClassName';
@@ -30,7 +30,7 @@ class View extends Observer {
     this.modelOptions = modelOptions;
     this.domParent = this.viewOptions.domParent;
     this.isVertical = this.viewOptions.orientation === 'vertical';
-    this.scale = new Scale(this.modelOptions, this.isVertical);
+    this.scale = this.getScale();
     this.toggles = this.getToggles();
   }
 
@@ -66,6 +66,12 @@ class View extends Observer {
     };
 
     return [toggle];
+  };
+
+  private getScale = () => {
+    const { currentValue, range } = this.modelOptions;
+    const scaleProps: IScaleProps = { currentValue, range, isVertical: this.isVertical };
+    return new Scale(scaleProps);
   };
 
   private mountSlider = () => {
