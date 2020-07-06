@@ -2,7 +2,7 @@ import Observer from '../Observer/Observer';
 import IViewOptions from './IViewOptions';
 import { IModelOptions } from '../Model/Model';
 import { Scale, IScaleProps } from './components/Scale/Scale';
-import Toggle from './components/Toggle/Toggle';
+import { Toggle, IToggleProps } from './components/Toggle/Toggle';
 import Thumb from './components/Thumb/Thumb';
 import sliderClassName from './utils/sliderClassName';
 
@@ -50,8 +50,9 @@ class View extends Observer {
     if (currentValue instanceof Array) {
       return currentValue.map((value: number) => {
         const scalePosition = this.scale.getPosition(value);
+        const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
         const toggle = {
-          main: new Toggle(scalePosition, this.isVertical),
+          main: new Toggle(toggleProps),
           thumb: isThumb ? new Thumb(value) : null,
         };
 
@@ -60,8 +61,9 @@ class View extends Observer {
     }
 
     const scalePosition = this.scale.getPosition(currentValue);
+    const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
     const toggle = {
-      main: new Toggle(scalePosition, this.isVertical),
+      main: new Toggle(toggleProps),
       thumb: isThumb ? new Thumb(currentValue) : null,
     };
 
