@@ -11,6 +11,11 @@ interface IToggle {
   thumb: Thumb | null;
 }
 
+interface IClickCoord {
+  x: number;
+  y: number;
+}
+
 class View extends Observer {
   private viewOptions: IViewOptions;
 
@@ -21,6 +26,8 @@ class View extends Observer {
   private scale: Scale;
 
   private toggles: IToggle[];
+
+  private activeToggle: Toggle;
 
   private isVertical: boolean;
 
@@ -42,6 +49,7 @@ class View extends Observer {
   render = () => {
     this.mountSlider();
     this.saveDom();
+    this.setListeners();
   };
 
   private getToggles = () => {
@@ -141,6 +149,39 @@ class View extends Observer {
       this.toggles[index].thumb.setDomNode({ thumb: domThumb });
     });
   };
+
+  private setListeners = () => {
+    this.toggles.forEach((toggle, toggleIndex: number) => {
+      const { handle } = toggle.main.getDomNode();
+      handle.addEventListener('mousedown', (evt: MouseEvent) => {
+        this.onToggleMouseDown(evt, toggleIndex);
+      });
+    });
+  };
+
+  private onToggleMouseDown = (evt: MouseEvent, toggleIndex: number) => {
+    evt.preventDefault();
+    this.activeToggle = this.toggles[toggleIndex].main;
+    const { toggle: activeToggle } = this.activeToggle.getDomNode();
+    activeToggle.classList.add(sliderClassName.toggleActive);
+    document.addEventListener('mousemove', this.onToggleMove);
+    document.addEventListener('mouseup', this.onToggleUp);
+  };
+
+  private onToggleMove = (evt: MouseEvent) => {
+    evt.preventDefault();
+    this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
+  };
+
+  private onToggleUp = (evt: MouseEvent) => {
+    evt.preventDefault();
+    const { toggle: activeToggle } = this.activeToggle.getDomNode();
+    activeToggle.classList.remove(sliderClassName.toggleActive);
+    document.removeEventListener('mousemove', this.onToggleMove);
+    document.removeEventListener('mouseup', this.onToggleUp);
+  };
+
+  private changeCurrentValue = (clickCoord: IClickCoord) => {};
 }
 
 export default View;
