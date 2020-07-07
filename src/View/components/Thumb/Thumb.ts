@@ -3,7 +3,7 @@ import sliderClassName from '../../utils/sliderClassName';
 const thumbTemplate = require('./template.hbs');
 
 interface IDomNode {
-  thumb: Element;
+  thumb: HTMLElement;
 }
 
 class Thumb {

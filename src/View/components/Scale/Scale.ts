@@ -9,8 +9,8 @@ interface IScaleProps {
 }
 
 interface IDomNode {
-  bar: Element;
-  scale: Element;
+  bar: HTMLElement;
+  scale: HTMLElement;
 }
 
 class Scale {

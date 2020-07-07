@@ -126,8 +126,8 @@ class View extends Observer {
   private saveScaleDom = () => this.scale.setDomNode(this.getScaleDom());
 
   private getScaleDom = () => {
-    const bar = this.domParent.querySelector(`.${sliderClassName.bar}`);
-    const scale = this.domParent.querySelector(`.${sliderClassName.scale}`);
+    const bar = this.domParent.querySelector(`.${sliderClassName.bar}`) as HTMLElement;
+    const scale = this.domParent.querySelector(`.${sliderClassName.scale}`) as HTMLElement;
     return { scale, bar };
   };
 
@@ -145,7 +145,7 @@ class View extends Observer {
 
   private saveThumbDom = () => {
     const domThumbs = this.domParent.querySelectorAll(`.${sliderClassName.thumb}`);
-    domThumbs.forEach((domThumb, index) => {
+    domThumbs.forEach((domThumb: HTMLElement, index) => {
       this.toggles[index].thumb.setDomNode({ thumb: domThumb });
     });
   };
