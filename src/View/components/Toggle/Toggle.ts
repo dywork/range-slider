@@ -8,8 +8,8 @@ interface IToggleProps {
 }
 
 interface IDomNode {
-  toggle: Element;
-  handle: Element;
+  toggle: HTMLElement;
+  handle: HTMLElement;
 }
 
 class Toggle {

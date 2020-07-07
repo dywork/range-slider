@@ -133,10 +133,10 @@ class View extends Observer {
 
   private saveTogglesDom = () => {
     const domToggles = this.domParent.querySelectorAll(`.${sliderClassName.toggle}`);
-    domToggles.forEach((domToggle, index) => {
+    domToggles.forEach((domToggle: HTMLElement, index) => {
       const domNode = {
         toggle: domToggle,
-        handle: domToggle.querySelector(`.${sliderClassName.handle}`),
+        handle: domToggle.querySelector(`.${sliderClassName.handle}`) as HTMLElement,
       };
 
       this.toggles[index].main.setDomNode(domNode);
