@@ -23,6 +23,8 @@ class View extends Observer {
 
   private domParent: HTMLElement;
 
+  private slider: HTMLElement;
+
   private scale: Scale;
 
   private toggles: IToggle[];
@@ -110,6 +112,7 @@ class View extends Observer {
   };
 
   private saveDom = () => {
+    this.slider = this.domParent.querySelector(`.${sliderClassName.slider}`);
     this.saveScaleDom();
     this.saveTogglesDom();
     const { isThumb } = this.viewOptions;
@@ -181,7 +184,59 @@ class View extends Observer {
     document.removeEventListener('mouseup', this.onToggleUp);
   };
 
-  private changeCurrentValue = (clickCoord: IClickCoord) => {};
+  private changeCurrentValue = (clickCoord: IClickCoord) => {
+    const cleanCoord = this.getCleanCoord(clickCoord);
+    const percentOfSlider = this.getPercent(cleanCoord);
+    const newCurrentValue = this.getCurrentValueByPercent(percentOfSlider);
+    const newModelOptions = { ...this.modelOptions };
+    // newModelOptions.currentValue[]
+    console.log(newCurrentValue);
+  };
+
+  private getCleanCoord = (clickCoord: IClickCoord) => {
+    const { toggle: activeToggle } = this.activeToggle.getDomNode();
+    const halfHandleWidth = activeToggle.offsetWidth / 4;
+    const leftToggleMargin = this.isVertical ? 5 : 7;
+    const sliderOffset = this.isVertical ? this.slider.offsetTop : this.slider.offsetLeft;
+    const interfering = sliderOffset - halfHandleWidth + leftToggleMargin;
+    const cleanCoord = this.isVertical ? clickCoord.y - interfering : clickCoord.x - interfering;
+    return cleanCoord;
+  };
+
+  private getPercent = (value: number) => {
+    const offset = this.isVertical ? this.slider.offsetHeight : this.slider.offsetWidth;
+    let percent = value / offset;
+    if (percent > 1) percent = 1;
+    if (percent < 0) percent = 0;
+    return percent;
+  };
+
+  private getCurrentValueByPercent = (percent: number) => {
+    const { range, step } = this.modelOptions;
+    const { decimal } = this.viewOptions;
+    const newCurrentValue = percent * (range.max - range.min) + range.min;
+    if (step) {
+      return this.getStepCurrentValue(newCurrentValue);
+    }
+
+    return +newCurrentValue.toFixed(decimal);
+  };
+
+  private getStepCurrentValue = (currentValue: number) => {
+    const { step, range } = this.modelOptions;
+    let stepCurrentValue = Math.round((currentValue - range.min) / step) * step + range.min;
+    const isLastStepLess = +currentValue.toFixed() - range.max === 0;
+
+    if (isLastStepLess) {
+      stepCurrentValue = range.max;
+    }
+
+    if (stepCurrentValue >= range.max) {
+      stepCurrentValue = range.max;
+    }
+
+    return stepCurrentValue;
+  };
 }
 
 export default View;
