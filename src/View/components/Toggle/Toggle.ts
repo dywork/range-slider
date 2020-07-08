@@ -36,6 +36,15 @@ class Toggle {
     this.domNode = domNode;
   };
 
+  updateProps = (props: IToggleProps) => {
+    this.props = props;
+    this.redraw();
+  };
+
+  private redraw = () => {
+    this.domNode.toggle.setAttribute('style', this.getTransformStyle());
+  };
+
   private getTransformStyle = () => {
     const { isVertical } = this.props;
     const togglePosition = this.getPosition();
