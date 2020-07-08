@@ -31,6 +31,8 @@ class View extends Observer {
 
   private activeToggle: Toggle;
 
+  private activeToggleIndex: number;
+
   private isVertical: boolean;
 
   constructor(viewOptions: IViewOptions, modelOptions: IModelOptions) {
@@ -43,15 +45,19 @@ class View extends Observer {
     this.toggles = this.getToggles();
   }
 
+  render = () => {
+    this.mountSlider();
+    this.saveDom();
+    this.setListeners();
+  };
+
   updateSliderOptions = (newSliderOptions: IModelOptions) => {
     this.modelOptions = newSliderOptions;
     // this.redrawValue();
   };
 
-  render = () => {
-    this.mountSlider();
-    this.saveDom();
-    this.setListeners();
+  private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
+    this.notify('sliderOptionsUpdate', newSliderOptions);
   };
 
   private getToggles = () => {
@@ -165,6 +171,7 @@ class View extends Observer {
   private onToggleMouseDown = (evt: MouseEvent, toggleIndex: number) => {
     evt.preventDefault();
     this.activeToggle = this.toggles[toggleIndex].main;
+    this.activeToggleIndex = toggleIndex;
     const { toggle: activeToggle } = this.activeToggle.getDomNode();
     activeToggle.classList.add(sliderClassName.toggleActive);
     document.addEventListener('mousemove', this.onToggleMove);
@@ -189,8 +196,13 @@ class View extends Observer {
     const percentOfSlider = this.getPercent(cleanCoord);
     const newCurrentValue = this.getCurrentValueByPercent(percentOfSlider);
     const newModelOptions = { ...this.modelOptions };
-    // newModelOptions.currentValue[]
-    console.log(newCurrentValue);
+
+    if (newModelOptions.currentValue instanceof Array) {
+      newModelOptions.currentValue[this.activeToggleIndex] = newCurrentValue;
+    }
+
+    newModelOptions.currentValue = newCurrentValue;
+    this.dispatchSliderOptions(newModelOptions);
   };
 
   private getCleanCoord = (clickCoord: IClickCoord) => {
