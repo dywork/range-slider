@@ -212,7 +212,26 @@ class View extends Observer {
     const newModelOptions = { ...this.modelOptions };
 
     if (newModelOptions.currentValue instanceof Array) {
-      newModelOptions.currentValue[this.activeToggleIndex] = newCurrentValue;
+      const isFirstValue = this.activeToggleIndex === 0;
+      const isLastValue = this.activeToggleIndex === newModelOptions.currentValue.length - 1;
+      const minOutRange = isFirstValue
+        ? newModelOptions.currentValue[this.activeToggleIndex]
+        : newModelOptions.currentValue[this.activeToggleIndex - 1];
+      const maxOutRange = isLastValue
+        ? newModelOptions.currentValue[this.activeToggleIndex]
+        : newModelOptions.currentValue[this.activeToggleIndex + 1];
+
+      if (isFirstValue) {
+        const isOutOfRange = newCurrentValue >= maxOutRange;
+        newModelOptions.currentValue[this.activeToggleIndex] = isOutOfRange
+          ? maxOutRange
+          : newCurrentValue;
+      } else if (isLastValue) {
+        const isOutOfRange = newCurrentValue <= minOutRange;
+        newModelOptions.currentValue[this.activeToggleIndex] = isOutOfRange
+          ? minOutRange
+          : newCurrentValue;
+      }
     } else {
       newModelOptions.currentValue = newCurrentValue;
     }
