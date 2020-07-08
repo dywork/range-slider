@@ -53,7 +53,11 @@ class View extends Observer {
 
   updateSliderOptions = (newSliderOptions: IModelOptions) => {
     this.modelOptions = newSliderOptions;
-    // this.redrawValue();
+    this.redrawValue();
+  };
+
+  private redrawValue = () => {
+    this.scale.updateProps(this.getScaleProps());
   };
 
   private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
@@ -88,9 +92,12 @@ class View extends Observer {
   };
 
   private getScale = () => {
+    return new Scale(this.getScaleProps());
+  };
+
+  private getScaleProps = () => {
     const { currentValue, range } = this.modelOptions;
-    const scaleProps: IScaleProps = { currentValue, range, isVertical: this.isVertical };
-    return new Scale(scaleProps);
+    return { currentValue, range, isVertical: this.isVertical };
   };
 
   private mountSlider = () => {
@@ -199,9 +206,10 @@ class View extends Observer {
 
     if (newModelOptions.currentValue instanceof Array) {
       newModelOptions.currentValue[this.activeToggleIndex] = newCurrentValue;
+    } else {
+      newModelOptions.currentValue = newCurrentValue;
     }
 
-    newModelOptions.currentValue = newCurrentValue;
     this.dispatchSliderOptions(newModelOptions);
   };
 
