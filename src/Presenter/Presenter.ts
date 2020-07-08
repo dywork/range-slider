@@ -1,5 +1,5 @@
 import { Model, IModelOptions } from '../Model/Model';
-import View from '../View/ViewWithComponents';
+import View from '../View/View';
 import IViewOptions from '../View/IViewOptions';
 import Observer from '../Observer/Observer';
 

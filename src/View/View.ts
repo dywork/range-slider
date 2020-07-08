@@ -1,13 +1,14 @@
 import Observer from '../Observer/Observer';
-import DoubleToggleView from './DoubleToggleView';
 import IViewOptions from './IViewOptions';
 import { IModelOptions } from '../Model/Model';
+import { Scale, IScaleProps } from './components/Scale/Scale';
+import { Toggle, IToggleProps } from './components/Toggle/Toggle';
+import Thumb from './components/Thumb/Thumb';
 import sliderClassName from './utils/sliderClassName';
 
-const sliderTemplate = require('./template/sliderTemplate.hbs');
-
-interface IView {
-  render(): void;
+interface IToggle {
+  main: Toggle;
+  thumb: Thumb | null;
 }
 
 interface IClickCoord {
@@ -15,30 +16,24 @@ interface IClickCoord {
   y: number;
 }
 
-class View extends Observer implements IView {
+class View extends Observer {
   private viewOptions: IViewOptions;
 
   private modelOptions: IModelOptions;
 
   private domParent: HTMLElement;
 
+  private slider: HTMLElement;
+
+  private scale: Scale;
+
+  private toggles: IToggle[];
+
+  private activeToggle: Toggle;
+
+  private activeToggleIndex: number;
+
   private isVertical: boolean;
-
-  private isDouble: boolean;
-
-  private slider: HTMLDivElement;
-
-  private bar: HTMLDivElement;
-
-  private scale: HTMLDivElement;
-
-  private toggle: HTMLDivElement;
-
-  private handle: HTMLDivElement;
-
-  private thumb?: HTMLDivElement;
-
-  private doubleToggle?: DoubleToggleView;
 
   constructor(viewOptions: IViewOptions, modelOptions: IModelOptions) {
     super();
@@ -46,31 +41,75 @@ class View extends Observer implements IView {
     this.modelOptions = modelOptions;
     this.domParent = this.viewOptions.domParent;
     this.isVertical = this.viewOptions.orientation === 'vertical';
-    this.isDouble = Array.isArray(this.modelOptions.currentValue);
-    if (this.isDouble) {
-      this.doubleToggle = new DoubleToggleView(viewOptions, modelOptions);
-      this.doubleToggle.subscribe('sliderOptionsUpdate', this.dispatchSliderOptions);
-    }
+    this.scale = this.getScale();
+    this.toggles = this.getToggles();
   }
+
+  render = () => {
+    this.mountSlider();
+    this.saveDom();
+    this.setListeners();
+  };
 
   updateSliderOptions = (newSliderOptions: IModelOptions) => {
     this.modelOptions = newSliderOptions;
-    if (this.isDouble) {
-      this.doubleToggle.updateModelOptions(newSliderOptions);
+    this.redrawValue();
+  };
+
+  private redrawValue = () => {
+    this.scale.updateProps(this.getScaleProps());
+    const { currentValue } = this.modelOptions;
+    if (currentValue instanceof Array) {
+      currentValue.forEach((value, index) => {
+        const scalePosition = this.scale.getPosition(value);
+        const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
+        this.toggles[index].main.updateProps(toggleProps);
+        this.toggles[index].thumb.updateValue(value);
+      });
     } else {
-      this.redrawValue();
+      const scalePosition = this.scale.getPosition(currentValue);
+      const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
+      this.toggles[0].main.updateProps(toggleProps);
+      this.toggles[0].thumb.updateValue(currentValue);
     }
   };
 
-  render = () => {
-    if (this.doubleToggle) {
-      this.doubleToggle.render();
-    } else {
-      this.mountSlider();
-      this.saveDomElement();
-      this.renderFirstValue();
-      this.setListeners();
+  private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
+    this.notify('sliderOptionsUpdate', newSliderOptions);
+  };
+
+  private getToggles = () => {
+    const { currentValue } = this.modelOptions;
+    const { isThumb } = this.viewOptions;
+
+    if (currentValue instanceof Array) {
+      return currentValue.map((value: number) => {
+        const scalePosition = this.scale.getPosition(value);
+        const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
+        const toggle = {
+          main: new Toggle(toggleProps),
+          thumb: isThumb ? new Thumb(value) : null,
+        };
+
+        return toggle;
+      });
     }
+
+    const scalePosition = this.scale.getPosition(currentValue);
+    const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
+    const toggle = {
+      main: new Toggle(toggleProps),
+      thumb: isThumb ? new Thumb(currentValue) : null,
+    };
+
+    return [toggle];
+  };
+
+  private getScale = () => new Scale(this.getScaleProps());
+
+  private getScaleProps = (): IScaleProps => {
+    const { currentValue, range } = this.modelOptions;
+    return { currentValue, range, isVertical: this.isVertical };
   };
 
   private mountSlider = () => {
@@ -79,7 +118,6 @@ class View extends Observer implements IView {
   };
 
   private createSliderContainer = () => {
-    const { isThumb } = this.viewOptions;
     const sliderContainer = document.createElement('div');
     sliderContainer.classList.add(sliderClassName.slider);
 
@@ -87,53 +125,84 @@ class View extends Observer implements IView {
       sliderContainer.classList.add(sliderClassName.sliderVertical);
     }
 
-    const templateOptions = { sliderClassName, isThumb };
-    sliderContainer.innerHTML = sliderTemplate(templateOptions);
+    sliderContainer.appendChild(this.scale.getHtml());
+
+    this.toggles.forEach((toggle: IToggle) => {
+      const toggleHtml = toggle.main.getHtml();
+      if (toggle.thumb) toggleHtml.appendChild(toggle.thumb.getHtml());
+      sliderContainer.appendChild(toggleHtml);
+    });
+
     return sliderContainer;
   };
 
-  private renderFirstValue = () => {
-    const { currentValue } = this.modelOptions;
-    const { isThumb } = this.viewOptions;
-    this.scale.setAttribute('style', this.getScaleTransformStyle());
-    this.toggle.setAttribute('style', this.getToggleTransformStyle());
-    this.handle.setAttribute('value', `${currentValue}`);
-    if (isThumb) {
-      this.thumb.textContent = `${currentValue}`;
-    }
-  };
-
-  private saveDomElement = () => {
+  private saveDom = () => {
     this.slider = this.domParent.querySelector(`.${sliderClassName.slider}`);
-    this.bar = this.domParent.querySelector(`.${sliderClassName.bar}`);
-    this.scale = this.domParent.querySelector(`.${sliderClassName.scale}`);
-    this.toggle = this.domParent.querySelector(`.${sliderClassName.toggle}`);
-    this.handle = this.domParent.querySelector(`.${sliderClassName.handle}`);
-    if (this.viewOptions.isThumb) {
-      this.thumb = this.domParent.querySelector(`.${sliderClassName.thumb}`);
-    }
-  };
-
-  private redrawValue = () => {
-    const { currentValue } = this.modelOptions;
+    this.saveScaleDom();
+    this.saveTogglesDom();
     const { isThumb } = this.viewOptions;
-
     if (isThumb) {
-      this.thumb.textContent = `${currentValue}`;
+      this.saveThumbDom();
     }
-
-    this.handle.setAttribute('value', `${currentValue}`);
-    this.scale.setAttribute('style', this.getScaleTransformStyle());
-    this.toggle.setAttribute('style', this.getToggleTransformStyle());
   };
 
-  private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
-    this.notify('sliderOptionsUpdate', newSliderOptions);
+  private saveScaleDom = () => this.scale.setDomNode(this.getScaleDom());
+
+  private getScaleDom = () => {
+    const bar = this.domParent.querySelector(`.${sliderClassName.bar}`) as HTMLElement;
+    const scale = this.domParent.querySelector(`.${sliderClassName.scale}`) as HTMLElement;
+    return { scale, bar };
+  };
+
+  private saveTogglesDom = () => {
+    const domToggles = this.domParent.querySelectorAll(`.${sliderClassName.toggle}`);
+    domToggles.forEach((domToggle: HTMLElement, index) => {
+      const domNode = {
+        toggle: domToggle,
+        handle: domToggle.querySelector(`.${sliderClassName.handle}`) as HTMLElement,
+      };
+
+      this.toggles[index].main.setDomNode(domNode);
+    });
+  };
+
+  private saveThumbDom = () => {
+    const domThumbs = this.domParent.querySelectorAll(`.${sliderClassName.thumb}`);
+    domThumbs.forEach((domThumb: HTMLElement, index) => {
+      this.toggles[index].thumb.setDomNode({ thumb: domThumb });
+    });
   };
 
   private setListeners = () => {
-    this.bar.addEventListener('mousedown', this.onBarMouseDown);
-    this.handle.addEventListener('mousedown', this.onToggleMouseDown);
+    this.toggles.forEach((toggle, toggleIndex: number) => {
+      const { handle } = toggle.main.getDomNode();
+      handle.addEventListener('mousedown', (evt: MouseEvent) => {
+        this.onToggleMouseDown(evt, toggleIndex);
+      });
+    });
+  };
+
+  private onToggleMouseDown = (evt: MouseEvent, toggleIndex: number) => {
+    evt.preventDefault();
+    this.activeToggle = this.toggles[toggleIndex].main;
+    this.activeToggleIndex = toggleIndex;
+    const { toggle: activeToggle } = this.activeToggle.getDomNode();
+    activeToggle.classList.add(sliderClassName.toggleActive);
+    document.addEventListener('mousemove', this.onToggleMove);
+    document.addEventListener('mouseup', this.onToggleUp);
+  };
+
+  private onToggleMove = (evt: MouseEvent) => {
+    evt.preventDefault();
+    this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
+  };
+
+  private onToggleUp = (evt: MouseEvent) => {
+    evt.preventDefault();
+    const { toggle: activeToggle } = this.activeToggle.getDomNode();
+    activeToggle.classList.remove(sliderClassName.toggleActive);
+    document.removeEventListener('mousemove', this.onToggleMove);
+    document.removeEventListener('mouseup', this.onToggleUp);
   };
 
   private changeCurrentValue = (clickCoord: IClickCoord) => {
@@ -141,39 +210,43 @@ class View extends Observer implements IView {
     const percentOfSlider = this.getPercent(cleanCoord);
     const newCurrentValue = this.getCurrentValueByPercent(percentOfSlider);
     const newModelOptions = { ...this.modelOptions };
-    newModelOptions.currentValue = newCurrentValue;
+
+    if (newModelOptions.currentValue instanceof Array) {
+      const isFirstValue = this.activeToggleIndex === 0;
+      const isLastValue = this.activeToggleIndex === newModelOptions.currentValue.length - 1;
+      const minOutRange = isFirstValue
+        ? newModelOptions.currentValue[this.activeToggleIndex]
+        : newModelOptions.currentValue[this.activeToggleIndex - 1];
+      const maxOutRange = isLastValue
+        ? newModelOptions.currentValue[this.activeToggleIndex]
+        : newModelOptions.currentValue[this.activeToggleIndex + 1];
+
+      if (isFirstValue) {
+        const isOutOfRange = newCurrentValue >= maxOutRange;
+        newModelOptions.currentValue[this.activeToggleIndex] = isOutOfRange
+          ? maxOutRange
+          : newCurrentValue;
+      } else if (isLastValue) {
+        const isOutOfRange = newCurrentValue <= minOutRange;
+        newModelOptions.currentValue[this.activeToggleIndex] = isOutOfRange
+          ? minOutRange
+          : newCurrentValue;
+      }
+    } else {
+      newModelOptions.currentValue = newCurrentValue;
+    }
+
     this.dispatchSliderOptions(newModelOptions);
   };
 
-  private getScaleTransformStyle = () => {
-    const scalePosition = this.getScalePosition();
-
-    if (this.isVertical) {
-      return `transform: scale(1, ${scalePosition});`;
-    }
-
-    return `transform: scale(${scalePosition}, 1);`;
-  };
-
-  private getToggleTransformStyle = () => {
-    const togglePosition = this.getTogglePosition();
-
-    if (this.isVertical) {
-      return `transform: translate(0px, ${togglePosition}%);`;
-    }
-
-    return `transform: translate(${togglePosition}%, 0px);`;
-  };
-
-  private getScalePosition = () => {
-    const { currentValue, range } = this.modelOptions;
-    const scalePosition = (+currentValue - range.min) / (range.max - range.min);
-    return scalePosition;
-  };
-
-  private getTogglePosition = () => {
-    const togglePosition = this.getScalePosition() * 1000;
-    return togglePosition;
+  private getCleanCoord = (clickCoord: IClickCoord) => {
+    const { toggle: activeToggle } = this.activeToggle.getDomNode();
+    const halfHandleWidth = activeToggle.offsetWidth / 4;
+    const leftToggleMargin = this.isVertical ? 5 : 7;
+    const sliderOffset = this.isVertical ? this.slider.offsetTop : this.slider.offsetLeft;
+    const interfering = sliderOffset - halfHandleWidth + leftToggleMargin;
+    const cleanCoord = this.isVertical ? clickCoord.y - interfering : clickCoord.x - interfering;
+    return cleanCoord;
   };
 
   private getPercent = (value: number) => {
@@ -182,15 +255,6 @@ class View extends Observer implements IView {
     if (percent > 1) percent = 1;
     if (percent < 0) percent = 0;
     return percent;
-  };
-
-  private getCleanCoord = (clickCoord: IClickCoord) => {
-    const halfHandleWidth = this.handle.offsetWidth / 2;
-    const leftToggleMargin = this.isVertical ? 5 : 7;
-    const sliderOffset = this.isVertical ? this.slider.offsetTop : this.slider.offsetLeft;
-    const interfering = sliderOffset - halfHandleWidth + leftToggleMargin;
-    const cleanCoord = this.isVertical ? clickCoord.y - interfering : clickCoord.x - interfering;
-    return cleanCoord;
   };
 
   private getCurrentValueByPercent = (percent: number) => {
@@ -218,30 +282,6 @@ class View extends Observer implements IView {
     }
 
     return stepCurrentValue;
-  };
-
-  private onBarMouseDown = (evt: MouseEvent) => {
-    evt.preventDefault();
-    this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
-    document.addEventListener('mousemove', this.onToggleMove);
-    document.addEventListener('mouseup', this.onToggleUp);
-  };
-
-  private onToggleMouseDown = (evt: MouseEvent) => {
-    evt.preventDefault();
-    document.addEventListener('mousemove', this.onToggleMove);
-    document.addEventListener('mouseup', this.onToggleUp);
-  };
-
-  private onToggleMove = (evt: MouseEvent) => {
-    evt.preventDefault();
-    this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
-  };
-
-  private onToggleUp = (evt: MouseEvent) => {
-    evt.preventDefault();
-    document.removeEventListener('mousemove', this.onToggleMove);
-    document.removeEventListener('mouseup', this.onToggleUp);
   };
 }
 
