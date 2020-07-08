@@ -8,6 +8,7 @@ interface ISliderClassName {
   toggleActive: string;
   handle: string;
   thumb: string;
+  ruler: string;
   sliderVertical: string;
 }
 
@@ -22,6 +23,7 @@ const sliderClassName: ISliderClassName = {
   toggleActive: 'range-slider__toggle--active',
   handle: 'range-slider__handle',
   thumb: 'range-slider__thumb',
+  ruler: 'range-slider__ruler',
 };
 
 export default sliderClassName;
