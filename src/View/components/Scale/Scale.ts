@@ -43,6 +43,15 @@ class Scale {
     this.domNode = domNode;
   };
 
+  updateProps = (props: IScaleProps) => {
+    this.props = props;
+    this.redraw();
+  };
+
+  private redraw = () => {
+    this.domNode.scale.setAttribute('style', this.getTransformStyle());
+  };
+
   private getTransformStyle = () => {
     const { currentValue, isVertical } = this.props;
     let scalePositions = [];
