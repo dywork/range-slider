@@ -58,6 +58,20 @@ class View extends Observer {
 
   private redrawValue = () => {
     this.scale.updateProps(this.getScaleProps());
+    const { currentValue } = this.modelOptions;
+    if (currentValue instanceof Array) {
+      currentValue.forEach((value, index) => {
+        const scalePosition = this.scale.getPosition(value);
+        const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
+        this.toggles[index].main.updateProps(toggleProps);
+        this.toggles[index].thumb.updateValue(value);
+      });
+    } else {
+      const scalePosition = this.scale.getPosition(currentValue);
+      const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
+      this.toggles[0].main.updateProps(toggleProps);
+      this.toggles[0].thumb.updateValue(currentValue);
+    }
   };
 
   private dispatchSliderOptions = (newSliderOptions: IModelOptions) => {
