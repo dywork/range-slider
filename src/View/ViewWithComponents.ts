@@ -105,11 +105,9 @@ class View extends Observer {
     return [toggle];
   };
 
-  private getScale = () => {
-    return new Scale(this.getScaleProps());
-  };
+  private getScale = () => new Scale(this.getScaleProps());
 
-  private getScaleProps = () => {
+  private getScaleProps = () : IScaleProps => {
     const { currentValue, range } = this.modelOptions;
     return { currentValue, range, isVertical: this.isVertical };
   };
@@ -146,11 +144,6 @@ class View extends Observer {
     if (isThumb) {
       this.saveThumbDom();
     }
-    console.log(this.scale.getDomNode());
-    this.toggles.forEach((item) => {
-      console.log(item.main.getDomNode());
-      console.log(item.thumb.getDomNode());
-    });
   };
 
   private saveScaleDom = () => this.scale.setDomNode(this.getScaleDom());
