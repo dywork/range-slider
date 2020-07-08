@@ -186,8 +186,14 @@ class View extends Observer {
     evt.preventDefault();
     this.activeToggle = this.toggles[toggleIndex].main;
     this.activeToggleIndex = toggleIndex;
-    const { toggle: activeToggle } = this.activeToggle.getDomNode();
-    activeToggle.classList.add(sliderClassName.toggleActive);
+    this.toggles.forEach((toggle, index) => {
+      const { toggle: toggleDom } = toggle.main.getDomNode();
+      if (index === this.activeToggleIndex) {
+        toggleDom.classList.add(sliderClassName.toggleActive);
+      } else {
+        toggleDom.classList.remove(sliderClassName.toggleActive);
+      }
+    });
     document.addEventListener('mousemove', this.onToggleMove);
     document.addEventListener('mouseup', this.onToggleUp);
   };
@@ -199,8 +205,6 @@ class View extends Observer {
 
   private onToggleUp = (evt: MouseEvent) => {
     evt.preventDefault();
-    const { toggle: activeToggle } = this.activeToggle.getDomNode();
-    activeToggle.classList.remove(sliderClassName.toggleActive);
     document.removeEventListener('mousemove', this.onToggleMove);
     document.removeEventListener('mouseup', this.onToggleUp);
   };
