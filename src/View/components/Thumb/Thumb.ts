@@ -27,6 +27,15 @@ class Thumb {
   setDomNode = (domNode: IDomNode) => {
     this.domNode = domNode;
   };
+
+  updateValue = (value: number) => {
+    this.value = value;
+    this.redraw();
+  };
+
+  private redraw = () => {
+    this.domNode.thumb.textContent = `${this.value}`;
+  };
 }
 
 export default Thumb;
