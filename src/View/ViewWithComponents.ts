@@ -107,7 +107,7 @@ class View extends Observer {
 
   private getScale = () => new Scale(this.getScaleProps());
 
-  private getScaleProps = () : IScaleProps => {
+  private getScaleProps = (): IScaleProps => {
     const { currentValue, range } = this.modelOptions;
     return { currentValue, range, isVertical: this.isVertical };
   };
