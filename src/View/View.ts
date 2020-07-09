@@ -4,6 +4,7 @@ import { IModelOptions } from '../Model/Model';
 import { Scale, IScaleProps } from './components/Scale/Scale';
 import { Toggle, IToggleProps } from './components/Toggle/Toggle';
 import Thumb from './components/Thumb/Thumb';
+import { Ruler, IRulerProps } from './components/Ruler/Ruler';
 import sliderClassName from './utils/sliderClassName';
 
 interface IToggle {
@@ -27,6 +28,8 @@ class View extends Observer {
 
   private scale: Scale;
 
+  private ruler: Ruler;
+
   private toggles: IToggle[];
 
   private activeToggle: Toggle;
@@ -42,6 +45,8 @@ class View extends Observer {
     this.domParent = this.viewOptions.domParent;
     this.isVertical = this.viewOptions.orientation === 'vertical';
     this.scale = this.getScale();
+    this.ruler = this.getRuler();
+    console.log(this.ruler.getHtml());
     this.toggles = this.getToggles();
   }
 
@@ -110,6 +115,17 @@ class View extends Observer {
   private getScaleProps = (): IScaleProps => {
     const { currentValue, range } = this.modelOptions;
     return { currentValue, range, isVertical: this.isVertical };
+  };
+
+  private getRuler = () => new Ruler(this.getRulerProps());
+
+  private getRulerProps = (): IRulerProps => {
+    const { range, step } = this.modelOptions;
+    if (!step) {
+      return { range, step: 1 };
+    }
+
+    return { range, step };
   };
 
   private mountSlider = () => {
