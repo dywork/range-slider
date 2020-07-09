@@ -46,7 +46,6 @@ class View extends Observer {
     this.isVertical = this.viewOptions.orientation === 'vertical';
     this.scale = this.getScale();
     this.ruler = this.getRuler();
-    console.log(this.ruler.getHtml());
     this.toggles = this.getToggles();
   }
 
@@ -142,6 +141,7 @@ class View extends Observer {
     }
 
     sliderContainer.appendChild(this.scale.getHtml());
+    sliderContainer.appendChild(this.ruler.getHtml());
 
     this.toggles.forEach((toggle: IToggle) => {
       const toggleHtml = toggle.main.getHtml();
