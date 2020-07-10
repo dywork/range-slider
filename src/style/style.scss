@@ -24,6 +24,19 @@
     height: 10%;
   }
 
+  .range-slider__ruler {
+    height: 100%;
+    top: -354px;
+    left: -17px;
+
+    li {
+      top: -5px;
+      left: -5px;
+      width: auto;
+      height: 10%;
+    }
+  }
+
   .range-slider__thumb {
     top: -4px;
     left: 22px;
@@ -50,7 +63,6 @@
 
 .range-slider__ruler {
   position: relative;
-  display: flex;
   padding: 0;
   margin: 0;
   list-style: none;
