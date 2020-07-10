@@ -5,6 +5,7 @@ const rulerTemplate = require('./template.hbs');
 interface IRulerProps {
   step: number;
   range: { min: number; max: number };
+  isVertical: boolean;
 }
 
 class Ruler {
@@ -15,10 +16,19 @@ class Ruler {
   }
 
   getHtml = () => {
-    const templateOptions = { sliderClassName, values: this.getRulerValues() };
+    const templateOptions = { sliderClassName, items: this.getRulerItems() };
     const ruler = document.createElement('div');
+    console.log(this.getRulerItems());
     ruler.innerHTML = rulerTemplate(templateOptions);
     return ruler.firstChild;
+  };
+
+  private getRulerItems = () => {
+    const rulerValues = this.getRulerValues();
+    return rulerValues.map((value) => {
+      const rulerItem = { value, style: this.getTransformStyleByValue(value) };
+      return rulerItem;
+    });
   };
 
   private getRulerValues = () => {
@@ -34,6 +44,22 @@ class Ruler {
 
     return [range.min, ...middArr, range.max];
   };
+
+  private getTransformStyleByValue = (value: number) => {
+    const { isVertical } = this.props;
+    const position = this.getPositionByValue(value);
+
+    if (isVertical) {
+      return `transform: translate(0px, ${position}%);`;
+    }
+
+    return `transform: translate(${position}%, 0px);`;
+  };
+
+  private getPositionByValue(value: number): number {
+    const { range } = this.props;
+    return ((+value - range.min) / (range.max - range.min)) * 1000;
+  }
 }
 
 export { Ruler, IRulerProps };
