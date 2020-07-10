@@ -121,10 +121,10 @@ class View extends Observer {
   private getRulerProps = (): IRulerProps => {
     const { range, step } = this.modelOptions;
     if (!step) {
-      return { range, step: 1 };
+      return { range, step: 1, isVertical: this.isVertical };
     }
 
-    return { range, step };
+    return { range, step, isVertical: this.isVertical };
   };
 
   private mountSlider = () => {
