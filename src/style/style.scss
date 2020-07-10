@@ -48,6 +48,24 @@
   transform-origin: 0 0;
 }
 
+.range-slider__ruler {
+  position: relative;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  color: $textColor;
+
+  li {
+    position: absolute;
+    top: -5px;
+    left: -7px;
+    z-index: 4;
+    width: 10%;
+    height: 0;
+  }
+}
+
 .range-slider__toggle {
   position: absolute;
   top: -5px;
