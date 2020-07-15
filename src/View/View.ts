@@ -28,7 +28,7 @@ class View extends Observer {
 
   private scale: Scale;
 
-  private ruler: Ruler;
+  private ruler: Ruler | null;
 
   private toggles: IToggle[];
 
@@ -116,7 +116,14 @@ class View extends Observer {
     return { currentValue, range, isVertical: this.isVertical };
   };
 
-  private getRuler = () => new Ruler(this.getRulerProps());
+  private getRuler = () => {
+    const { isRuler } = this.viewOptions;
+    if (isRuler) {
+      return new Ruler(this.getRulerProps());
+    }
+
+    return null;
+  };
 
   private getRulerProps = (): IRulerProps => {
     const { range, step } = this.modelOptions;
@@ -141,7 +148,10 @@ class View extends Observer {
     }
 
     sliderContainer.appendChild(this.scale.getHtml());
-    sliderContainer.appendChild(this.ruler.getHtml());
+
+    if (this.ruler) {
+      sliderContainer.appendChild(this.ruler.getHtml());
+    }
 
     this.toggles.forEach((toggle: IToggle) => {
       const toggleHtml = toggle.main.getHtml();
