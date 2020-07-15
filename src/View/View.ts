@@ -166,6 +166,11 @@ class View extends Observer {
     this.slider = this.domParent.querySelector(`.${sliderClassName.slider}`);
     this.saveScaleDom();
     this.saveTogglesDom();
+
+    if (this.ruler) {
+      this.saveRuler();
+    }
+
     const { isThumb } = this.viewOptions;
     if (isThumb) {
       this.saveThumbDom();
@@ -190,6 +195,11 @@ class View extends Observer {
 
       this.toggles[index].main.setDomNode(domNode);
     });
+  };
+
+  private saveRuler = () => {
+    const domRuler = this.domParent.querySelector(`.${sliderClassName.ruler}`) as HTMLElement;
+    this.ruler.setDomNode({ ruler: domRuler });
   };
 
   private saveThumbDom = () => {
