@@ -1,9 +1,15 @@
 $(document).ready(function () {
-  $('#firstSlider').rangeSlider({ currentValue: 15, range: { min: 13, max: 30 }, isThumb: true });
+  $('#firstSlider').rangeSlider({
+    currentValue: 15,
+    range: { min: 10, max: 30 },
+    isRuler: true,
+    isThumb: true,
+  });
 
   $('#secondSlider').rangeSlider({
     currentValue: 3,
     range: { min: 3, max: 19 },
+    isRuler: true,
     isThumb: true,
     step: 5,
   });
@@ -19,6 +25,7 @@ $(document).ready(function () {
     currentValue: 3,
     range: { min: 3, max: 19 },
     isThumb: true,
+    isRuler: true,
     step: 5,
     orientation: 'vertical',
   });
