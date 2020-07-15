@@ -6,6 +6,7 @@ interface ISliderOptions {
   domParent: HTMLElement;
   currentValue: number | number[];
   range: { min: number; max: number };
+  isRuler: boolean;
   isThumb: boolean;
   step: number;
   decimal: number;
@@ -28,6 +29,7 @@ class Slider {
   private getViewOptions = (sliderOptions: ISliderOptions) => {
     const {
       domParent,
+      isRuler,
       isThumb,
       decimal,
       orientation,
@@ -36,6 +38,7 @@ class Slider {
     const viewOptions: IViewOptions = {
       domParent,
       isThumb,
+      isRuler,
       decimal,
       orientation,
     };

@@ -8,6 +8,7 @@ describe('Presenter', () => {
     const domParent = document.createElement('div');
     const viewOptions: IViewOptions = {
       domParent,
+      isRuler: false,
       isThumb: true,
       decimal: 2,
       orientation: 'horizontal',
