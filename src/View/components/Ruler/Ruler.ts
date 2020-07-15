@@ -18,7 +18,6 @@ class Ruler {
   getHtml = () => {
     const templateOptions = { sliderClassName, items: this.getRulerItems() };
     const ruler = document.createElement('div');
-    console.log(this.getRulerItems());
     ruler.innerHTML = rulerTemplate(templateOptions);
     return ruler.firstChild;
   };
