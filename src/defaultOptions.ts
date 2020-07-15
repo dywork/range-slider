@@ -6,7 +6,7 @@ const defaultOptions = {
   },
   isThumb: true,
   isRuler: false,
-  step: 0,
+  step: 1,
   decimal: 2,
   orientation: 'horizontal',
 };
