@@ -8,8 +8,14 @@ interface IRulerProps {
   isVertical: boolean;
 }
 
+interface IDomNode {
+  ruler: HTMLElement;
+}
+
 class Ruler {
   private props: IRulerProps;
+
+  private domNode: IDomNode;
 
   constructor(props: IRulerProps) {
     this.props = props;
@@ -20,6 +26,12 @@ class Ruler {
     const ruler = document.createElement('div');
     ruler.innerHTML = rulerTemplate(templateOptions);
     return ruler.firstChild;
+  };
+
+  getDomNode = () => this.domNode;
+
+  setDomNode = (domNode: IDomNode) => {
+    this.domNode = domNode;
   };
 
   private getRulerItems = () => {
