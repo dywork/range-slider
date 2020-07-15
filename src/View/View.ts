@@ -140,8 +140,10 @@ class View extends Observer {
   };
 
   private createSliderContainer = () => {
+    const sliderDom = document.createElement('div');
+    sliderDom.classList.add(sliderClassName.slider);
     const sliderContainer = document.createElement('div');
-    sliderContainer.classList.add(sliderClassName.slider);
+    sliderContainer.classList.add(sliderClassName.wrap);
 
     if (this.isVertical) {
       sliderContainer.classList.add(sliderClassName.sliderVertical);
@@ -159,7 +161,8 @@ class View extends Observer {
       sliderContainer.appendChild(toggleHtml);
     });
 
-    return sliderContainer;
+    sliderDom.appendChild(sliderContainer);
+    return sliderDom;
   };
 
   private saveDom = () => {
