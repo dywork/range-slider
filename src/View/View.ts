@@ -215,39 +215,42 @@ class View extends Observer {
   private setListeners = () => {
     if (this.ruler) {
       const { ruler } = this.ruler.getDomNode();
-      ruler.addEventListener('click', (evt) => {
-        const clickNode = evt.target as HTMLElement;
-        const newValue = +clickNode.textContent;
-        const newModelOptions = { ...this.modelOptions };
-        if (newModelOptions.currentValue instanceof Array) {
-          const minValue = newModelOptions.currentValue[0];
-          const maxValue = newModelOptions.currentValue[1];
-          let newValueIndex;
-          if (newValue < minValue) {
-            newValueIndex = 0;
-          }
-
-          if (newValue > minValue && newValue < maxValue) {
-            newValueIndex = Math.round(newValue / (minValue + maxValue));
-          }
-
-          if (newValue > maxValue) {
-            newValueIndex = 1;
-          }
-
-          newModelOptions.currentValue[newValueIndex] = newValue;
-        } else {
-          newModelOptions.currentValue = newValue;
-        }
-        this.dispatchSliderOptions(newModelOptions);
-      });
+      ruler.addEventListener('click', this.onRulerClick);
     }
+
     this.toggles.forEach((toggle, toggleIndex: number) => {
       const { handle } = toggle.main.getDomNode();
       handle.addEventListener('mousedown', (evt: MouseEvent) => {
         this.onToggleMouseDown(evt, toggleIndex);
       });
     });
+  };
+
+  private onRulerClick = (evt: MouseEvent) => {
+    const clickNode = evt.target as HTMLElement;
+    const newValue = +clickNode.textContent;
+    const newModelOptions = { ...this.modelOptions };
+    if (newModelOptions.currentValue instanceof Array) {
+      const minValue = newModelOptions.currentValue[0];
+      const maxValue = newModelOptions.currentValue[1];
+      let newValueIndex;
+      if (newValue < minValue) {
+        newValueIndex = 0;
+      }
+
+      if (newValue > minValue && newValue < maxValue) {
+        newValueIndex = Math.round(newValue / (minValue + maxValue));
+      }
+
+      if (newValue > maxValue) {
+        newValueIndex = 1;
+      }
+
+      newModelOptions.currentValue[newValueIndex] = newValue;
+    } else {
+      newModelOptions.currentValue = newValue;
+    }
+    this.dispatchSliderOptions(newModelOptions);
   };
 
   private onToggleMouseDown = (evt: MouseEvent, toggleIndex: number) => {
