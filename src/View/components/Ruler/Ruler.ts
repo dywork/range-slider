@@ -37,7 +37,11 @@ class Ruler {
   private getRulerItems = () => {
     const rulerValues = this.getRulerValues();
     return rulerValues.map((value) => {
-      const rulerItem = { value, style: this.getTransformStyleByValue(value) };
+      const rulerItem = {
+        value,
+        style: this.getTransformStyleByValue(value),
+        class: sliderClassName.rulerItem,
+      };
       return rulerItem;
     });
   };

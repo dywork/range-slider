@@ -9,6 +9,7 @@ interface ISliderClassName {
   handle: string;
   thumb: string;
   ruler: string;
+  rulerItem: string;
   sliderVertical: string;
 }
 
@@ -24,6 +25,7 @@ const sliderClassName: ISliderClassName = {
   handle: 'range-slider__handle',
   thumb: 'range-slider__thumb',
   ruler: 'range-slider__ruler',
+  rulerItem: 'range-slider__ruler-item',
 };
 
 export default sliderClassName;
