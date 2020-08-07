@@ -23,5 +23,7 @@ declare global {
 
     const slider = new Slider(sliderOptions);
     slider.init();
+
+    return slider;
   };
 }(jQuery));
