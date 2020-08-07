@@ -26,6 +26,10 @@ class Slider {
     this.presenter.init();
   };
 
+  onChangeOptions = (value: number) => {
+    console.log(value);
+  };
+
   private getViewOptions = (sliderOptions: ISliderOptions) => {
     const {
       domParent,
