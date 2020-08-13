@@ -1,6 +1,5 @@
 import Presenter from './Presenter/Presenter';
 import IViewOptions from './View/IViewOptions';
-import './style/style.scss';
 
 interface ISliderOptions {
   domParent: HTMLElement;
