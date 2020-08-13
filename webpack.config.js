@@ -1,11 +1,16 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  watch: true,
   entry: './src/index.ts',
-  devtool: 'inline-source-map',
-  mode: 'development',
+  output: {
+    filename: 'index.js',
+    path: path.resolve(__dirname, './build'),
+  },
+  plugins: [
+    new HtmlWebpackPlugin({ filename: 'index.html', template: './src/demo-page/index.html' }),
+  ],
   module: {
     rules: [
       {
@@ -33,12 +38,11 @@ module.exports = {
       },
     ],
   },
+  mode: 'development',
+  watch: true,
+  devtool: 'inline-source-map',
   resolve: {
     extensions: ['.ts', '.js'],
-  },
-  output: {
-    filename: 'range-slider.js',
-    path: path.resolve(__dirname, './build', '../demo-page'),
   },
   devServer: {
     contentBase: path.join(__dirname, './demo-page'),

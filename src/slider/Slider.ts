@@ -1,6 +1,5 @@
 import Presenter from './Presenter/Presenter';
 import IViewOptions from './View/IViewOptions';
-import './style/style.scss';
 
 interface ISliderOptions {
   domParent: HTMLElement;
@@ -24,6 +23,10 @@ class Slider {
 
   init = () => {
     this.presenter.init();
+  };
+
+  onChangeOptions = (value: number) => {
+    console.log(value);
   };
 
   private getViewOptions = (sliderOptions: ISliderOptions) => {
