@@ -8,9 +8,9 @@ module.exports = {
     filename: 'index.js',
     path: path.resolve(__dirname, './build'),
   },
-  watch: true,
-  devtool: 'inline-source-map',
-  mode: 'development',
+  plugins: [
+    new HtmlWebpackPlugin({ filename: 'index.html', template: './src/demo-page/index.html' }),
+  ],
   module: {
     rules: [
       {
@@ -38,6 +38,9 @@ module.exports = {
       },
     ],
   },
+  mode: 'development',
+  watch: true,
+  devtool: 'inline-source-map',
   resolve: {
     extensions: ['.ts', '.js'],
   },
@@ -46,7 +49,4 @@ module.exports = {
     compress: true,
     hot: true,
   },
-  plugins: [
-    new HtmlWebpackPlugin({ filename: 'index.html', template: './src/demo-page/index.html' }),
-  ],
 };
