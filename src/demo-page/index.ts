@@ -1,10 +1,12 @@
 import { Slider, ISliderOptions } from '../slider/Slider';
+import ConfigPanel from './СonfigPanel';
 import defaultOptions from '../slider/defaultOptions';
 import './style.scss';
 
 declare global {
   interface JQuery {
-    rangeSlider(options: ISliderOptions): void;
+    rangeSlider(options: ISliderOptions): Slider;
+    configPanel(rangeSlider: Slider): ConfigPanel;
   }
 }
 
@@ -25,6 +27,13 @@ declare global {
     slider.init();
 
     return slider;
+  };
+
+  $.fn.configPanel = function (rangeSlider: Slider) {
+    const configPanel = new ConfigPanel(this[0], rangeSlider);
+    configPanel.init();
+
+    return configPanel;
   };
 })(jQuery);
 
