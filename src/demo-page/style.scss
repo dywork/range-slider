@@ -4,16 +4,19 @@ body {
 }
 
 .container {
-  padding: 40px;
+  padding: 20px;
 }
 
-.box {
+.config-panel {
   width: 400px;
-  margin-bottom: 50px;
 
   &--vertical {
     height: 350px;
   }
+}
+
+.config-panel__slider {
+  margin-bottom: 50px;
 }
 
 .config-panel__title {
