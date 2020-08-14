@@ -13,11 +13,14 @@ interface ISliderOptions {
 }
 
 class Slider {
+  private sliderOptions: ISliderOptions;
+
   private presenter: Presenter;
 
   constructor(sliderOptions: ISliderOptions) {
-    const viewOptions: IViewOptions = this.getViewOptions(sliderOptions);
-    const modelOptions = this.getModelOptions(sliderOptions);
+    this.sliderOptions = sliderOptions;
+    const viewOptions: IViewOptions = this.getViewOptions();
+    const modelOptions = this.getModelOptions();
     this.presenter = new Presenter(viewOptions, modelOptions);
   }
 
@@ -29,14 +32,16 @@ class Slider {
     console.log(value);
   };
 
-  private getViewOptions = (sliderOptions: ISliderOptions) => {
+  getSliderOptions = () => this.sliderOptions;
+
+  private getViewOptions = () => {
     const {
       domParent,
       isRuler,
       isThumb,
       decimal,
       orientation,
-    } = sliderOptions;
+    } = this.getSliderOptions();
 
     const viewOptions: IViewOptions = {
       domParent,
@@ -49,8 +54,8 @@ class Slider {
     return viewOptions;
   };
 
-  private getModelOptions = (sliderOptions: ISliderOptions) => {
-    const { currentValue, range, step } = sliderOptions;
+  private getModelOptions = () => {
+    const { currentValue, range, step } = this.getSliderOptions();
     const modelOptions = { currentValue, range, step };
     return modelOptions;
   };
