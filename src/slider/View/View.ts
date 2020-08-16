@@ -130,8 +130,7 @@ class View extends Observer {
   };
 
   private mountSlider = () => {
-    const sliderContainer = this.createSliderContainer();
-    this.domParent.appendChild(sliderContainer);
+    this.domParent.appendChild(this.createSliderContainer());
   };
 
   private createSliderContainer = () => {
