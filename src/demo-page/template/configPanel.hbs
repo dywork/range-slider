@@ -1,26 +1,41 @@
 <fieldset>
+  {{#if isDiapason}}
   <p class="config-panel__value">
     <label class="config-panel__label">
-      Текущее значение:
-      <input type="text">
+      Текущее мин. значение:
+      <input type="number" value="{{currentValue.[0]}}">
     </label>
   </p>
+  <p class="config-panel__value"></p>
+  <label class="config-panel__label">
+    Текущее макс. значение:
+    <input type="number" value="{{currentValue.[1]}}">
+  </label>
+  </p>
+  {{else}}
+  <p class="config-panel__value">
+    <label class="config-panel__label">
+      Максимальное значение:
+      <input type="number" value="{{currentValue}}">
+    </label>
+  </p>
+  {{/if}}
   <p class="config-panel__value">
     <label class="config-panel__label">
       Шаг:
-      <input type="text">
+      <input type="number" value="{{step}}">
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Минимальное значение:
-      <input type="text">
+      <input type="number" value={{range.min}}>
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Максимальное значение:
-      <input type="text">
+      <input type="number" value="{{range.max}}">
     </label>
   </p>
 </fieldset>
@@ -28,25 +43,25 @@
   <p class="config-panel__value">
     <label class="config-panel__label">
       Показывать текущее значение:
-      <input type="checkbox">
+      <input type="checkbox" {{#if isThumb}}checked{{/if}}>
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Шкала:
-      <input type="checkbox">
+      <input type="checkbox" {{#if isRuler}}checked{{/if}}>
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Диапазон:
-      <input type="checkbox">
+      <input type="checkbox" {{#if isDiapason}}checked{{/if}}>
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Вертикальный слайдер:
-      <input type="checkbox">
+      <input type="checkbox" {{#if isVertical}}checked{{/if}}>
     </label>
   </p>
 </fieldset>

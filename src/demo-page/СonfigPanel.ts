@@ -12,10 +12,36 @@ class ConfigPanel {
   }
 
   init = () => {
+    this.mountPanel();
+  };
+
+  private mountPanel = () => {
+    this.domParent.appendChild(this.getPanelContainer());
+  };
+
+  private getPanelContainer = () => {
     const configPanelContainer = document.createElement('div');
-    configPanelContainer.innerHTML = configPanelTemplate();
-    this.domParent.appendChild(configPanelContainer);
-    console.log(this.slider.getSliderOptions());
+    const {
+      currentValue,
+      range,
+      isRuler,
+      isThumb,
+      step,
+      decimal,
+      orientation,
+    } = this.slider.getSliderOptions();
+    const configPanelOptions = {
+      currentValue,
+      range,
+      isRuler,
+      isThumb,
+      step,
+      decimal,
+      isVertical: orientation === 'vertical',
+      isDiapason: Array.isArray(currentValue),
+    };
+    configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
+    return configPanelContainer;
   };
 }
 
