@@ -6,6 +6,22 @@ class ConfigPanel {
 
   slider: Slider;
 
+  currentValueInput: HTMLInputElement;
+
+  stepInput: HTMLInputElement;
+
+  minRangeInput: HTMLInputElement;
+
+  maxRangeInput: HTMLInputElement;
+
+  isThumbCheckbox: HTMLInputElement;
+  
+  isRulerCheckbox: HTMLInputElement;
+  
+  isDiapasonCheckbox: HTMLInputElement;
+  
+  isVerticalCheckbox: HTMLInputElement;
+
   constructor(domParent: HTMLElement, slider: Slider) {
     this.domParent = domParent;
     this.slider = slider;
@@ -13,6 +29,7 @@ class ConfigPanel {
 
   init = () => {
     this.mountPanel();
+    this.saveDom();
   };
 
   private mountPanel = () => {
@@ -42,6 +59,17 @@ class ConfigPanel {
     };
     configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
     return configPanelContainer;
+  };
+
+  private saveDom = () => {
+    this.currentValueInput = this.domParent.querySelector('#currentValue'); 
+    this.stepInput = this.domParent.querySelector('#step');
+    this.minRangeInput = this.domParent.querySelector('#step');
+    this.maxRangeInput = this.domParent.querySelector('#step');
+    this.isThumbCheckbox = this.domParent.querySelector('#isThumbShow');
+    this.isRulerCheckbox = this.domParent.querySelector('#isRulerShow');
+    this.isDiapasonCheckbox = this.domParent.querySelector('#isDiapason');
+    this.isVerticalCheckbox = this.domParent.querySelector('#isVertical');
   };
 }
 
