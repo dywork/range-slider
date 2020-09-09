@@ -15,8 +15,10 @@ class Slider {
     this.presenter.init();
   };
 
-  onChangeOptions = (value: number) => {
-    console.log(value);
+  onChangeCurrentValue = (value: any) => {
+    // this.sliderOptions.currentValue = value;
+    this.sliderOptions = value;
+    this.presenter.dispatchSliderOptions(this.sliderOptions);
   };
 
   getSliderOptions = () => this.sliderOptions;
