@@ -1,6 +1,15 @@
 import { Slider } from '../slider/Slider';
 const configPanelTemplate = require('./template/configPanel.hbs');
 
+const debounce = (callback: Function) => {
+  let timeout: number;
+
+  return (argument: any) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(callback, 500, argument);
+  };
+};
+
 class ConfigPanel {
   domParent: HTMLElement;
 
@@ -15,11 +24,11 @@ class ConfigPanel {
   maxRangeInput: HTMLInputElement;
 
   isThumbCheckbox: HTMLInputElement;
-  
+
   isRulerCheckbox: HTMLInputElement;
-  
+
   isDiapasonCheckbox: HTMLInputElement;
-  
+
   isVerticalCheckbox: HTMLInputElement;
 
   constructor(domParent: HTMLElement, slider: Slider) {
@@ -62,7 +71,7 @@ class ConfigPanel {
   };
 
   private saveDom = () => {
-    this.currentValueInput = this.domParent.querySelector('#currentValue'); 
+    this.currentValueInput = this.domParent.querySelector('#currentValue');
     this.stepInput = this.domParent.querySelector('#step');
     this.minRangeInput = this.domParent.querySelector('#step');
     this.maxRangeInput = this.domParent.querySelector('#step');
