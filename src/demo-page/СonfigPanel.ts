@@ -39,6 +39,7 @@ class ConfigPanel {
   init = () => {
     this.mountPanel();
     this.saveDom();
+    this.setListeners();
   };
 
   private mountPanel = () => {
@@ -79,6 +80,27 @@ class ConfigPanel {
     this.isRulerCheckbox = this.domParent.querySelector('#isRulerShow');
     this.isDiapasonCheckbox = this.domParent.querySelector('#isDiapason');
     this.isVerticalCheckbox = this.domParent.querySelector('#isVertical');
+  };
+
+  
+  private setListeners = () => {
+    const debounceInput = debounce(() => {
+      const newOptions = {
+        currentValue: this.currentValueInput.value,
+        decimal: 2,
+        domParent: this.slider,
+        isRuler: true,
+        isThumb: true,
+        orientation: 'horizontal',
+        range: { min: 10, max: 30 },
+        step: 1,
+      };
+
+      // this.slider.onChangeCurrentValue(parseInt(this.currentValueInput.value));
+      this.slider.onChangeCurrentValue(newOptions);
+    });
+
+    this.currentValueInput.addEventListener('input', debounceInput);
   };
 }
 
