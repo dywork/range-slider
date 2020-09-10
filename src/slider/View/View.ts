@@ -58,6 +58,11 @@ class View extends Observer {
 
   private redrawValue = () => {
     this.scale.updateProps(this.getScaleProps());
+
+    if (this.hasRulerPropsChange()) {
+      this.ruler.updateProps(this.getRulerProps());
+    }
+
     const { currentValue } = this.sliderOptions;
     if (currentValue instanceof Array) {
       currentValue.forEach((value, index) => {
@@ -72,6 +77,12 @@ class View extends Observer {
       this.toggles[0].main.updateProps(toggleProps);
       this.toggles[0].thumb.updateValue(currentValue);
     }
+  };
+
+  private hasRulerPropsChange = () => {
+    const oldRulerProps = this.ruler.getProps();
+    const newRulerProps = this.getRulerProps();
+    return JSON.stringify(oldRulerProps) !== JSON.stringify(newRulerProps);
   };
 
   private dispatchSliderOptions = (newSliderOptions: ISliderOptions) => {
