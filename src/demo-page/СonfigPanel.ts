@@ -1,4 +1,5 @@
 import { Slider } from '../slider/Slider';
+import ISliderOptions from '../slider/ISliderOptions';
 const configPanelTemplate = require('./template/configPanel.hbs');
 
 const debounce = (callback: Function) => {
@@ -82,21 +83,10 @@ class ConfigPanel {
     this.isVerticalCheckbox = this.domParent.querySelector('#isVertical');
   };
 
-  
   private setListeners = () => {
     const debounceInput = debounce(() => {
-      const newOptions = {
-        currentValue: this.currentValueInput.value,
-        decimal: 2,
-        domParent: this.slider,
-        isRuler: true,
-        isThumb: true,
-        orientation: 'horizontal',
-        range: { min: 10, max: 30 },
-        step: 1,
-      };
-
-      // this.slider.onChangeCurrentValue(parseInt(this.currentValueInput.value));
+      const newOptions = { ...this.slider.getSliderOptions() };
+      newOptions.currentValue = parseInt(this.currentValueInput.value);
       this.slider.onChangeCurrentValue(newOptions);
     });
 
