@@ -34,6 +34,18 @@ class Ruler {
     this.domNode = domNode;
   };
 
+  updateProps = (props: IRulerProps) => {
+    this.props = props;
+    this.redraw();
+  };
+
+  private redraw = () => {
+    this.domNode.ruler.textContent = '';
+    Array.from(this.getHtml().childNodes).forEach((item) => {
+      this.domNode.ruler.appendChild(item);
+    });
+  };
+
   private getRulerItems = () => {
     const rulerValues = this.getRulerValues();
     return rulerValues.map((value) => {
