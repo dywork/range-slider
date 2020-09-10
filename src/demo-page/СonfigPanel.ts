@@ -87,10 +87,12 @@ class ConfigPanel {
     const debounceInput = debounce(() => {
       const newOptions = { ...this.slider.getSliderOptions() };
       newOptions.currentValue = parseInt(this.currentValueInput.value);
+      newOptions.step = parseInt(this.stepInput.value);
       this.slider.onChangeCurrentValue(newOptions);
     });
 
     this.currentValueInput.addEventListener('input', debounceInput);
+    this.stepInput.addEventListener('input', debounceInput);
   };
 }
 
