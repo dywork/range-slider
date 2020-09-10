@@ -21,6 +21,8 @@ class Ruler {
     this.props = props;
   }
 
+  getProps = () => this.props;
+
   getHtml = () => {
     const templateOptions = { sliderClassName, items: this.getRulerItems() };
     const ruler = document.createElement('div');
