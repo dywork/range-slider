@@ -35,6 +35,9 @@ class ConfigPanel {
   constructor(domParent: HTMLElement, slider: Slider) {
     this.domParent = domParent;
     this.slider = slider;
+    slider.subscribe('sliderOptionsUpdate', (sliderOptions: ISliderOptions) => {
+      this.currentValueInput.value = `${sliderOptions.currentValue}`;
+    });
   }
 
   init = () => {
