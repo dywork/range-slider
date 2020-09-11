@@ -103,6 +103,12 @@ class ConfigPanel {
     this.stepInput.addEventListener('input', debounceInput);
     this.minRangeInput.addEventListener('input', debounceInput);
     this.maxRangeInput.addEventListener('input', debounceInput);
+
+    this.isThumbCheckbox.addEventListener('change', (evt: Event) => {
+      const newOptions = { ...this.slider.getSliderOptions() };
+      newOptions.isThumb = (<HTMLInputElement>evt.target).checked
+      this.slider.onChangeSliderOptions (newOptions);
+    });
   };
 }
 
