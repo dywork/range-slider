@@ -78,8 +78,8 @@ class ConfigPanel {
   private saveDom = () => {
     this.currentValueInput = this.domParent.querySelector('#currentValue');
     this.stepInput = this.domParent.querySelector('#step');
-    this.minRangeInput = this.domParent.querySelector('#step');
-    this.maxRangeInput = this.domParent.querySelector('#step');
+    this.minRangeInput = this.domParent.querySelector('#minRangeValue');
+    this.maxRangeInput = this.domParent.querySelector('#maxRangeValue');
     this.isThumbCheckbox = this.domParent.querySelector('#isThumbShow');
     this.isRulerCheckbox = this.domParent.querySelector('#isRulerShow');
     this.isDiapasonCheckbox = this.domParent.querySelector('#isDiapason');
@@ -89,13 +89,20 @@ class ConfigPanel {
   private setListeners = () => {
     const debounceInput = debounce(() => {
       const newOptions = { ...this.slider.getSliderOptions() };
+      const newRange = {
+        min: parseInt(this.minRangeInput.value),
+        max: parseInt(this.maxRangeInput.value),
+      };
       newOptions.currentValue = parseInt(this.currentValueInput.value);
       newOptions.step = parseInt(this.stepInput.value);
+      newOptions.range = newRange;
       this.slider.onChangeCurrentValue(newOptions);
     });
 
     this.currentValueInput.addEventListener('input', debounceInput);
     this.stepInput.addEventListener('input', debounceInput);
+    this.minRangeInput.addEventListener('input', debounceInput);
+    this.maxRangeInput.addEventListener('input', debounceInput);
   };
 }
 
