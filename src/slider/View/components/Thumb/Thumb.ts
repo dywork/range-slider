@@ -1,22 +1,30 @@
+import Observer from '../../../Observer/Observer';
 import sliderClassName from '../../utils/sliderClassName';
 
 const thumbTemplate = require('./template.hbs');
+
+interface IThumbProps {
+  value: number | number[];
+  isThumb: boolean;
+}
 
 interface IDomNode {
   thumb: HTMLElement;
 }
 
-class Thumb {
-  private value: number | number[];
+class Thumb extends Observer {
+  private props: IThumbProps;
 
   private domNode: IDomNode;
 
-  constructor(value: number | number[]) {
-    this.value = value;
+  constructor(props: IThumbProps) {
+    super();
+    this.props = props;
   }
 
   getHtml = () => {
-    const templateOptions = { sliderClassName, value: this.value };
+    const { value } = this.props;
+    const templateOptions = { sliderClassName, value };
     const thumb = document.createElement('div');
     thumb.innerHTML = thumbTemplate(templateOptions);
     return thumb.firstChild;
@@ -28,14 +36,26 @@ class Thumb {
     this.domNode = domNode;
   };
 
-  updateValue = (value: number) => {
-    this.value = value;
+  destroyDom = () => {
+    const { thumb } = this.domNode;
+    const parent = thumb.parentElement;
+    parent.removeChild(thumb);
+  };
+
+  updateProps = (props: IThumbProps) => {
+    this.props = props;
     this.redraw();
   };
 
   private redraw = () => {
-    this.domNode.thumb.textContent = `${this.value}`;
+    const { value, isThumb } = this.props;
+
+    if (isThumb) {
+      this.domNode.thumb.textContent = `${value}`;
+    } else {
+      this.notify('onThumbHide', '');
+    }
   };
 }
 
-export default Thumb;
+export { Thumb, IThumbProps };

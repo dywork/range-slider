@@ -2,7 +2,7 @@ import Observer from '../Observer/Observer';
 import ISliderOptions from '../ISliderOptions';
 import { Scale, IScaleProps } from './components/Scale/Scale';
 import { Toggle, IToggleProps } from './components/Toggle/Toggle';
-import Thumb from './components/Thumb/Thumb';
+import { Thumb, IThumbProps } from './components/Thumb/Thumb';
 import { Ruler, IRulerProps } from './components/Ruler/Ruler';
 import sliderClassName from './utils/sliderClassName';
 
@@ -63,19 +63,40 @@ class View extends Observer {
       this.ruler.updateProps(this.getRulerProps());
     }
 
-    const { currentValue } = this.sliderOptions;
+    const { currentValue, isThumb } = this.sliderOptions;
+
     if (currentValue instanceof Array) {
       currentValue.forEach((value, index) => {
         const scalePosition = this.scale.getPosition(value);
         const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
         this.toggles[index].main.updateProps(toggleProps);
-        this.toggles[index].thumb.updateValue(value);
+
+        const { thumb } = this.toggles[index];
+        if (isThumb) {
+          if (thumb) {
+            thumb.updateProps(this.getThumbProps(value));
+          } else {
+            this.onThumbMount();
+          }
+        } else if (thumb) {
+          thumb.updateProps(this.getThumbProps(value));
+        }
       });
     } else {
       const scalePosition = this.scale.getPosition(currentValue);
       const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
       this.toggles[0].main.updateProps(toggleProps);
-      this.toggles[0].thumb.updateValue(currentValue);
+
+      const { thumb } = this.toggles[0];
+      if (isThumb) {
+        if (thumb) {
+          thumb.updateProps(this.getThumbProps(currentValue));
+        } else {
+          this.onThumbMount();
+        }
+      } else if (thumb) {
+        thumb.updateProps(this.getThumbProps(currentValue));
+      }
     }
   };
 
@@ -98,8 +119,12 @@ class View extends Observer {
         const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
         const toggle = {
           main: new Toggle(toggleProps),
-          thumb: isThumb ? new Thumb(value) : null,
+          thumb: isThumb ? new Thumb(this.getThumbProps(value)) : null,
         };
+
+        if (toggle.thumb) {
+          toggle.thumb.subscribe('onThumbHide', this.onThumbHide);
+        }
 
         return toggle;
       });
@@ -109,10 +134,19 @@ class View extends Observer {
     const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
     const toggle = {
       main: new Toggle(toggleProps),
-      thumb: isThumb ? new Thumb(currentValue) : null,
+      thumb: isThumb ? new Thumb(this.getThumbProps(currentValue)) : null,
     };
 
+    if (toggle.thumb) {
+      toggle.thumb.subscribe('onThumbHide', this.onThumbHide);
+    }
+
     return [toggle];
+  };
+
+  private getThumbProps = (value: number): IThumbProps => {
+    const { isThumb } = this.sliderOptions;
+    return { isThumb, value };
   };
 
   private getScale = () => new Scale(this.getScaleProps());
@@ -287,6 +321,40 @@ class View extends Observer {
     evt.preventDefault();
     document.removeEventListener('mousemove', this.onToggleMove);
     document.removeEventListener('mouseup', this.onToggleUp);
+  };
+
+  private onThumbMount = () => {
+    const { currentValue } = this.sliderOptions;
+
+    if (currentValue instanceof Array) {
+      currentValue.forEach((value: number, index: number) => {
+        const toggle = this.toggles[index];
+        toggle.thumb = new Thumb(this.getThumbProps(value));
+        toggle.thumb.subscribe('onThumbHide', this.onThumbHide);
+        const domToggle = toggle.main.getDomNode().toggle;
+        domToggle.appendChild(toggle.thumb.getHtml());
+        const domThumb = domToggle.querySelector(`.${sliderClassName.thumb}`) as HTMLElement;
+        toggle.thumb.setDomNode({ thumb: domThumb });
+      });
+    } else {
+      const toggle = this.toggles[0];
+      toggle.thumb = new Thumb(this.getThumbProps(currentValue));
+      toggle.thumb.subscribe('onThumbHide', this.onThumbHide);
+      const domToggle = toggle.main.getDomNode().toggle;
+      domToggle.appendChild(toggle.thumb.getHtml());
+      const domThumb = domToggle.querySelector(`.${sliderClassName.thumb}`) as HTMLElement;
+      toggle.thumb.setDomNode({ thumb: domThumb });
+    }
+  };
+
+  private onThumbHide = () => {
+    this.toggles.forEach((toggle: IToggle) => {
+      if (toggle.thumb) {
+        toggle.thumb.destroyDom();
+        // eslint-disable-next-line no-param-reassign
+        toggle.thumb = null;
+      }
+    });
   };
 
   private changeCurrentValue = (clickCoord: IClickCoord) => {
