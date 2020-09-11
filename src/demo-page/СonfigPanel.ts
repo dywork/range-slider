@@ -96,7 +96,7 @@ class ConfigPanel {
       newOptions.currentValue = parseInt(this.currentValueInput.value);
       newOptions.step = parseInt(this.stepInput.value);
       newOptions.range = newRange;
-      this.slider.onChangeCurrentValue(newOptions);
+      this.slider.onChangeSliderOptions(newOptions);
     });
 
     this.currentValueInput.addEventListener('input', debounceInput);
