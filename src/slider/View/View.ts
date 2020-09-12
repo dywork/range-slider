@@ -58,9 +58,20 @@ class View extends Observer {
 
   private redrawValue = () => {
     this.scale.updateProps(this.getScaleProps());
+    const { isRuler } = this.sliderOptions;
 
-    if (this.hasRulerPropsChange()) {
-      this.ruler.updateProps(this.getRulerProps());
+    if (isRuler) {
+      if (this.ruler) {
+        if (this.hasRulerPropsChange()) {
+          this.ruler.updateProps(this.getRulerProps());
+        }
+      } else {
+        this.onRulerMount();
+      }
+    } else if (this.ruler) {
+      if (this.hasRulerPropsChange()) {
+        this.ruler.updateProps(this.getRulerProps());
+      }
     }
 
     const { currentValue, isThumb } = this.sliderOptions;
@@ -158,20 +169,33 @@ class View extends Observer {
 
   private getRuler = () => {
     const { isRuler } = this.sliderOptions;
+
     if (isRuler) {
-      return new Ruler(this.getRulerProps());
+      const ruler = new Ruler(this.getRulerProps());
+      ruler.subscribe('onRulerHide', this.onRulerHide);
+      return ruler;
     }
 
     return null;
   };
 
   private getRulerProps = (): IRulerProps => {
-    const { range, step } = this.sliderOptions;
+    const { range, step, isRuler } = this.sliderOptions;
     if (!step) {
-      return { range, step: 1, isVertical: this.isVertical };
+      return {
+        range,
+        step: 1,
+        isRuler,
+        isVertical: this.isVertical,
+      };
     }
 
-    return { range, step, isVertical: this.isVertical };
+    return {
+      range,
+      step,
+      isRuler,
+      isVertical: this.isVertical,
+    };
   };
 
   private mountSlider = () => {
@@ -263,6 +287,24 @@ class View extends Observer {
         this.onToggleMouseDown(evt, toggleIndex);
       });
     });
+  };
+
+  private onRulerMount = () => {
+    this.ruler = new Ruler(this.getRulerProps());
+    this.ruler.subscribe('onRulerHide', this.onRulerHide);
+    const domRuler = this.ruler.getHtml() as HTMLElement;
+    const domContainer = this.slider.querySelector(`.${sliderClassName.wrap}`);
+    domContainer.appendChild(domRuler);
+    this.ruler.setDomNode({ ruler: domRuler });
+    const { ruler } = this.ruler.getDomNode();
+    ruler.addEventListener('click', this.onRulerClick);
+  };
+
+  private onRulerHide = () => {
+    if (this.ruler) {
+      this.ruler.destroyDom();
+      this.ruler = null;
+    }
   };
 
   private onRulerClick = (evt: MouseEvent) => {
