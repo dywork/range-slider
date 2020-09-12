@@ -76,14 +76,14 @@ class ConfigPanel {
   };
 
   private saveDom = () => {
-    this.currentValueInput = this.domParent.querySelector('#currentValue');
-    this.stepInput = this.domParent.querySelector('#step');
-    this.minRangeInput = this.domParent.querySelector('#minRangeValue');
-    this.maxRangeInput = this.domParent.querySelector('#maxRangeValue');
-    this.isThumbCheckbox = this.domParent.querySelector('#isThumbShow');
-    this.isRulerCheckbox = this.domParent.querySelector('#isRulerShow');
-    this.isDiapasonCheckbox = this.domParent.querySelector('#isDiapason');
-    this.isVerticalCheckbox = this.domParent.querySelector('#isVertical');
+    this.currentValueInput = this.domParent.querySelector('.current-value');
+    this.stepInput = this.domParent.querySelector('.step');
+    this.minRangeInput = this.domParent.querySelector('.min-range-value');
+    this.maxRangeInput = this.domParent.querySelector('.max-range-value');
+    this.isThumbCheckbox = this.domParent.querySelector('.is-thumb-show');
+    this.isRulerCheckbox = this.domParent.querySelector('.is-ruler-show');
+    this.isDiapasonCheckbox = this.domParent.querySelector('.is-diapason');
+    this.isVerticalCheckbox = this.domParent.querySelector('.is-vertical');
   };
 
   private setListeners = () => {

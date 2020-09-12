@@ -3,39 +3,39 @@
   <p class="config-panel__value">
     <label class="config-panel__label">
       Текущее мин. значение:
-      <input id="currentMinValue" type="number" value="{{currentValue.[0]}}">
+      <input class="current-min-value" type="number" value="{{currentValue.[0]}}">
     </label>
   </p>
   <p class="config-panel__value"></p>
-  <label class="config-panel__label">
-    Текущее макс. значение:
-    <input id="currentMaxValue" type="number" value="{{currentValue.[1]}}">
-  </label>
+    <label class="config-panel__label">
+      Текущее макс. значение:
+      <input class="current-max-value" type="number" value="{{currentValue.[1]}}">
+    </label>
   </p>
   {{else}}
   <p class="config-panel__value">
     <label class="config-panel__label">
       Текущее значение:
-      <input id="currentValue" type="number" value="{{currentValue}}">
+      <input class="current-value" type="number" value="{{currentValue}}">
     </label>
   </p>
   {{/if}}
   <p class="config-panel__value">
     <label class="config-panel__label">
       Шаг:
-      <input id="step" type="number" value="{{step}}">
+      <input class="step" type="number" value="{{step}}">
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Минимальное значение:
-      <input id="minRangeValue" type="number" value={{range.min}}>
+      <input class="min-range-value" type="number" value={{range.min}}>
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Максимальное значение:
-      <input id="maxRangeValue" type="number" value="{{range.max}}">
+      <input class="max-range-value" type="number" value="{{range.max}}">
     </label>
   </p>
 </fieldset>
@@ -43,25 +43,25 @@
   <p class="config-panel__value">
     <label class="config-panel__label">
       Показывать текущее значение:
-      <input id="isThumbShow" type="checkbox" {{#if isThumb}}checked{{/if}}>
+      <input class="is-thumb-show" type="checkbox" {{#if isThumb}}checked{{/if}}>
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Шкала:
-      <input id="isRulerShow" type="checkbox" {{#if isRuler}}checked{{/if}}>
+      <input class="is-ruler-show" type="checkbox" {{#if isRuler}}checked{{/if}}>
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Диапазон:
-      <input id="isDiapason" type="checkbox" {{#if isDiapason}}checked{{/if}}>
+      <input class="is-diapason" type="checkbox" {{#if isDiapason}}checked{{/if}}>
     </label>
   </p>
   <p class="config-panel__value">
     <label class="config-panel__label">
       Вертикальный слайдер:
-      <input id="isVertical" type="checkbox" {{#if isVertical}}checked{{/if}}>
+      <input class="is-vertical" type="checkbox" {{#if isVertical}}checked{{/if}}>
     </label>
   </p>
 </fieldset>
