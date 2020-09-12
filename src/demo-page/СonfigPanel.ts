@@ -106,8 +106,14 @@ class ConfigPanel {
 
     this.isThumbCheckbox.addEventListener('change', (evt: Event) => {
       const newOptions = { ...this.slider.getSliderOptions() };
-      newOptions.isThumb = (<HTMLInputElement>evt.target).checked
-      this.slider.onChangeSliderOptions (newOptions);
+      newOptions.isThumb = (<HTMLInputElement>evt.target).checked;
+      this.slider.onChangeSliderOptions(newOptions);
+    });
+
+    this.isRulerCheckbox.addEventListener('change', (evt: Event) => {
+      const newOptions = { ...this.slider.getSliderOptions() };
+      newOptions.isRuler = (<HTMLInputElement>evt.target).checked;
+      this.slider.onChangeSliderOptions(newOptions);
     });
   };
 }
