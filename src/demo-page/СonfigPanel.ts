@@ -41,12 +41,7 @@ class ConfigPanel {
   constructor(domParent: HTMLElement, slider: Slider) {
     this.domParent = domParent;
     this.slider = slider;
-    const { currentValue } = this.slider.getSliderOptions();
-    if (currentValue instanceof Array) {
-      this.isRange = true;
-    } else {
-      this.isRange = false;
-    }
+    this.isRange = this.hasRange();
     slider.subscribe('sliderOptionsUpdate', this.onSliderOptionsUpdate);
   }
 
@@ -142,6 +137,11 @@ class ConfigPanel {
       newOptions.isRuler = (<HTMLInputElement>evt.target).checked;
       this.slider.onChangeSliderOptions(newOptions);
     });
+  };
+
+  private hasRange = () => {
+    const { currentValue } = this.slider.getSliderOptions();
+    return currentValue instanceof Array;
   };
 
   private onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
