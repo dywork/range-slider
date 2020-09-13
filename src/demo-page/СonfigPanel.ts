@@ -16,13 +16,19 @@ class ConfigPanel {
 
   slider: Slider;
 
-  currentValueInput: HTMLInputElement;
+  currentValueInput: HTMLInputElement | null;
+
+  minCurrentValueInput: HTMLInputElement | null;
+
+  maxCurrentValueInput: HTMLInputElement | null;
 
   stepInput: HTMLInputElement;
 
   minRangeInput: HTMLInputElement;
 
   maxRangeInput: HTMLInputElement;
+
+  isRange: boolean;
 
   isThumbCheckbox: HTMLInputElement;
 
@@ -35,8 +41,19 @@ class ConfigPanel {
   constructor(domParent: HTMLElement, slider: Slider) {
     this.domParent = domParent;
     this.slider = slider;
+    const { currentValue } = this.slider.getSliderOptions();
+    if (currentValue instanceof Array) {
+      this.isRange = true;
+    } else {
+      this.isRange = false;
+    }
     slider.subscribe('sliderOptionsUpdate', (sliderOptions: ISliderOptions) => {
-      this.currentValueInput.value = `${sliderOptions.currentValue}`;
+      if (sliderOptions.currentValue instanceof Array) {
+        this.minCurrentValueInput.value = `${sliderOptions.currentValue[0]}`;
+        this.maxCurrentValueInput.value = `${sliderOptions.currentValue[1]}`;
+      } else {
+        this.currentValueInput.value = `${sliderOptions.currentValue}`;
+      }
     });
   }
 
@@ -76,7 +93,12 @@ class ConfigPanel {
   };
 
   private saveDom = () => {
-    this.currentValueInput = this.domParent.querySelector('.current-value');
+    if (this.isRange) {
+      this.minCurrentValueInput = this.domParent.querySelector('.current-min-value');
+      this.maxCurrentValueInput = this.domParent.querySelector('.current-max-value');
+    } else {
+      this.currentValueInput = this.domParent.querySelector('.current-value');
+    }
     this.stepInput = this.domParent.querySelector('.step');
     this.minRangeInput = this.domParent.querySelector('.min-range-value');
     this.maxRangeInput = this.domParent.querySelector('.max-range-value');
@@ -93,13 +115,25 @@ class ConfigPanel {
         min: parseInt(this.minRangeInput.value),
         max: parseInt(this.maxRangeInput.value),
       };
-      newOptions.currentValue = parseInt(this.currentValueInput.value);
+      if (newOptions.currentValue instanceof Array) {
+        const minValue = parseInt(this.minCurrentValueInput.value);
+        const maxValue = parseInt(this.maxCurrentValueInput.value);
+        newOptions.currentValue = [minValue, maxValue];
+      } else {
+        newOptions.currentValue = parseInt(this.currentValueInput.value);
+      }
       newOptions.step = parseInt(this.stepInput.value);
       newOptions.range = newRange;
       this.slider.onChangeSliderOptions(newOptions);
     });
 
-    this.currentValueInput.addEventListener('input', debounceInput);
+    if (this.isRange) {
+      this.minCurrentValueInput.addEventListener('input', debounceInput);
+      this.maxCurrentValueInput.addEventListener('input', debounceInput);
+    } else {
+      this.currentValueInput.addEventListener('input', debounceInput);
+    }
+
     this.stepInput.addEventListener('input', debounceInput);
     this.minRangeInput.addEventListener('input', debounceInput);
     this.maxRangeInput.addEventListener('input', debounceInput);
