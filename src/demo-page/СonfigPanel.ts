@@ -47,14 +47,7 @@ class ConfigPanel {
     } else {
       this.isRange = false;
     }
-    slider.subscribe('sliderOptionsUpdate', (sliderOptions: ISliderOptions) => {
-      if (sliderOptions.currentValue instanceof Array) {
-        this.minCurrentValueInput.value = `${sliderOptions.currentValue[0]}`;
-        this.maxCurrentValueInput.value = `${sliderOptions.currentValue[1]}`;
-      } else {
-        this.currentValueInput.value = `${sliderOptions.currentValue}`;
-      }
-    });
+    slider.subscribe('sliderOptionsUpdate', this.onSliderOptionsUpdate);
   }
 
   init = () => {
@@ -149,6 +142,15 @@ class ConfigPanel {
       newOptions.isRuler = (<HTMLInputElement>evt.target).checked;
       this.slider.onChangeSliderOptions(newOptions);
     });
+  };
+
+  private onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
+    if (sliderOptions.currentValue instanceof Array) {
+      this.minCurrentValueInput.value = `${sliderOptions.currentValue[0]}`;
+      this.maxCurrentValueInput.value = `${sliderOptions.currentValue[1]}`;
+    } else {
+      this.currentValueInput.value = `${sliderOptions.currentValue}`;
+    }
   };
 }
 
