@@ -22,6 +22,10 @@ body {
 
 .config-panel__slider {
   margin-bottom: 50px;
+
+  &--vertical {
+    height: 400px;
+  }
 }
 
 .config-panel__title {
