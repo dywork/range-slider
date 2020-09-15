@@ -51,6 +51,10 @@ class View extends Observer {
     this.setListeners();
   };
 
+  destroyDom = () => {
+    this.domParent.removeChild(this.slider);
+  };
+
   updateSliderOptions = (newSliderOptions: ISliderOptions) => {
     this.sliderOptions = newSliderOptions;
     this.redrawValue();
