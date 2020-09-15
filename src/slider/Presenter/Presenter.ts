@@ -24,6 +24,30 @@ class Presenter extends Observer implements IPresenter {
   }
 
   dispatchSliderOptions = (newSliderOptions: ISliderOptions) => {
+    const { currentValue: oldCurrentValue } = this.model.getOptions();
+    const { currentValue: newCurrentValue } = newSliderOptions;
+    const isOldRange = oldCurrentValue instanceof Array;
+    const isNewRange = newCurrentValue instanceof Array;
+    const isRangeChange = (!isOldRange && isNewRange) || (isOldRange && !isNewRange);
+
+    if (isRangeChange) {
+      this.view.destroyDom();
+      this.view = new View(newSliderOptions);
+      this.view.subscribe('sliderOptionsUpdate', this.dispatchSliderOptions);
+      this.view.render();
+    }
+
+    const { orientation: oldOrientation } = this.model.getOptions();
+    const { orientation: newOrientation } = newSliderOptions;
+    const isOrientationChange = oldOrientation !== newOrientation;
+
+    if (isOrientationChange) {
+      this.view.destroyDom();
+      this.view = new View(newSliderOptions);
+      this.view.subscribe('sliderOptionsUpdate', this.dispatchSliderOptions);
+      this.view.render();
+    }
+
     this.model.updateSliderOptions(newSliderOptions);
     this.notify('sliderOptionsUpdate', newSliderOptions);
   };
