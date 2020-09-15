@@ -49,7 +49,7 @@ class Presenter extends Observer implements IPresenter {
     }
 
     this.model.updateSliderOptions(newSliderOptions);
-    this.notify('sliderOptionsUpdate', newSliderOptions);
+    this.notify('sliderOptionsUpdate', this.model.getOptions());
   };
 
   private subscribeModules = () => {
