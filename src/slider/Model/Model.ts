@@ -16,8 +16,40 @@ class Model extends Observer implements IModel {
   getOptions = () => this.sliderOptions;
 
   updateSliderOptions = (newSliderOptions: ISliderOptions) => {
-    this.sliderOptions = newSliderOptions;
+    const verificateOptions = this.getVerificateOptions(newSliderOptions);
+    this.sliderOptions = verificateOptions;
     this.notify('sliderOptionsUpdate', this.sliderOptions);
+  };
+
+  private getVerificateOptions = (checkingOptions: ISliderOptions) => {
+    const verificateOptions = { ...checkingOptions };
+    const { currentValue, range, step } = verificateOptions;
+
+    if (!step) {
+      verificateOptions.step = 1;
+    }
+
+    if (!currentValue) {
+      verificateOptions.currentValue = range.min;
+    }
+
+    if (currentValue instanceof Array) {
+      if (!currentValue[0]) {
+        currentValue[0] = range.min;
+      }
+      if (!currentValue[1]) {
+        currentValue[1] = range.max;
+      }
+
+      currentValue[0] = currentValue[0] < range.min ? range.min : currentValue[0];
+      currentValue[1] = currentValue[1] > range.max ? range.max : currentValue[1];
+    } else if (currentValue < range.min) {
+      verificateOptions.currentValue = range.min;
+    } else if (currentValue > range.max) {
+      verificateOptions.currentValue = range.max;
+    }
+
+    return verificateOptions;
   };
 }
 
