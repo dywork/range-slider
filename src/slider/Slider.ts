@@ -19,7 +19,6 @@ class Slider extends Observer {
   };
 
   onChangeSliderOptions = (sliderOptions: ISliderOptions) => {
-    // this.sliderOptions.currentValue = value;
     this.sliderOptions = sliderOptions;
     this.presenter.dispatchSliderOptions(this.sliderOptions);
   };
