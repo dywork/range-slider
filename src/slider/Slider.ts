@@ -1,58 +1,33 @@
+import Observer from './Observer/Observer';
 import Presenter from './Presenter/Presenter';
-import IViewOptions from './View/IViewOptions';
+import ISliderOptions from './ISliderOptions';
 
-interface ISliderOptions {
-  domParent: HTMLElement;
-  currentValue: number | number[];
-  range: { min: number; max: number };
-  isRuler: boolean;
-  isThumb: boolean;
-  step: number;
-  decimal: number;
-  orientation: string;
-}
+class Slider extends Observer {
+  private sliderOptions: ISliderOptions;
 
-class Slider {
   private presenter: Presenter;
 
   constructor(sliderOptions: ISliderOptions) {
-    const viewOptions: IViewOptions = this.getViewOptions(sliderOptions);
-    const modelOptions = this.getModelOptions(sliderOptions);
-    this.presenter = new Presenter(viewOptions, modelOptions);
+    super();
+    this.sliderOptions = sliderOptions;
+    this.presenter = new Presenter(sliderOptions);
   }
 
   init = () => {
     this.presenter.init();
+    this.presenter.subscribe('sliderOptionsUpdate', this.alertSubs);
   };
 
-  onChangeOptions = (value: number) => {
-    console.log(value);
+  onChangeSliderOptions = (sliderOptions: ISliderOptions) => {
+    this.sliderOptions = sliderOptions;
+    this.presenter.dispatchSliderOptions(this.sliderOptions);
   };
 
-  private getViewOptions = (sliderOptions: ISliderOptions) => {
-    const {
-      domParent,
-      isRuler,
-      isThumb,
-      decimal,
-      orientation,
-    } = sliderOptions;
+  getSliderOptions = () => this.sliderOptions;
 
-    const viewOptions: IViewOptions = {
-      domParent,
-      isThumb,
-      isRuler,
-      decimal,
-      orientation,
-    };
-
-    return viewOptions;
-  };
-
-  private getModelOptions = (sliderOptions: ISliderOptions) => {
-    const { currentValue, range, step } = sliderOptions;
-    const modelOptions = { currentValue, range, step };
-    return modelOptions;
+  private alertSubs = (newSliderOptions: ISliderOptions) => {
+    this.sliderOptions = newSliderOptions;
+    this.notify('sliderOptionsUpdate', this.getSliderOptions());
   };
 }
 

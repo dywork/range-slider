@@ -1,3 +1,4 @@
+import Observer from '../../../Observer/Observer';
 import sliderClassName from '../../utils/sliderClassName';
 
 const rulerTemplate = require('./template.hbs');
@@ -5,6 +6,7 @@ const rulerTemplate = require('./template.hbs');
 interface IRulerProps {
   step: number;
   range: { min: number; max: number };
+  isRuler: boolean;
   isVertical: boolean;
 }
 
@@ -12,14 +14,17 @@ interface IDomNode {
   ruler: HTMLElement;
 }
 
-class Ruler {
+class Ruler extends Observer {
   private props: IRulerProps;
 
   private domNode: IDomNode;
 
   constructor(props: IRulerProps) {
+    super();
     this.props = props;
   }
+
+  getProps = () => this.props;
 
   getHtml = () => {
     const templateOptions = { sliderClassName, items: this.getRulerItems() };
@@ -32,6 +37,28 @@ class Ruler {
 
   setDomNode = (domNode: IDomNode) => {
     this.domNode = domNode;
+  };
+
+  updateProps = (props: IRulerProps) => {
+    this.props = props;
+    if (this.props.isRuler) {
+      this.redraw();
+    } else {
+      this.notify('onRulerHide', '');
+    }
+  };
+
+  destroyDom = () => {
+    const { ruler } = this.domNode;
+    const parent = ruler.parentElement;
+    parent.removeChild(ruler);
+  };
+
+  private redraw = () => {
+    this.domNode.ruler.textContent = '';
+    Array.from(this.getHtml().childNodes).forEach((item) => {
+      this.domNode.ruler.appendChild(item);
+    });
   };
 
   private getRulerItems = () => {

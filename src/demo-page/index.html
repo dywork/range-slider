@@ -8,19 +8,25 @@
   </head>
   <body>
     <div class="container">
-      <div class="box" id="firstSlider"></div>
-      <div class="box" id="secondSlider"></div>
-      <div class="box-container">
-        <div class="box  box--vertical" id="thirdSlider"></div>
-        <div class="box  box--vertical" id="fourthSlider"></div>
-      </div>
-      <div class="box" id="fifthSlider"></div>
-      <div class="box" id="sixthSlider"></div>
-      <div class="box-container">
-        <div class="box  box--vertical" id="seventhSlider"></div>
-        <div class="box  box--vertical" id="eighthSlider"></div>
+      <div class="page-wrap">
+        <section class="config-panel">
+          <h2 class="config-panel__title">Слайдер по умолчанию</h2>
+          <div class="config-panel__slider" id="defaultSlider"></div>
+          <form class="config-panel__form" id="defaultSliderConfig"></form>
+        </section>
+        <section class="config-panel">
+          <h2 class="config-panel__title">Слайдер с диапазоном</h2>
+          <div class="config-panel__slider" id="rangeSlider"></div>
+          <form class="config-panel__form" id="rangeSliderConfig"></form>
+        </section>
+        <section class="config-panel  config-panel--vertical">
+          <h2 class="config-panel__title">Вертикальный слайдер</h2>
+          <div class="config-panel__slider  config-panel__slider--vertical" id="verticalSlider"></div>
+          <form class="config-panel__form" id="verticalSliderConfig"></form>
+        </section>
       </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   </body>
 </html>
