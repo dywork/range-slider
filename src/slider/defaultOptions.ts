@@ -1,8 +1,8 @@
 const defaultOptions = {
-  currentValue: 0,
+  currentValue: 10,
   range: {
-    min: 0,
-    max: 100,
+    min: 10,
+    max: 30,
   },
   isThumb: true,
   isRuler: false,
