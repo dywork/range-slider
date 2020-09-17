@@ -38,7 +38,7 @@ class Model extends Observer implements IModel {
       verificateOptions.step = defaultOptions.step;
     }
 
-    if (!currentValue) {
+    if (!currentValue && currentValue !== 0) {
       verificateOptions.currentValue = range.min;
     }
 
