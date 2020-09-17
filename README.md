@@ -10,17 +10,17 @@ $ npm install
 
 ## Команды
 
-**Клонировать репозиторий**
+**Клонировать репозиторий: **
 `git clone https://github.com/dywork/range-slider`
 
-**Запуск**
+**Запуск: **
 `npm start`
 
-**Сборка**
+**Сборка: **
 `npm run build`
 
-**Тесты**
+**Тесты: **
 `npm run test`
 
-**Деплой на github page**
+**Деплой на github page: **
 `npm run deploy`
