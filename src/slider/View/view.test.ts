@@ -1,18 +1,22 @@
 import View from './View';
+
+import ISliderOptions from '../ISliderOptions';
+
 import sliderClassName from './utils/sliderClassName';
 import defaultOptions from '../defaultOptions';
 
+let sliderOptions: ISliderOptions;
+
 beforeEach(() => {
   document.body.innerHTML = '<div id="defaultSlider"></div>';
+  sliderOptions = {
+    domParent: document.querySelector('#defaultSlider') as HTMLElement,
+    ...defaultOptions,
+  };
 });
 
 describe('View', () => {
   it('создает слайдер в DOM', () => {
-    const sliderOptions = {
-      domParent: document.querySelector('#defaultSlider') as HTMLElement,
-      ...defaultOptions,
-    };
-
     const view = new View(sliderOptions);
     view.render();
     expect(document.querySelectorAll(`.${sliderClassName.slider}`).length).toEqual(1);
