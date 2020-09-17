@@ -81,4 +81,18 @@ describe('View', () => {
     expect(document.querySelectorAll(`.${sliderClassName.bar}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassName.thumb}`).length).toEqual(0);
   });
+
+  it('создает вертикальный слайдер', () => {
+    const rangeSliderOptions = { ...sliderOptions, orientation: 'vertical' };
+    const view = new View(rangeSliderOptions);
+    view.render();
+    const isWrapHaveVerticalClass = document
+      .querySelector(`.${sliderClassName.wrap}`)
+      .classList.contains(`${sliderClassName.sliderVertical}`);
+    expect(document.querySelectorAll(`.${sliderClassName.slider}`).length).toEqual(1);
+    expect(document.querySelectorAll(`.${sliderClassName.wrap}`).length).toEqual(1);
+    expect(document.querySelectorAll(`.${sliderClassName.scale}`).length).toEqual(1);
+    expect(document.querySelectorAll(`.${sliderClassName.bar}`).length).toEqual(1);
+    expect(isWrapHaveVerticalClass).toBe(true);
+  });
 });
