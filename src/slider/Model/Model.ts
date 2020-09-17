@@ -11,7 +11,7 @@ class Model extends Observer implements IModel {
 
   constructor(sliderOptions: ISliderOptions) {
     super();
-    this.sliderOptions = sliderOptions;
+    this.sliderOptions = this.getVerificateOptions(sliderOptions);
   }
 
   getOptions = () => this.sliderOptions;
