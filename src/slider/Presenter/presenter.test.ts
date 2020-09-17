@@ -1,21 +1,29 @@
-// import Presenter from './Presenter';
-// import { IModelOptions } from '../Model/Model';
-// import IViewOptions from '../View/IViewOptions';
+import Presenter from './Presenter';
+import ISLiderOptions from '../ISliderOptions';
+import defaultOptions from '../defaultOptions';
 
-// describe('Presenter', () => {
-//   it('инициализируется', () => {
-//     const sliderOptions: IModelOptions = { currentValue: 0, range: { min: 0, max: 100 }, step: 0 };
-//     const domParent = document.createElement('div');
-//     const viewOptions: IViewOptions = {
-//       domParent,
-//       isRuler: false,
-//       isThumb: true,
-//       decimal: 2,
-//       orientation: 'horizontal',
-//     };
-//     const presenter = new Presenter(viewOptions, sliderOptions);
-//     spyOn(presenter, 'init');
-//     presenter.init();
-//     expect.call(presenter.init);
-//   });
-// });
+let sliderOptions: ISLiderOptions;
+
+beforeEach(() => {
+  sliderOptions = {
+    domParent: document.createElement('div'),
+    ...defaultOptions,
+  };
+});
+
+describe('Presenter', () => {
+  it('инициализируется', () => {
+    const presenter = new Presenter(sliderOptions);
+    spyOn(presenter, 'init');
+    presenter.init();
+    expect.call(presenter.init);
+  });
+
+  it('обновляет настройки слайдера', () => {
+    const presenter = new Presenter(sliderOptions);
+    const newSliderOptions = { ...sliderOptions, currentValue: 5, range: { min: 2, max: 10 } };
+    spyOn(presenter, 'dispatchSliderOptions');
+    presenter.dispatchSliderOptions(newSliderOptions);
+    expect.call(presenter.dispatchSliderOptions);
+  });
+});
