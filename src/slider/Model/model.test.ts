@@ -18,6 +18,12 @@ describe('Model', () => {
   it('возвращает текущие настройки слайдера', () => {
     expect(model.getOptions()).toEqual(sliderOptions);
   });
+
+  it('обновляет настройки слайдера', () => {
+    const newSliderOptions = { ...sliderOptions, currentValue: 5, range: { min: 2, max: 10 } };
+    model.updateSliderOptions(newSliderOptions);
+    expect(model.getOptions()).toEqual(newSliderOptions);
+  });
 });
 
 // import Model from './Model';
