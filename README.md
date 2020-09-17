@@ -24,3 +24,24 @@ $ npm install
 
 **Деплой на github page:** 
 `npm run deploy`
+
+## Использование
+Слайдер по умолчанию:
+```javascript
+const defaultSlider = $('#defaultSlider').rangeSlider();
+```
+ Настройки по умолчанию:
+```javascript
+const defaultOptions = {
+  currentValue: 10,
+  range: {
+    min: 10,
+    max: 30,
+  },
+  isThumb: true,
+  isRuler: false,
+  step: 1,
+  decimal: 2,
+  orientation: 'horizontal',
+}
+```
