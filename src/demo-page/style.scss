@@ -9,15 +9,14 @@ body {
 
 .page-wrap {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 -1em;
 }
 
 .config-panel {
   width: 400px;
-  margin-right: 60px;
-
-  &--vertical {
-    height: 350px;
-  }
+  margin: 0 1em;
 }
 
 .config-panel__slider {
