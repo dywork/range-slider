@@ -23,7 +23,9 @@ class Observer implements IObserver {
   };
 
   notify = (subName: string, data: any) => {
-    this.subscribers[subName].callbacks.forEach((callback: Function) => callback(data));
+    if (this.subscribers[subName]) {
+      this.subscribers[subName].callbacks.forEach((callback: Function) => callback(data));
+    }
   };
 }
 
