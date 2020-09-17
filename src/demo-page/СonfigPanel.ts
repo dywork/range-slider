@@ -196,6 +196,8 @@ class ConfigPanel {
 
   private onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
     this.stepInput.value = `${sliderOptions.step}`;
+    this.minRangeInput.value = `${sliderOptions.range.min}`;
+    this.maxRangeInput.value = `${sliderOptions.range.max}`;
     if (sliderOptions.currentValue instanceof Array) {
       this.minCurrentValueInput.value = `${sliderOptions.currentValue[0]}`;
       this.maxCurrentValueInput.value = `${sliderOptions.currentValue[1]}`;

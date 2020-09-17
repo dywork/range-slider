@@ -1,4 +1,5 @@
 import Observer from '../Observer/Observer';
+import defaultOptions from '../defaultOptions';
 import ISliderOptions from '../ISliderOptions';
 
 interface IModel {
@@ -25,8 +26,16 @@ class Model extends Observer implements IModel {
     const verificateOptions = { ...checkingOptions };
     const { currentValue, range, step } = verificateOptions;
 
+    if (!range.min) {
+      range.min = defaultOptions.range.min;
+    }
+
+    if (!range.max) {
+      range.max = defaultOptions.range.max;
+    }
+
     if (!step) {
-      verificateOptions.step = 1;
+      verificateOptions.step = defaultOptions.step;
     }
 
     if (!currentValue) {
