@@ -37,4 +37,15 @@ describe('View', () => {
     expect(document.querySelectorAll(`.${sliderClassName.bar}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassName.toggle}`).length).toEqual(2);
   });
+
+  it('создает корректную верстку для слайдера с ruler', () => {
+    const rangeSliderOptions = { ...sliderOptions, isRuler: true };
+    const view = new View(rangeSliderOptions);
+    view.render();
+    expect(document.querySelectorAll(`.${sliderClassName.slider}`).length).toEqual(1);
+    expect(document.querySelectorAll(`.${sliderClassName.wrap}`).length).toEqual(1);
+    expect(document.querySelectorAll(`.${sliderClassName.scale}`).length).toEqual(1);
+    expect(document.querySelectorAll(`.${sliderClassName.bar}`).length).toEqual(1);
+    expect(document.querySelectorAll(`.${sliderClassName.ruler}`).length).toEqual(1);
+  });
 });
