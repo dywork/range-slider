@@ -24,4 +24,18 @@ describe('Model', () => {
     model.updateSliderOptions(newSliderOptions);
     expect(model.getOptions()).toEqual(newSliderOptions);
   });
+
+  it('не пропускает currentValue ниже диапазона range', () => {
+    const newSliderOptions = { ...sliderOptions, currentValue: 1, range: { min: 2, max: 10 } };
+    const correctSliderOptions = { ...sliderOptions, currentValue: 2, range: { min: 2, max: 10 } };
+    model.updateSliderOptions(newSliderOptions);
+    expect(model.getOptions()).toEqual(correctSliderOptions);
+  });
+
+  it('не пропускает currentValue выше диапазона range', () => {
+    const newSliderOptions = { ...sliderOptions, currentValue: 11, range: { min: 2, max: 10 } };
+    const correctSliderOptions = { ...sliderOptions, currentValue: 10, range: { min: 2, max: 10 } };
+    model.updateSliderOptions(newSliderOptions);
+    expect(model.getOptions()).toEqual(correctSliderOptions);
+  });
 });
