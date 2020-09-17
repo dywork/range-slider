@@ -1,2 +1,3 @@
-# Range-slider
-jQuery плагин, разрабатываемый по принципам TDD с применением шаблона проектирования MVP(model-view-presenter).
+# RangeSlider (jQuery plugin)
+
+[Просмотр](https://dywork.github.io/range-slider/)
