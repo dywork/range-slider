@@ -1,3 +1,25 @@
+import Model from './Model';
+import ISLiderOptions from '../ISliderOptions';
+import defaultOptions from '../defaultOptions';
+
+let sliderOptions: ISLiderOptions;
+let model: Model;
+
+beforeEach(() => {
+  sliderOptions = {
+    domParent: document.createElement('div'),
+    ...defaultOptions,
+  };
+
+  model = new Model(sliderOptions);
+});
+
+describe('Model', () => {
+  it('возвращает текущие настройки слайдера', () => {
+    expect(model.getOptions()).toEqual(sliderOptions);
+  });
+});
+
 // import Model from './Model';
 // import ISliderOptions from '../ISliderOptions';
 
