@@ -33,6 +33,11 @@ $ npm run build
 ```javascript
 const defaultSlider = $('#defaultSlider').rangeSlider();
 ```
+Слайдер со своими настройками:
+```javascript
+const defaultSlider = $('#defaultSlider').rangeSlider();
+```
+
  Настройки по умолчанию:
 ```javascript
 const defaultOptions = {
