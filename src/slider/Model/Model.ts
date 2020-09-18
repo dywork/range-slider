@@ -2,11 +2,7 @@ import Observer from '../Observer/Observer';
 import defaultOptions from '../defaultOptions';
 import ISliderOptions from '../ISliderOptions';
 
-interface IModel {
-  getOptions(): ISliderOptions;
-}
-
-class Model extends Observer implements IModel {
+class Model extends Observer {
   private sliderOptions: ISliderOptions;
 
   constructor(sliderOptions: ISliderOptions) {
