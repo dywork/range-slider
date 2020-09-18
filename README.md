@@ -5,13 +5,13 @@
 ## Установка
 
 ```
+$ git clone https://github.com/dywork/range-slider.git
+$ cd range-slider
 $ npm install
+$ npm run build
 ```
 
 ## Команды
-
-Клонировать репозиторий: 
-`git clone https://github.com/dywork/range-slider`
 
 Запуск: 
 `npm start`
