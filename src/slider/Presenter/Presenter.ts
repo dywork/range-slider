@@ -3,11 +3,7 @@ import View from '../View/View';
 import Observer from '../Observer/Observer';
 import ISliderOptions from '../ISliderOptions';
 
-interface IPresenter {
-  init(): void;
-}
-
-class Presenter extends Observer implements IPresenter {
+class Presenter extends Observer {
   private model: Model;
 
   private view: View;
