@@ -1,15 +1,10 @@
 import Subscriber from './Subscriber';
 
-interface IObserver {
-  subscribe(subName: string, callback: Function): void;
-  notify(subName: string, data: any): void;
-}
-
 interface ISubscribers {
   [index: string]: Subscriber;
 }
 
-class Observer implements IObserver {
+class Observer {
   private subscribers: ISubscribers;
 
   constructor() {
