@@ -127,13 +127,13 @@ class ConfigPanel {
     this.isThumbCheckbox.addEventListener('change', (evt: Event) => {
       const newOptions = { ...this.slider.getSliderOptions() };
       newOptions.isThumb = (<HTMLInputElement>evt.target).checked;
-      this.slider.onChangeSliderOptions(newOptions);
+      this.slider.updateSliderOptions(newOptions);
     });
 
     this.isRulerCheckbox.addEventListener('change', (evt: Event) => {
       const newOptions = { ...this.slider.getSliderOptions() };
       newOptions.isRuler = (<HTMLInputElement>evt.target).checked;
-      this.slider.onChangeSliderOptions(newOptions);
+      this.slider.updateSliderOptions(newOptions);
     });
 
     this.isDiapasonCheckbox.addEventListener('change', (evt: Event) => {
@@ -157,7 +157,7 @@ class ConfigPanel {
       }
 
       // console.log(newOptions.currentValue);
-      this.slider.onChangeSliderOptions(newOptions);
+      this.slider.updateSliderOptions(newOptions);
     });
 
     this.isVerticalCheckbox.addEventListener('change', (evt: Event) => {
@@ -165,7 +165,7 @@ class ConfigPanel {
       const newIsVertical = (<HTMLInputElement>evt.target).checked;
       newOptions.orientation = newIsVertical ? 'vertical' : 'horizontal';
       this.toggleOrientation();
-      this.slider.onChangeSliderOptions(newOptions);
+      this.slider.updateSliderOptions(newOptions);
     });
   };
 
@@ -184,7 +184,7 @@ class ConfigPanel {
     }
     newOptions.step = parseInt(this.stepInput.value);
     newOptions.range = newRange;
-    this.slider.onChangeSliderOptions(newOptions);
+    this.slider.updateSliderOptions(newOptions);
   });
 
   private hasRange = () => {

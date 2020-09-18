@@ -18,7 +18,7 @@ class Slider extends Observer {
     this.presenter.subscribe('sliderOptionsUpdate', this.alertSubs);
   };
 
-  onChangeSliderOptions = (sliderOptions: ISliderOptions) => {
+  updateSliderOptions = (sliderOptions: ISliderOptions) => {
     this.sliderOptions = sliderOptions;
     this.presenter.dispatchSliderOptions(this.sliderOptions);
   };
