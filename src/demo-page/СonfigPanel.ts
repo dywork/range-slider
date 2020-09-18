@@ -71,7 +71,6 @@ class ConfigPanel {
       isRuler,
       isThumb,
       step,
-      decimal,
       orientation,
     } = this.slider.getSliderOptions();
     const configPanelOptions = {
@@ -80,7 +79,6 @@ class ConfigPanel {
       isRuler,
       isThumb,
       step,
-      decimal,
       isVertical: orientation === 'vertical',
       isDiapason: Array.isArray(currentValue),
     };

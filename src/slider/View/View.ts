@@ -456,13 +456,13 @@ class View extends Observer {
   };
 
   private getCurrentValueByPercent = (percent: number) => {
-    const { range, step, decimal } = this.sliderOptions;
+    const { range, step } = this.sliderOptions;
     const newCurrentValue = percent * (range.max - range.min) + range.min;
     if (step) {
       return this.getStepCurrentValue(newCurrentValue);
     }
 
-    return +newCurrentValue.toFixed(decimal);
+    return +newCurrentValue.toFixed();
   };
 
   private getStepCurrentValue = (currentValue: number) => {

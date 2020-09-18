@@ -5,7 +5,6 @@ interface ISliderOptions {
   isRuler: boolean;
   isThumb: boolean;
   step: number;
-  decimal: number;
   orientation: string;
 }
 
