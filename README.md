@@ -27,6 +27,9 @@ $ npm run build
 
 ## Использование
 Слайдер по умолчанию:
+```html
+<div id="defaultSlider"></div>
+```
 ```javascript
 const defaultSlider = $('#defaultSlider').rangeSlider();
 ```
