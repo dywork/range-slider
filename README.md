@@ -39,7 +39,7 @@ const defaultSlider = $('#defaultSlider').rangeSlider();
 ```
 ```javascript
 const customSlider = $('#customSlider').rangeSlider({
-    currentValue: 15,
+    currentValue: [15, 20],
     range: { min: 10, max: 30 },
     isRuler: true,
     isThumb: true,
