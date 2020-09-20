@@ -38,7 +38,7 @@ const defaultSlider = $('#defaultSlider').rangeSlider();
 <div id="customSlider"></div>
 ```
 ```javascript
-const defaultSlider = $('#customSlider').rangeSlider({
+const customSlider = $('#customSlider').rangeSlider({
     currentValue: 15,
     range: { min: 10, max: 30 },
     isRuler: true,
