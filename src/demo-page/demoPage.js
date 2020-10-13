@@ -1,3 +1,5 @@
+import './favicons/favicons.js';
+
 $(document).ready(function () {
   const defaultSlider = $('#defaultSlider').rangeSlider({
     currentValue: 15,
