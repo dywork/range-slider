@@ -1,21 +1,21 @@
 import './favicons/favicons.js';
 
 $(document).ready(function () {
-  const defaultSlider = $('#defaultSlider').rangeSlider({
+  const defaultSlider = $('.js-default-slider').rangeSlider({
     currentValue: 15,
     range: { min: 10, max: 30 },
     isRuler: true,
     isThumb: true,
   });
 
-  const rangeSlider = $('#rangeSlider').rangeSlider({
+  const rangeSlider = $('.js-range-slider').rangeSlider({
     currentValue: [15, 25],
     range: { min: 10, max: 30 },
     isRuler: true,
     isThumb: true,
   });
 
-  const stepSlider = $('#stepSlider').rangeSlider({
+  const stepSlider = $('.js-step-slider').rangeSlider({
     currentValue: 10,
     range: { min: 10, max: 30 },
     step: 5,
@@ -23,7 +23,7 @@ $(document).ready(function () {
     isThumb: true,
   });
 
-  const verticalSlider = $('#verticalSlider').rangeSlider({
+  const verticalSlider = $('.js-vertical-slider').rangeSlider({
     currentValue: 15,
     range: { min: 10, max: 30 },
     isRuler: true,
@@ -31,8 +31,8 @@ $(document).ready(function () {
     orientation: 'vertical',
   });
 
-  $('#defaultSliderConfig').configPanel(defaultSlider);
-  $('#rangeSliderConfig').configPanel(rangeSlider);
-  $('#stepSliderConfig').configPanel(stepSlider);
-  $('#verticalSliderConfig').configPanel(verticalSlider);
+  $('.js-default-slider-config').configPanel(defaultSlider);
+  $('.js-range-slider-config').configPanel(rangeSlider);
+  $('.js-step-slider-config').configPanel(stepSlider);
+  $('.js-vertical-slider-config').configPanel(verticalSlider);
 });
