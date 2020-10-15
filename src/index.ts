@@ -35,10 +35,6 @@ declare global {
     const configPanel = new ConfigPanel(this[0], rangeSlider);
     configPanel.init();
 
-    // rangeSlider.subscribe('sliderOptionsUpdate', (value: number) => {
-    //   console.log(value);
-    // });
-
     return configPanel;
   };
 }(jQuery));
