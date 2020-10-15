@@ -11,7 +11,7 @@
   height: 100%;
 }
 
-.range-slider--vertical {
+.range-slider_vertical {
   .range-slider__bar {
     width: 4.1px;
     height: 100%;
@@ -89,7 +89,7 @@
   width: 10%;
   height: 0;
 
-  &--active {
+  &_active {
     z-index: 10;
   }
 }

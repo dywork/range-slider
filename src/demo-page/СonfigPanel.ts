@@ -89,16 +89,16 @@ class ConfigPanel {
   private saveDom = () => {
     if (this.isRange) {
       this.minCurrentValueContainer = this.domParent.querySelector(
-        '.config-panel__value--current-min-value'
+        '.config-panel__value_current-min-value'
       );
       this.maxCurrentValueContainer = this.domParent.querySelector(
-        '.config-panel__value--current-max-value'
+        '.config-panel__value_current-max-value'
       );
       this.minCurrentValueInput = this.domParent.querySelector('.current-min-value');
       this.maxCurrentValueInput = this.domParent.querySelector('.current-max-value');
     } else {
       this.currentValueContainer = this.domParent.querySelector(
-        '.config-panel__value--current-value'
+        '.config-panel__value_current-value'
       );
       this.currentValueInput = this.domParent.querySelector('.current-value');
     }
@@ -211,7 +211,7 @@ class ConfigPanel {
       const maxValueContainer = document.createElement('p');
       this.maxCurrentValueContainer = maxValueContainer;
       maxValueContainer.classList.add('config-panel__value');
-      maxValueContainer.classList.add('config-panel__value--current-max-value');
+      maxValueContainer.classList.add('config-panel__value_current-max-value');
       const maxValueLabel = document.createElement('label');
       maxValueLabel.classList.add('config-panel__label');
       maxValueLabel.textContent = 'Текущее макс. значение:';
@@ -228,7 +228,7 @@ class ConfigPanel {
       const minValueContainer = document.createElement('p');
       this.minCurrentValueContainer = minValueContainer;
       minValueContainer.classList.add('config-panel__value');
-      minValueContainer.classList.add('config-panel__value--current-min-value');
+      minValueContainer.classList.add('config-panel__value_current-min-value');
       const minValueLabel = document.createElement('label');
       minValueLabel.classList.add('config-panel__label');
       minValueLabel.textContent = 'Текущее мин. значение:';
@@ -248,7 +248,7 @@ class ConfigPanel {
       const currentValueContainer = document.createElement('p');
       this.currentValueContainer = currentValueContainer;
       this.currentValueContainer.classList.add('config-panel__value');
-      this.currentValueContainer.classList.add('config-panel__value--current-value');
+      this.currentValueContainer.classList.add('config-panel__value_current-value');
       const currentValueLabel = document.createElement('label');
       currentValueLabel.classList.add('config-panel__label');
       currentValueLabel.textContent = 'Текущее значение:';
@@ -267,8 +267,8 @@ class ConfigPanel {
   private toggleOrientation = () => {
     const sliderParent = this.slider.getSliderOptions().domParent;
     const sliderWrap = sliderParent.querySelector('.range-slider__wrap');
-    sliderParent.classList.toggle('config-panel__slider--vertical');
-    sliderWrap.classList.toggle('config-panel__slider--vertical');
+    sliderParent.classList.toggle('config-panel__slider_vertical');
+    sliderWrap.classList.toggle('config-panel__slider_vertical');
   };
 }
 

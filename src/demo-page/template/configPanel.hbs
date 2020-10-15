@@ -1,19 +1,19 @@
 <fieldset class="config-panel__values">
   {{#if isDiapason}}
-  <p class="config-panel__value  config-panel__value--current-min-value">
+  <p class="config-panel__value  config-panel__value_current-min-value">
     <label class="config-panel__label">
       Текущее мин. значение:
       <input class="current-min-value" type="number" value="{{currentValue.[0]}}">
     </label>
   </p>
-  <p class="config-panel__value  config-panel__value--current-max-value">
+  <p class="config-panel__value  config-panel__value_current-max-value">
     <label class="config-panel__label">
       Текущее макс. значение:
       <input class="current-max-value" type="number" value="{{currentValue.[1]}}">
     </label>
   </p>
   {{else}}
-  <p class="config-panel__value  config-panel__value--current-value">
+  <p class="config-panel__value  config-panel__value_current-value">
     <label class="config-panel__label">
       Текущее значение:
       <input class="current-value" type="number" value="{{currentValue}}">
