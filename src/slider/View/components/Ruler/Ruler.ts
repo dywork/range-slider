@@ -27,7 +27,7 @@ class Ruler extends Observer {
   getProps = () => this.props;
 
   getHtml = () => {
-    const templateOptions = { sliderClassName, items: this.getRulerItems() };
+    const templateOptions = { sliderClassName, items: this._getRulerItems() };
     const ruler = document.createElement('div');
     ruler.innerHTML = rulerTemplate(templateOptions);
     return ruler.firstChild;
@@ -42,7 +42,7 @@ class Ruler extends Observer {
   updateProps = (props: IRulerProps) => {
     this.props = props;
     if (this.props.isRuler) {
-      this.redraw();
+      this._redraw();
     } else {
       this.notify('onRulerHide', '');
     }
@@ -54,26 +54,26 @@ class Ruler extends Observer {
     parent.removeChild(ruler);
   };
 
-  private redraw = () => {
+  private _redraw = () => {
     this.domNode.ruler.textContent = '';
     Array.from(this.getHtml().childNodes).forEach((item) => {
       this.domNode.ruler.appendChild(item);
     });
   };
 
-  private getRulerItems = () => {
-    const rulerValues = this.getRulerValues();
+  private _getRulerItems = () => {
+    const rulerValues = this._getRulerValues();
     return rulerValues.map((value) => {
       const rulerItem = {
         value,
-        style: this.getTransformStyleByValue(value),
+        style: this._getTransformStyleByValue(value),
         class: sliderClassName.rulerItem,
       };
       return rulerItem;
     });
   };
 
-  private getRulerValues = () => {
+  private _getRulerValues = () => {
     const { range, step } = this.props;
     const middArr = [];
     const midQuantity = Math.floor((range.max - range.min) / step);
@@ -87,9 +87,9 @@ class Ruler extends Observer {
     return [range.min, ...middArr, range.max];
   };
 
-  private getTransformStyleByValue = (value: number) => {
+  private _getTransformStyleByValue = (value: number) => {
     const { isVertical } = this.props;
-    const position = this.getPositionByValue(value);
+    const position = this._getPositionByValue(value);
 
     if (isVertical) {
       return `transform: translate(0px, ${position}%);`;
@@ -98,7 +98,7 @@ class Ruler extends Observer {
     return `transform: translate(${position}%, 0px);`;
   };
 
-  private getPositionByValue(value: number): number {
+  private _getPositionByValue(value: number): number {
     const { range } = this.props;
     return ((+value - range.min) / (range.max - range.min)) * 1000;
   }

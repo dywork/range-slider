@@ -15,7 +15,7 @@ class Slider extends Observer {
 
   init = () => {
     this.presenter.init();
-    this.presenter.subscribe('sliderOptionsUpdate', this.alertSubs);
+    this.presenter.subscribe('sliderOptionsUpdate', this._alertSubs);
   };
 
   updateSliderOptions = (sliderOptions: ISliderOptions) => {
@@ -25,7 +25,7 @@ class Slider extends Observer {
 
   getSliderOptions = () => this.sliderOptions;
 
-  private alertSubs = (newSliderOptions: ISliderOptions) => {
+  private _alertSubs = (newSliderOptions: ISliderOptions) => {
     this.sliderOptions = newSliderOptions;
     this.notify('sliderOptionsUpdate', this.getSliderOptions());
   };

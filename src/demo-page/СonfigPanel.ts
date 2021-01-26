@@ -49,21 +49,21 @@ class ConfigPanel {
   constructor(domParent: HTMLElement, slider: Slider) {
     this.domParent = domParent;
     this.slider = slider;
-    this.isRange = this.hasRange();
-    slider.subscribe('sliderOptionsUpdate', this.onSliderOptionsUpdate);
+    this.isRange = this._hasRange();
+    slider.subscribe('sliderOptionsUpdate', this._onSliderOptionsUpdate);
   }
 
   init = () => {
-    this.mountPanel();
-    this.saveDom();
-    this.setListeners();
+    this._mountPanel();
+    this._saveDom();
+    this._setListeners();
   };
 
-  private mountPanel = () => {
-    this.domParent.appendChild(this.getPanelContainer());
+  private _mountPanel = () => {
+    this.domParent.appendChild(this._getPanelContainer());
   };
 
-  private getPanelContainer = () => {
+  private _getPanelContainer = () => {
     const configPanelContainer = document.createElement('div');
     const {
       currentValue,
@@ -86,7 +86,7 @@ class ConfigPanel {
     return configPanelContainer;
   };
 
-  private saveDom = () => {
+  private _saveDom = () => {
     if (this.isRange) {
       this.minCurrentValueContainer = this.domParent.querySelector(
         '.config-panel__value_current-min-value'
@@ -112,17 +112,17 @@ class ConfigPanel {
     this.isVerticalCheckbox = this.domParent.querySelector('.is-vertical');
   };
 
-  private setListeners = () => {
+  private _setListeners = () => {
     if (this.isRange) {
-      this.minCurrentValueInput.addEventListener('input', this.debounceInput);
-      this.maxCurrentValueInput.addEventListener('input', this.debounceInput);
+      this.minCurrentValueInput.addEventListener('input', this._debounceInput);
+      this.maxCurrentValueInput.addEventListener('input', this._debounceInput);
     } else {
-      this.currentValueInput.addEventListener('input', this.debounceInput);
+      this.currentValueInput.addEventListener('input', this._debounceInput);
     }
 
-    this.stepInput.addEventListener('input', this.debounceInput);
-    this.minRangeInput.addEventListener('input', this.debounceInput);
-    this.maxRangeInput.addEventListener('input', this.debounceInput);
+    this.stepInput.addEventListener('input', this._debounceInput);
+    this.minRangeInput.addEventListener('input', this._debounceInput);
+    this.maxRangeInput.addEventListener('input', this._debounceInput);
 
     this.isThumbCheckbox.addEventListener('change', (evt: Event) => {
       const newOptions = { ...this.slider.getSliderOptions() };
@@ -145,7 +145,7 @@ class ConfigPanel {
         const newCurrentValue = currentValue[0];
         newOptions.currentValue = newCurrentValue;
         this.isRange = !this.isRange;
-        this.toggleValueInputs(newCurrentValue);
+        this._toggleValueInputs(newCurrentValue);
       } else if (!this.isRange && newIsRange) {
         const { currentValue, range } = newOptions;
         const minCurrentValue = currentValue as number;
@@ -153,7 +153,7 @@ class ConfigPanel {
         const newCurrentValue = [minCurrentValue, maxCurrentValue];
         newOptions.currentValue = newCurrentValue;
         this.isRange = !this.isRange;
-        this.toggleValueInputs(newCurrentValue);
+        this._toggleValueInputs(newCurrentValue);
       }
 
       // console.log(newOptions.currentValue);
@@ -164,12 +164,12 @@ class ConfigPanel {
       const newOptions = { ...this.slider.getSliderOptions() };
       const newIsVertical = (<HTMLInputElement>evt.target).checked;
       newOptions.orientation = newIsVertical ? 'vertical' : 'horizontal';
-      this.toggleOrientation();
+      this._toggleOrientation();
       this.slider.updateSliderOptions(newOptions);
     });
   };
 
-  private debounceInput = debounce(() => {
+  private _debounceInput = debounce(() => {
     const newOptions = { ...this.slider.getSliderOptions() };
     const newRange = {
       min: parseInt(this.minRangeInput.value),
@@ -187,12 +187,12 @@ class ConfigPanel {
     this.slider.updateSliderOptions(newOptions);
   });
 
-  private hasRange = () => {
+  private _hasRange = () => {
     const { currentValue } = this.slider.getSliderOptions();
     return currentValue instanceof Array;
   };
 
-  private onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
+  private _onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
     this.stepInput.value = `${sliderOptions.step}`;
     this.minRangeInput.value = `${sliderOptions.range.min}`;
     this.maxRangeInput.value = `${sliderOptions.range.max}`;
@@ -204,7 +204,7 @@ class ConfigPanel {
     }
   };
 
-  private toggleValueInputs = (currentValue: number | number[]) => {
+  private _toggleValueInputs = (currentValue: number | number[]) => {
     if (currentValue instanceof Array) {
       this.valuesContainer.removeChild(this.currentValueContainer);
 
@@ -220,7 +220,7 @@ class ConfigPanel {
       this.maxCurrentValueInput.classList.add('current-max-value');
       this.maxCurrentValueInput.type = 'number';
       this.maxCurrentValueInput.value = `${currentValue[1]}`;
-      this.maxCurrentValueInput.addEventListener('input', this.debounceInput);
+      this.maxCurrentValueInput.addEventListener('input', this._debounceInput);
       maxValueLabel.appendChild(this.maxCurrentValueInput);
       maxValueContainer.appendChild(maxValueLabel);
       this.valuesContainer.insertAdjacentElement('afterbegin', maxValueContainer);
@@ -237,7 +237,7 @@ class ConfigPanel {
       this.minCurrentValueInput.classList.add('current-min-value');
       this.minCurrentValueInput.type = 'number';
       this.minCurrentValueInput.value = `${currentValue[0]}`;
-      this.minCurrentValueInput.addEventListener('input', this.debounceInput);
+      this.minCurrentValueInput.addEventListener('input', this._debounceInput);
       minValueLabel.appendChild(this.minCurrentValueInput);
       minValueContainer.appendChild(minValueLabel);
       this.valuesContainer.insertAdjacentElement('afterbegin', minValueContainer);
@@ -257,14 +257,14 @@ class ConfigPanel {
       this.currentValueInput.classList.add('current-max-value');
       this.currentValueInput.type = 'number';
       this.currentValueInput.value = `${currentValue}`;
-      this.currentValueInput.addEventListener('input', this.debounceInput);
+      this.currentValueInput.addEventListener('input', this._debounceInput);
       currentValueLabel.appendChild(this.currentValueInput);
       currentValueContainer.appendChild(currentValueLabel);
       this.valuesContainer.insertAdjacentElement('afterbegin', currentValueContainer);
     }
   };
 
-  private toggleOrientation = () => {
+  private _toggleOrientation = () => {
     const sliderParent = this.slider.getSliderOptions().domParent;
     const sliderWrap = sliderParent.querySelector('.range-slider__wrap');
     sliderParent.classList.toggle('config-panel__slider_vertical');

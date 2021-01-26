@@ -15,7 +15,7 @@ class Presenter extends Observer {
   }
 
   init() {
-    this.subscribeModules();
+    this._subscribeModules();
     this.view.render();
   }
 
@@ -48,12 +48,12 @@ class Presenter extends Observer {
     this.notify('sliderOptionsUpdate', this.model.getOptions());
   };
 
-  private subscribeModules = () => {
+  private _subscribeModules = () => {
     this.view.subscribe('sliderOptionsUpdate', this.dispatchSliderOptions);
-    this.model.subscribe('sliderOptionsUpdate', this.onSliderOptionsUpdate);
+    this.model.subscribe('sliderOptionsUpdate', this._onSliderOptionsUpdate);
   };
 
-  private onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
+  private _onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
     this.view.updateSliderOptions(sliderOptions);
     this.notify('sliderOptionsUpdate', sliderOptions);
   };

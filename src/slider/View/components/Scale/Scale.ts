@@ -27,7 +27,7 @@ class Scale {
     const scale = document.createElement('div');
     scale.innerHTML = scaleTemplate(templateOptions);
     const scaleView = scale.querySelector(`.${sliderClassName.scale}`);
-    scaleView.setAttribute('style', this.getTransformStyle());
+    scaleView.setAttribute('style', this._getTransformStyle());
     return scale.firstChild;
   };
 
@@ -45,14 +45,14 @@ class Scale {
 
   updateProps = (props: IScaleProps) => {
     this.props = props;
-    this.redraw();
+    this._redraw();
   };
 
-  private redraw = () => {
-    this.domNode.scale.setAttribute('style', this.getTransformStyle());
+  private _redraw = () => {
+    this.domNode.scale.setAttribute('style', this._getTransformStyle());
   };
 
-  private getTransformStyle = () => {
+  private _getTransformStyle = () => {
     const { currentValue, isVertical } = this.props;
     let scalePositions = [];
 
