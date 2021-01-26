@@ -7,20 +7,20 @@ class Model extends Observer {
 
   constructor(sliderOptions: ISliderOptions) {
     super();
-    this.sliderOptions = this.getVerificateOptions(sliderOptions);
+    this.sliderOptions = this._getConfirmedOptions(sliderOptions);
   }
 
   getOptions = () => this.sliderOptions;
 
   updateSliderOptions = (newSliderOptions: ISliderOptions) => {
-    const verificateOptions = this.getVerificateOptions(newSliderOptions);
-    this.sliderOptions = verificateOptions;
+    const confirmedOptions = this._getConfirmedOptions(newSliderOptions);
+    this.sliderOptions = confirmedOptions;
     this.notify('sliderOptionsUpdate', this.sliderOptions);
   };
 
-  private getVerificateOptions = (checkingOptions: ISliderOptions) => {
-    const verificateOptions = { ...checkingOptions };
-    const { currentValue, range, step } = verificateOptions;
+  private _getConfirmedOptions = (checkingOptions: ISliderOptions) => {
+    const confirmedOptions = { ...checkingOptions };
+    const { currentValue, range, step } = confirmedOptions;
 
     if (!range.min) {
       range.min = defaultOptions.range.min;
@@ -31,11 +31,11 @@ class Model extends Observer {
     }
 
     if (!step) {
-      verificateOptions.step = defaultOptions.step;
+      confirmedOptions.step = defaultOptions.step;
     }
 
     if (!currentValue && currentValue !== 0) {
-      verificateOptions.currentValue = range.min;
+      confirmedOptions.currentValue = range.min;
     }
 
     if (currentValue instanceof Array) {
@@ -49,12 +49,12 @@ class Model extends Observer {
       currentValue[0] = currentValue[0] < range.min ? range.min : currentValue[0];
       currentValue[1] = currentValue[1] > range.max ? range.max : currentValue[1];
     } else if (currentValue < range.min) {
-      verificateOptions.currentValue = range.min;
+      confirmedOptions.currentValue = range.min;
     } else if (currentValue > range.max) {
-      verificateOptions.currentValue = range.max;
+      confirmedOptions.currentValue = range.max;
     }
 
-    return verificateOptions;
+    return confirmedOptions;
   };
 }
 
