@@ -56,6 +56,11 @@ class Model extends Observer {
               currentValue[1] = minCurrentValue;
             }
           }
+        } else {
+          const [oldMinCurrentValue, oldMaxCurrentValue] = currentValue;
+          if (oldMinCurrentValue > oldMaxCurrentValue) {
+            currentValue[0] = oldMaxCurrentValue;
+          }
         }
       }
 

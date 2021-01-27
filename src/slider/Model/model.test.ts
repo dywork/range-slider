@@ -38,4 +38,15 @@ describe('Model', () => {
     model.updateSliderOptions(newSliderOptions);
     expect(model.getOptions()).toEqual(correctSliderOptions);
   });
+
+  it('currentValue[0] не может быть больше currentValue[1] и наоборот', () => {
+    const newSliderOptions = { ...sliderOptions, currentValue: [5, 3], range: { min: 2, max: 10 } };
+    const correctSliderOptions = {
+      ...sliderOptions,
+      currentValue: [3, 3],
+      range: { min: 2, max: 10 },
+    };
+    model.updateSliderOptions(newSliderOptions);
+    expect(model.getOptions()).toEqual(correctSliderOptions);
+  });
 });
