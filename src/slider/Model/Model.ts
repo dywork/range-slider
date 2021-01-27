@@ -39,6 +39,26 @@ class Model extends Observer {
     }
 
     if (currentValue instanceof Array) {
+      if (this.getOptions()) {
+        const { currentValue: oldCurrentValue } = this.getOptions();
+        if (oldCurrentValue instanceof Array) {
+          const [minCurrentValue, maxCurrentValue] = currentValue;
+          const isChangeMinCurrentValue = oldCurrentValue[0] !== minCurrentValue;
+          const isChangeMaxCurrentValue = oldCurrentValue[1] !== maxCurrentValue;
+          if (isChangeMinCurrentValue) {
+            if (minCurrentValue > maxCurrentValue) {
+              currentValue[0] = maxCurrentValue;
+            }
+          }
+
+          if (isChangeMaxCurrentValue) {
+            if (maxCurrentValue < minCurrentValue) {
+              currentValue[1] = minCurrentValue;
+            }
+          }
+        }
+      }
+
       if (!currentValue[0]) {
         currentValue[0] = range.min;
       }
