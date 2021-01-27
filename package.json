@@ -23,7 +23,7 @@
     "handlebars": "^4.7.6",
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^4.3.0",
-    "karma": "^4.1.0",
+    "karma": "^6.0.2",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^2.0.0",
     "karma-jasmine": "^2.0.1",
