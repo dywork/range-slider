@@ -82,3 +82,4 @@ $RECYCLE.BIN/
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 node_modules
+debug.log
