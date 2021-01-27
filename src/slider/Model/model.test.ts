@@ -1,8 +1,8 @@
 import Model from './Model';
-import ISLiderOptions from '../ISliderOptions';
+import ISliderOptions from '../ISliderOptions';
 import defaultOptions from '../defaultOptions';
 
-let sliderOptions: ISLiderOptions;
+let sliderOptions: ISliderOptions;
 let model: Model;
 
 beforeEach(() => {
