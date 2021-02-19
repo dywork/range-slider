@@ -1,6 +1,6 @@
 interface ISliderOptions {
   domParent: HTMLElement;
-  currentValue: number | number[];
+  currentValues: number[];
   range: { min: number; max: number };
   isRuler: boolean;
   isThumb: boolean;

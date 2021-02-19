@@ -1,16 +1,8 @@
 import sliderClassName from '../../utils/sliderClassName';
+import IToggleProps from '../../../interfaces/view/components/toggle/IToggleProps';
+import IDomNode from '../../../interfaces/view/components/toggle/IDomNode';
 
 const toggleTemplate = require('./template.hbs');
-
-interface IToggleProps {
-  scalePosition: number;
-  isVertical: boolean;
-}
-
-interface IDomNode {
-  toggle: HTMLElement;
-  handle: HTMLElement;
-}
 
 class Toggle {
   private props: IToggleProps;
@@ -63,4 +55,4 @@ class Toggle {
   };
 }
 
-export { Toggle, IToggleProps };
+export default Toggle;

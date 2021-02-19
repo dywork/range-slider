@@ -1,18 +1,9 @@
-import Observer from '../../../Observer/Observer';
 import sliderClassName from '../../utils/sliderClassName';
+import Observer from '../../../observer/Observer';
+import IRulerProps from '../../../interfaces/view/components/ruler/IRulerProps';
+import IDomNode from '../../../interfaces/view/components/ruler/IDomNode';
 
 const rulerTemplate = require('./template.hbs');
-
-interface IRulerProps {
-  step: number;
-  range: { min: number; max: number };
-  isRuler: boolean;
-  isVertical: boolean;
-}
-
-interface IDomNode {
-  ruler: HTMLElement;
-}
 
 class Ruler extends Observer {
   private props: IRulerProps;
@@ -75,16 +66,16 @@ class Ruler extends Observer {
 
   private _getRulerValues = () => {
     const { range, step } = this.props;
-    const middArr = [];
+    const midArr = [];
     const midQuantity = Math.floor((range.max - range.min) / step);
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < midQuantity; i++) {
       const value = (i + 1) * step + range.min;
-      middArr.push(value);
+      midArr.push(value);
     }
 
-    return [range.min, ...middArr, range.max];
+    return [range.min, ...midArr, range.max];
   };
 
   private _getTransformStyleByValue = (value: number) => {
@@ -104,4 +95,4 @@ class Ruler extends Observer {
   }
 }
 
-export { Ruler, IRulerProps };
+export default Ruler;

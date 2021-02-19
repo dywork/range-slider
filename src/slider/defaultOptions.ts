@@ -1,5 +1,7 @@
-const defaultOptions = {
-  currentValue: 10,
+import IModelOptions from './interfaces/IModelOptions';
+
+const defaultOptions: IModelOptions = {
+  currentValues: [10],
   range: {
     min: 10,
     max: 30,

@@ -1,22 +1,23 @@
-import './favicons/favicons.js';
+import './favicons/favicons';
 
+/* eslint-disable */
 $(document).ready(function () {
   const defaultSlider = $('.js-default-slider').rangeSlider({
-    currentValue: 15,
+    currentValues: [15],
     range: { min: 10, max: 30 },
     isRuler: true,
     isThumb: true,
   });
 
   const rangeSlider = $('.js-range-slider').rangeSlider({
-    currentValue: [15, 25],
+    currentValues: [15, 25],
     range: { min: 10, max: 30 },
     isRuler: true,
     isThumb: true,
   });
 
   const stepSlider = $('.js-step-slider').rangeSlider({
-    currentValue: 10,
+    currentValues: [10],
     range: { min: 10, max: 30 },
     step: 5,
     isRuler: true,
@@ -24,7 +25,7 @@ $(document).ready(function () {
   });
 
   const verticalSlider = $('.js-vertical-slider').rangeSlider({
-    currentValue: 15,
+    currentValues: [15],
     range: { min: 10, max: 30 },
     isRuler: true,
     isThumb: true,

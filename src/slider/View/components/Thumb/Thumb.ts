@@ -1,16 +1,9 @@
-import Observer from '../../../Observer/Observer';
 import sliderClassName from '../../utils/sliderClassName';
+import Observer from '../../../observer/Observer';
+import IThumbProps from '../../../interfaces/view/components/thumb/IThumbProps';
+import IDomNode from '../../../interfaces/view/components/thumb/IDomNode';
 
 const thumbTemplate = require('./template.hbs');
-
-interface IThumbProps {
-  value: number | number[];
-  isThumb: boolean;
-}
-
-interface IDomNode {
-  thumb: HTMLElement;
-}
 
 class Thumb extends Observer {
   private props: IThumbProps;
@@ -58,4 +51,4 @@ class Thumb extends Observer {
   };
 }
 
-export { Thumb, IThumbProps };
+export default Thumb;

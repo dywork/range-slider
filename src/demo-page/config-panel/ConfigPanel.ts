@@ -1,5 +1,7 @@
-import { Slider } from '../slider/Slider';
-import ISliderOptions from '../slider/ISliderOptions';
+import configPanelClassName from './utils/configPanelClassName';
+import Slider from '../../slider/Slider';
+import IModelOptions from '../../slider/interfaces/IModelOptions';
+
 const configPanelTemplate = require('./template/configPanel.hbs');
 
 const debounce = (callback: Function) => {
@@ -36,27 +38,27 @@ class ConfigPanel {
 
   maxRangeInput: HTMLInputElement;
 
-  isRange: boolean;
+  isDiapason: boolean;
 
-  isThumbCheckbox: HTMLInputElement;
+  thumbCheckbox: HTMLInputElement;
 
-  isRulerCheckbox: HTMLInputElement;
+  rulerCheckbox: HTMLInputElement;
 
-  isDiapasonCheckbox: HTMLInputElement;
+  diapasonCheckbox: HTMLInputElement;
 
-  isVerticalCheckbox: HTMLInputElement;
+  verticalCheckbox: HTMLInputElement;
 
   constructor(domParent: HTMLElement, slider: Slider) {
-    this.domParent = domParent;
     this.slider = slider;
-    this.isRange = this._hasRange();
-    slider.subscribe('sliderOptionsUpdate', this._onSliderOptionsUpdate);
+    this.domParent = domParent;
+    this.isDiapason = this._hasDiapason();
   }
 
   init = () => {
     this._mountPanel();
     this._saveDom();
     this._setListeners();
+    this.slider.subscribe('modelOptionsUpdate', this._onOptionsUpdate);
   };
 
   private _mountPanel = () => {
@@ -66,54 +68,70 @@ class ConfigPanel {
   private _getPanelContainer = () => {
     const configPanelContainer = document.createElement('div');
     const {
-      currentValue,
+      currentValues,
       range,
       isRuler,
       isThumb,
       step,
       orientation,
-    } = this.slider.getSliderOptions();
+    } = this.slider.getModelOptions();
     const configPanelOptions = {
-      currentValue,
+      currentValues,
       range,
       isRuler,
       isThumb,
       step,
       isVertical: orientation === 'vertical',
-      isDiapason: Array.isArray(currentValue),
+      isDiapason: currentValues.length === 2,
     };
     configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
     return configPanelContainer;
   };
 
+  private _hasDiapason = () => {
+    const { currentValues } = this.slider.getModelOptions();
+    return currentValues.length === 2;
+  };
+
   private _saveDom = () => {
-    if (this.isRange) {
+    if (this.isDiapason) {
       this.minCurrentValueContainer = this.domParent.querySelector(
-        '.config-panel__value_current-min-value'
+        `.${configPanelClassName.minCurrentValueContainer}`,
       );
       this.maxCurrentValueContainer = this.domParent.querySelector(
-        '.config-panel__value_current-max-value'
+        `.${configPanelClassName.maxCurrentValueContainer}`,
       );
-      this.minCurrentValueInput = this.domParent.querySelector('.current-min-value');
-      this.maxCurrentValueInput = this.domParent.querySelector('.current-max-value');
+      this.minCurrentValueInput = this.domParent.querySelector(
+        `.${configPanelClassName.minCurrentValueInput}`,
+      );
+      this.maxCurrentValueInput = this.domParent.querySelector(
+        `.${configPanelClassName.maxCurrentValueInput}`,
+      );
     } else {
       this.currentValueContainer = this.domParent.querySelector(
-        '.config-panel__value_current-value'
+        `.${configPanelClassName.currentValueContainer}`,
       );
-      this.currentValueInput = this.domParent.querySelector('.current-value');
+      this.currentValueInput = this.domParent.querySelector(
+        `.${configPanelClassName.currentValueInput}`,
+      );
     }
-    this.valuesContainer = this.domParent.querySelector('.config-panel__values');
-    this.stepInput = this.domParent.querySelector('.step');
-    this.minRangeInput = this.domParent.querySelector('.min-range-value');
-    this.maxRangeInput = this.domParent.querySelector('.max-range-value');
-    this.isThumbCheckbox = this.domParent.querySelector('.is-thumb-show');
-    this.isRulerCheckbox = this.domParent.querySelector('.is-ruler-show');
-    this.isDiapasonCheckbox = this.domParent.querySelector('.is-diapason');
-    this.isVerticalCheckbox = this.domParent.querySelector('.is-vertical');
+
+    this.valuesContainer = this.domParent.querySelector(`.${configPanelClassName.valuesContainer}`);
+    this.stepInput = this.domParent.querySelector(`.${configPanelClassName.stepInput}`);
+    this.minRangeInput = this.domParent.querySelector(`.${configPanelClassName.minRangeInput}`);
+    this.maxRangeInput = this.domParent.querySelector(`.${configPanelClassName.maxRangeInput}`);
+    this.thumbCheckbox = this.domParent.querySelector(`.${configPanelClassName.thumbCheckbox}`);
+    this.rulerCheckbox = this.domParent.querySelector(`.${configPanelClassName.rulerCheckbox}`);
+    this.diapasonCheckbox = this.domParent.querySelector(
+      `.${configPanelClassName.diapasonCheckbox}`,
+    );
+    this.verticalCheckbox = this.domParent.querySelector(
+      `.${configPanelClassName.verticalCheckbox}`,
+    );
   };
 
   private _setListeners = () => {
-    if (this.isRange) {
+    if (this.isDiapason) {
       this.minCurrentValueInput.addEventListener('input', this._debounceInput);
       this.maxCurrentValueInput.addEventListener('input', this._debounceInput);
     } else {
@@ -124,84 +142,77 @@ class ConfigPanel {
     this.minRangeInput.addEventListener('input', this._debounceInput);
     this.maxRangeInput.addEventListener('input', this._debounceInput);
 
-    this.isThumbCheckbox.addEventListener('change', (evt: Event) => {
-      const newOptions = { ...this.slider.getSliderOptions() };
-      newOptions.isThumb = (<HTMLInputElement>evt.target).checked;
-      this.slider.updateSliderOptions(newOptions);
-    });
+    this.thumbCheckbox.addEventListener('change', this._onCheckboxChange);
+    this.rulerCheckbox.addEventListener('change', this._onCheckboxChange);
 
-    this.isRulerCheckbox.addEventListener('change', (evt: Event) => {
-      const newOptions = { ...this.slider.getSliderOptions() };
-      newOptions.isRuler = (<HTMLInputElement>evt.target).checked;
-      this.slider.updateSliderOptions(newOptions);
-    });
-
-    this.isDiapasonCheckbox.addEventListener('change', (evt: Event) => {
-      const newOptions = { ...this.slider.getSliderOptions() };
-      const newIsRange = (<HTMLInputElement>evt.target).checked;
-
-      if (this.isRange && !newIsRange) {
-        const currentValue = newOptions.currentValue as number[];
-        const newCurrentValue = currentValue[0];
-        newOptions.currentValue = newCurrentValue;
-        this.isRange = !this.isRange;
-        this._toggleValueInputs(newCurrentValue);
-      } else if (!this.isRange && newIsRange) {
-        const { currentValue, range } = newOptions;
-        const minCurrentValue = currentValue as number;
-        const maxCurrentValue = range.max;
-        const newCurrentValue = [minCurrentValue, maxCurrentValue];
-        newOptions.currentValue = newCurrentValue;
-        this.isRange = !this.isRange;
-        this._toggleValueInputs(newCurrentValue);
-      }
-
-      // console.log(newOptions.currentValue);
-      this.slider.updateSliderOptions(newOptions);
-    });
-
-    this.isVerticalCheckbox.addEventListener('change', (evt: Event) => {
-      const newOptions = { ...this.slider.getSliderOptions() };
-      const newIsVertical = (<HTMLInputElement>evt.target).checked;
-      newOptions.orientation = newIsVertical ? 'vertical' : 'horizontal';
-      this._toggleOrientation();
-      this.slider.updateSliderOptions(newOptions);
-    });
+    this.diapasonCheckbox.addEventListener('change', this._onDiapasonChange);
+    this.verticalCheckbox.addEventListener('change', this._onVerticalChange);
   };
 
   private _debounceInput = debounce(() => {
-    const newOptions = { ...this.slider.getSliderOptions() };
+    const newOptions: IModelOptions = { ...this.slider.getModelOptions() };
     const newRange = {
-      min: parseInt(this.minRangeInput.value),
-      max: parseInt(this.maxRangeInput.value),
+      min: parseInt(this.minRangeInput.value, 10),
+      max: parseInt(this.maxRangeInput.value, 10),
     };
-    if (newOptions.currentValue instanceof Array) {
-      const minValue = parseInt(this.minCurrentValueInput.value);
-      const maxValue = parseInt(this.maxCurrentValueInput.value);
-      newOptions.currentValue = [minValue, maxValue];
-    } else {
-      newOptions.currentValue = parseInt(this.currentValueInput.value);
-    }
-    newOptions.step = parseInt(this.stepInput.value);
     newOptions.range = newRange;
-    this.slider.updateSliderOptions(newOptions);
+
+    if (this.isDiapason) {
+      const minValue = parseInt(this.minCurrentValueInput.value, 10);
+      const maxValue = parseInt(this.maxCurrentValueInput.value, 10);
+      newOptions.currentValues = [minValue, maxValue];
+    } else {
+      newOptions.currentValues = [parseInt(this.currentValueInput.value, 10)];
+    }
+
+    newOptions.step = parseInt(this.stepInput.value, 10);
+    this.slider.updateOptions(newOptions);
   });
 
-  private _hasRange = () => {
-    const { currentValue } = this.slider.getSliderOptions();
-    return currentValue instanceof Array;
+  private _onCheckboxChange = (evt: Event) => {
+    const target = <HTMLInputElement>evt.target;
+    const nameOptions = target.getAttribute('data-value-name') as 'isRuler' | 'isThumb';
+    const newOptions = { ...this.slider.getModelOptions() };
+    newOptions[nameOptions] = target.checked;
+    this.slider.updateOptions(newOptions);
   };
 
-  private _onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
-    this.stepInput.value = `${sliderOptions.step}`;
-    this.minRangeInput.value = `${sliderOptions.range.min}`;
-    this.maxRangeInput.value = `${sliderOptions.range.max}`;
-    if (sliderOptions.currentValue instanceof Array) {
-      this.minCurrentValueInput.value = `${sliderOptions.currentValue[0]}`;
-      this.maxCurrentValueInput.value = `${sliderOptions.currentValue[1]}`;
-    } else {
-      this.currentValueInput.value = `${sliderOptions.currentValue}`;
+  private _onDiapasonChange = (evt: Event) => {
+    const newOptions = { ...this.slider.getModelOptions() };
+    const newIsRange = (<HTMLInputElement>evt.target).checked;
+    const { currentValues } = newOptions;
+
+    if (this.isDiapason && !newIsRange) {
+      const newCurrentValue = currentValues[0];
+      newOptions.currentValues = [newCurrentValue];
+      this.isDiapason = !this.isDiapason;
+      this._toggleValueInputs(newCurrentValue);
+    } else if (!this.isDiapason && newIsRange) {
+      const { range } = newOptions;
+      const minCurrentValue = currentValues[0];
+      const maxCurrentValue = range.max;
+      const newCurrentValues = [minCurrentValue, maxCurrentValue];
+      newOptions.currentValues = newCurrentValues;
+      this.isDiapason = !this.isDiapason;
+      this._toggleValueInputs(newCurrentValues);
     }
+
+    this.slider.updateOptions(newOptions);
+  };
+
+  private _onVerticalChange = (evt: Event) => {
+    const newOptions = { ...this.slider.getModelOptions() };
+    const newIsVertical = (<HTMLInputElement>evt.target).checked;
+    newOptions.orientation = newIsVertical ? 'vertical' : 'horizontal';
+    this._toggleOrientation();
+    this.slider.updateOptions(newOptions);
+  };
+
+  private _toggleOrientation = () => {
+    const sliderParent = this.slider.getDomParent();
+    const sliderWrap = sliderParent.querySelector('.range-slider__wrap');
+    sliderParent.classList.toggle('config-panel__slider_vertical');
+    sliderWrap.classList.toggle('config-panel__slider_vertical');
   };
 
   private _toggleValueInputs = (currentValue: number | number[]) => {
@@ -264,11 +275,24 @@ class ConfigPanel {
     }
   };
 
-  private _toggleOrientation = () => {
-    const sliderParent = this.slider.getSliderOptions().domParent;
-    const sliderWrap = sliderParent.querySelector('.range-slider__wrap');
-    sliderParent.classList.toggle('config-panel__slider_vertical');
-    sliderWrap.classList.toggle('config-panel__slider_vertical');
+  private _onOptionsUpdate = () => {
+    this.isDiapason = this._hasDiapason();
+    const {
+      currentValues, step, range, isRuler, isThumb,
+    } = this.slider.getModelOptions();
+
+    this.stepInput.value = `${step}`;
+    this.minRangeInput.value = `${range.min}`;
+    this.maxRangeInput.value = `${range.max}`;
+    this.rulerCheckbox.checked = isRuler;
+    this.thumbCheckbox.checked = isThumb;
+
+    if (this.isDiapason) {
+      this.minCurrentValueInput.value = `${currentValues[0]}`;
+      this.maxCurrentValueInput.value = `${currentValues[1]}`;
+    } else {
+      this.currentValueInput.value = `${currentValues[0]}`;
+    }
   };
 }
 

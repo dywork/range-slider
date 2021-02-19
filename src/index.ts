@@ -1,7 +1,9 @@
 /* eslint-disable func-names */
-import { Slider, ISliderOptions } from './slider/Slider';
-import ConfigPanel from './demo-page/СonfigPanel';
+import Slider from './slider/Slider';
 import defaultOptions from './slider/defaultOptions';
+import ISliderOptions from './slider/interfaces/ISliderOptions';
+import IModelOptions from './slider/interfaces/IModelOptions';
+import ConfigPanel from './demo-page/config-panel/ConfigPanel';
 import './demo-page/style.scss';
 import './demo-page/demoPage';
 
@@ -15,7 +17,7 @@ declare global {
 (function (jquery) {
   const $ = jquery;
 
-  $.fn.rangeSlider = function (options: ISliderOptions) {
+  $.fn.rangeSlider = function (options: IModelOptions) {
     let sliderOptions = options;
     sliderOptions = $.extend(
       {
@@ -25,7 +27,7 @@ declare global {
       sliderOptions,
     );
 
-    const slider = new Slider(sliderOptions);
+    const slider = new Slider(sliderOptions as ISliderOptions);
     slider.init();
 
     return slider;

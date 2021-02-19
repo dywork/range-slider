@@ -1,61 +1,96 @@
-import Model from '../Model/Model';
-import View from '../View/View';
-import Observer from '../Observer/Observer';
-import ISliderOptions from '../ISliderOptions';
+import Model from '../model/Model';
+import View from '../view/View';
+import Observer from '../observer/Observer';
+import IModelOptions from '../interfaces/IModelOptions';
+import ISliderOptions from '../interfaces/ISliderOptions';
 
 class Presenter extends Observer {
   private model: Model;
 
   private view: View;
 
+  private domParent: HTMLElement;
+
   constructor(sliderOptions: ISliderOptions) {
     super();
-    this.model = new Model(sliderOptions);
-    this.view = new View(this.model.getOptions());
+    this.domParent = sliderOptions.domParent;
+    this.model = new Model(this._getSplitModelOptions(sliderOptions));
+    this.view = new View(this.model.getOptions(), sliderOptions.domParent);
   }
 
-  init() {
+  init = () => {
     this._subscribeModules();
     this.view.render();
-  }
+  };
 
-  dispatchSliderOptions = (newSliderOptions: ISliderOptions) => {
-    const { currentValue: oldCurrentValue } = this.model.getOptions();
-    const { currentValue: newCurrentValue } = newSliderOptions;
-    const isOldRange = oldCurrentValue instanceof Array;
-    const isNewRange = newCurrentValue instanceof Array;
-    const isRangeChange = (!isOldRange && isNewRange) || (isOldRange && !isNewRange);
+  updateOptions = (modelOptions: IModelOptions) => {
+    this._checkOnChangeDiapason(modelOptions);
+    this._checkOnChangeOrientation(modelOptions);
+    this.model.updateOptions(this._getSplitModelOptions(modelOptions));
+  };
 
-    if (isRangeChange) {
+  getModelOptions = () => this.model.getOptions();
+
+  getDomParent = () => this.domParent;
+
+  private _getSplitModelOptions = (
+    sliderOptions: ISliderOptions | IModelOptions,
+  ): IModelOptions => {
+    const {
+      currentValues, range, isRuler, isThumb, step, orientation,
+    } = sliderOptions;
+
+    return {
+      currentValues,
+      range,
+      isRuler,
+      isThumb,
+      step,
+      orientation,
+    };
+  };
+
+  private _subscribeModules = () => {
+    this.model.subscribe('modelOptionsUpdate', this._onModelOptionsUpdate);
+    this.view.subscribe('modelOptionsUpdate', this._onViewChangedModelOptions);
+  };
+
+  private _onModelOptionsUpdate = (modelOptions: IModelOptions) => {
+    this.view.updateModelOptions(modelOptions);
+    this.notify('modelOptionsUpdate', this.model.getOptions());
+  };
+
+  private _onViewChangedModelOptions = (modelOptions: IModelOptions) => {
+    this.model.updateOptions(modelOptions);
+    this.notify('modelOptionsUpdate', this.model.getOptions());
+  };
+
+  private _checkOnChangeDiapason = (modelOptions: IModelOptions) => {
+    const { currentValues: oldCurrentValues } = this.model.getOptions();
+    const { currentValues: newCurrentValues } = modelOptions;
+    const isOldDiapason = oldCurrentValues.length === 2;
+    const isNewDiapason = newCurrentValues.length === 2;
+    const isDiapasonChange = (!isOldDiapason && isNewDiapason) || (isOldDiapason && !isNewDiapason);
+
+    if (isDiapasonChange) {
       this.view.destroyDom();
-      this.view = new View(newSliderOptions);
-      this.view.subscribe('sliderOptionsUpdate', this.dispatchSliderOptions);
+      this.view = new View(modelOptions, this.domParent);
+      this.view.subscribe('modelOptionsUpdate', this._onViewChangedModelOptions);
       this.view.render();
     }
+  };
 
+  private _checkOnChangeOrientation = (modelOptions: IModelOptions) => {
     const { orientation: oldOrientation } = this.model.getOptions();
-    const { orientation: newOrientation } = newSliderOptions;
+    const { orientation: newOrientation } = modelOptions;
     const isOrientationChange = oldOrientation !== newOrientation;
 
     if (isOrientationChange) {
       this.view.destroyDom();
-      this.view = new View(newSliderOptions);
-      this.view.subscribe('sliderOptionsUpdate', this.dispatchSliderOptions);
+      this.view = new View(modelOptions, this.domParent);
+      this.view.subscribe('modelOptionsUpdate', this._onViewChangedModelOptions);
       this.view.render();
     }
-
-    this.model.updateSliderOptions(newSliderOptions);
-    this.notify('sliderOptionsUpdate', this.model.getOptions());
-  };
-
-  private _subscribeModules = () => {
-    this.view.subscribe('sliderOptionsUpdate', this.dispatchSliderOptions);
-    this.model.subscribe('sliderOptionsUpdate', this._onSliderOptionsUpdate);
-  };
-
-  private _onSliderOptionsUpdate = (sliderOptions: ISliderOptions) => {
-    this.view.updateSliderOptions(sliderOptions);
-    this.notify('sliderOptionsUpdate', sliderOptions);
   };
 }
 

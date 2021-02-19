@@ -1,82 +1,68 @@
-import Observer from '../Observer/Observer';
 import defaultOptions from '../defaultOptions';
-import ISliderOptions from '../ISliderOptions';
+import Observer from '../observer/Observer';
+import IModelOptions from '../interfaces/IModelOptions';
 
 class Model extends Observer {
-  private sliderOptions: ISliderOptions;
+  private modelOptions: IModelOptions;
 
-  constructor(sliderOptions: ISliderOptions) {
+  constructor(modelOptions: IModelOptions) {
     super();
-    this.sliderOptions = this._getConfirmedOptions(sliderOptions);
+    this.modelOptions = this._getConfirmedOptions(modelOptions);
   }
 
-  getOptions = () => this.sliderOptions;
+  getOptions = () => this.modelOptions;
 
-  updateSliderOptions = (newSliderOptions: ISliderOptions) => {
-    const confirmedOptions = this._getConfirmedOptions(newSliderOptions);
-    this.sliderOptions = confirmedOptions;
-    this.notify('sliderOptionsUpdate', this.sliderOptions);
+  updateOptions = (newOptions: IModelOptions) => {
+    this.modelOptions = this._getConfirmedOptions(newOptions);
+    this.notify('modelOptionsUpdate', this.modelOptions);
   };
 
-  private _getConfirmedOptions = (checkingOptions: ISliderOptions) => {
+  private _getConfirmedOptions = (checkingOptions: IModelOptions) => {
     const confirmedOptions = { ...checkingOptions };
-    const { currentValue, range, step } = confirmedOptions;
+    const { currentValues, range, step } = confirmedOptions;
+    const isCurrentValuesNan = Number.isNaN(currentValues[0]) || Number.isNaN(currentValues[1]);
+    const isRangeNan = Number.isNaN(range.min) || Number.isNaN(range.max);
+    const isStepNan = Number.isNaN(step);
+    const isDiapason = currentValues.length === 2;
 
-    if (!range.min) {
-      range.min = defaultOptions.range.min;
+    if (isCurrentValuesNan) {
+      confirmedOptions.currentValues = defaultOptions.currentValues;
+      if (isDiapason) {
+        confirmedOptions.currentValues[1] = range.max;
+      }
     }
 
-    if (!range.max) {
-      range.max = defaultOptions.range.max;
+    if (isRangeNan) {
+      confirmedOptions.range = defaultOptions.range;
     }
 
-    if (!step) {
+    if (isStepNan) {
       confirmedOptions.step = defaultOptions.step;
     }
 
-    if (!currentValue && currentValue !== 0) {
-      confirmedOptions.currentValue = range.min;
+    if (range.min > range.max) {
+      confirmedOptions.range.min = range.max;
     }
 
-    if (currentValue instanceof Array) {
-      if (this.getOptions()) {
-        const { currentValue: oldCurrentValue } = this.getOptions();
-        if (oldCurrentValue instanceof Array) {
-          const [minCurrentValue, maxCurrentValue] = currentValue;
-          const isChangeMinCurrentValue = oldCurrentValue[0] !== minCurrentValue;
-          const isChangeMaxCurrentValue = oldCurrentValue[1] !== maxCurrentValue;
-          if (isChangeMinCurrentValue) {
-            if (minCurrentValue > maxCurrentValue) {
-              currentValue[0] = maxCurrentValue;
-            }
-          }
+    if (currentValues[0] < range.min) {
+      confirmedOptions.currentValues[0] = range.min;
+    }
 
-          if (isChangeMaxCurrentValue) {
-            if (maxCurrentValue < minCurrentValue) {
-              currentValue[1] = minCurrentValue;
-            }
-          }
-        } else {
-          const [oldMinCurrentValue, oldMaxCurrentValue] = currentValue;
-          if (oldMinCurrentValue > oldMaxCurrentValue) {
-            currentValue[0] = oldMaxCurrentValue;
-          }
-        }
-      }
+    if (currentValues[1] > range.max) {
+      confirmedOptions.currentValues[1] = range.max;
+    }
 
-      if (!currentValue[0]) {
-        currentValue[0] = range.min;
-      }
-      if (!currentValue[1]) {
-        currentValue[1] = range.max;
-      }
+    if (currentValues[0] > range.max) {
+      confirmedOptions.currentValues[0] = range.max;
+    }
 
-      currentValue[0] = currentValue[0] < range.min ? range.min : currentValue[0];
-      currentValue[1] = currentValue[1] > range.max ? range.max : currentValue[1];
-    } else if (currentValue < range.min) {
-      confirmedOptions.currentValue = range.min;
-    } else if (currentValue > range.max) {
-      confirmedOptions.currentValue = range.max;
+    if (currentValues[1] < range.min) {
+      confirmedOptions.currentValues[1] = range.min;
+    }
+
+    if (currentValues[1] < currentValues[0]) {
+      currentValues[0] = range.min;
+      currentValues[1] = range.max;
     }
 
     return confirmedOptions;

@@ -1,34 +1,32 @@
-import Observer from './Observer/Observer';
-import Presenter from './Presenter/Presenter';
-import ISliderOptions from './ISliderOptions';
+import Observer from './observer/Observer';
+import Presenter from './presenter/Presenter';
+import ISliderOptions from './interfaces/ISliderOptions';
+import IModelOptions from './interfaces/IModelOptions';
 
 class Slider extends Observer {
-  private sliderOptions: ISliderOptions;
-
   private presenter: Presenter;
 
   constructor(sliderOptions: ISliderOptions) {
     super();
-    this.sliderOptions = sliderOptions;
     this.presenter = new Presenter(sliderOptions);
   }
 
   init = () => {
     this.presenter.init();
-    this.presenter.subscribe('sliderOptionsUpdate', this._alertSubs);
+    this.presenter.subscribe('modelOptionsUpdate', this._alertSubs);
   };
 
-  updateSliderOptions = (sliderOptions: ISliderOptions) => {
-    this.sliderOptions = sliderOptions;
-    this.presenter.dispatchSliderOptions(this.sliderOptions);
+  updateOptions = (modelOptions: IModelOptions) => {
+    this.presenter.updateOptions(modelOptions);
   };
 
-  getSliderOptions = () => this.sliderOptions;
+  getModelOptions = () => this.presenter.getModelOptions();
 
-  private _alertSubs = (newSliderOptions: ISliderOptions) => {
-    this.sliderOptions = newSliderOptions;
-    this.notify('sliderOptionsUpdate', this.getSliderOptions());
+  getDomParent = () => this.presenter.getDomParent();
+
+  private _alertSubs = () => {
+    this.notify('modelOptionsUpdate', this.getModelOptions());
   };
 }
 
-export { Slider, ISliderOptions };
+export default Slider;

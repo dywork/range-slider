@@ -1,17 +1,8 @@
 import sliderClassName from '../../utils/sliderClassName';
+import IScaleProps from '../../../interfaces/view/components/scale/IScaleProps';
+import IDomNode from '../../../interfaces/view/components/scale/IDomNode';
 
 const scaleTemplate = require('./template.hbs');
-
-interface IScaleProps {
-  currentValue: number | number[];
-  range: { min: number; max: number };
-  isVertical: boolean;
-}
-
-interface IDomNode {
-  bar: HTMLElement;
-  scale: HTMLElement;
-}
 
 class Scale {
   private props: IScaleProps;
@@ -53,11 +44,11 @@ class Scale {
   };
 
   private _getTransformStyle = () => {
-    const { currentValue, isVertical } = this.props;
-    let scalePositions = [];
+    const { currentValues, isVertical } = this.props;
+    const isDiapason = currentValues.length === 2;
 
-    if (currentValue instanceof Array) {
-      scalePositions = currentValue.map((value: number) => this.getPosition(value));
+    if (isDiapason) {
+      const scalePositions = currentValues.map((value: number) => this.getPosition(value));
       const translateScale = scalePositions[0] * 100;
       const totalPosition = scalePositions[1] - translateScale * 0.01;
 
@@ -68,7 +59,7 @@ class Scale {
       return `transform: translate(${translateScale}%, 0px) scale(${totalPosition}, 1);`;
     }
 
-    const totalPosition = this.getPosition(currentValue);
+    const totalPosition = this.getPosition(currentValues[0]);
 
     if (isVertical) {
       return `transform: scale(1, ${totalPosition});`;
@@ -78,4 +69,4 @@ class Scale {
   };
 }
 
-export { Scale, IScaleProps };
+export default Scale;
