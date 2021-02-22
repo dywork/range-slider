@@ -24,6 +24,15 @@ describe('Model', () => {
     expect(model.getOptions()).toEqual(newSliderOptions);
   });
 
+  it('step не может быть меньше 0', () => {
+    const newSliderOptions = { ...modelOptions, step: -1 };
+    const correctSliderOptions = {
+      ...modelOptions,
+    };
+    model.updateOptions(newSliderOptions);
+    expect(model.getOptions()).toEqual(correctSliderOptions);
+  });
+
   it('не пропускает currentValue ниже диапазона range', () => {
     const newSliderOptions = { ...modelOptions, currentValues: [1], range: { min: 2, max: 10 } };
     const correctSliderOptions = {
