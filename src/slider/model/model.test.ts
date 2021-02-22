@@ -37,7 +37,7 @@ describe('Model', () => {
     const newSliderOptions = { ...modelOptions, currentValues: [1], range: { min: 2, max: 10 } };
     const correctSliderOptions = {
       ...modelOptions,
-      currentValues: [2],
+      currentValues: [10],
       range: { min: 2, max: 10 },
     };
     model.updateOptions(newSliderOptions);
