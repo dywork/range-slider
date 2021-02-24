@@ -22,7 +22,7 @@ $ npm run build
 Тесты: 
 `npm run test`
 
-Запуск eslint ts|js:
+Запуск eslint:
 `npm run lint:js`
 
 Запуск eslint autofix:
