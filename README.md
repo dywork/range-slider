@@ -22,6 +22,12 @@ $ npm run build
 Тесты: 
 `npm run test`
 
+Запуск eslint ts|js:
+`npm run lint:js`
+
+Запуск eslint autofix:
+`npm run format:js`
+
 Деплой на github page: 
 `npm run deploy`
 
