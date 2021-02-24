@@ -7,8 +7,8 @@
     "build": "webpack --mode production",
     "start": "webpack-dev-server --config webpack.config.js --open",
     "test": "karma start karma.conf.js",
-    "lint:js": "eslint \"src/**/*.js\" --ignore-pattern node_modules/",
-    "format:js": "eslint \"src/**/*.js\" --fix --ignore-pattern node_modules/",
+    "lint:js": "eslint \"src/**/*.js\" \"src/**/*.ts\" --ignore-pattern node_modules/",
+    "format:js": "eslint \"src/**/*.js\" \"src/**/*.ts\" --fix --ignore-pattern node_modules/",
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
