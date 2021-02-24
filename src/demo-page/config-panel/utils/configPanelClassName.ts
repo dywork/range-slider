@@ -6,6 +6,8 @@ interface IConfigPanelClassName {
   currentValueContainer: string;
   currentValueInput: string;
   valuesContainer: string;
+  valueContainer: string;
+  valueLabel: string;
   stepInput: string;
   minRangeInput: string;
   maxRangeInput: string;
@@ -23,6 +25,8 @@ const configPanelClassName: IConfigPanelClassName = {
   currentValueContainer: 'config-panel__value_current-value',
   currentValueInput: 'current-value',
   valuesContainer: 'config-panel__values',
+  valueContainer: 'config-panel__value',
+  valueLabel: 'config-panel__label',
   stepInput: 'step',
   minRangeInput: 'min-range-value',
   maxRangeInput: 'max-range-value',

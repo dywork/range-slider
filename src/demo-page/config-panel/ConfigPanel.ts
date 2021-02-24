@@ -2,6 +2,13 @@ import configPanelClassName from './utils/configPanelClassName';
 import Slider from '../../slider/Slider';
 import IModelOptions from '../../slider/interfaces/IModelOptions';
 
+interface IOptionsValueContainer {
+  containerClassName: string;
+  labelText: string;
+  valueInputClassName: string;
+  currentValue: number;
+}
+
 const configPanelTemplate = require('./template/configPanel.hbs');
 
 const debounce = (callback: Function) => {
@@ -216,63 +223,73 @@ class ConfigPanel {
   };
 
   private _toggleValueInputs = (currentValue: number | number[]) => {
+    const {
+      currentValueContainer,
+      maxCurrentValueContainer,
+      maxCurrentValueInput,
+      minCurrentValueContainer,
+      minCurrentValueInput,
+    } = configPanelClassName;
+
     if (currentValue instanceof Array) {
       this.valuesContainer.removeChild(this.currentValueContainer);
 
-      const maxValueContainer = document.createElement('p');
-      this.maxCurrentValueContainer = maxValueContainer;
-      maxValueContainer.classList.add('config-panel__value');
-      maxValueContainer.classList.add('config-panel__value_current-max-value');
-      const maxValueLabel = document.createElement('label');
-      maxValueLabel.classList.add('config-panel__label');
-      maxValueLabel.textContent = 'Текущее макс. значение:';
-      const maxValueInput = document.createElement('input');
-      this.maxCurrentValueInput = maxValueInput;
-      this.maxCurrentValueInput.classList.add('current-max-value');
-      this.maxCurrentValueInput.type = 'number';
-      this.maxCurrentValueInput.value = `${currentValue[1]}`;
-      this.maxCurrentValueInput.addEventListener('input', this._debounceInput);
-      maxValueLabel.appendChild(this.maxCurrentValueInput);
-      maxValueContainer.appendChild(maxValueLabel);
-      this.valuesContainer.insertAdjacentElement('afterbegin', maxValueContainer);
+      this.maxCurrentValueContainer = this._getInputValueContainer({
+        containerClassName: maxCurrentValueContainer,
+        labelText: 'Текущее макс. значение:',
+        valueInputClassName: maxCurrentValueInput,
+        currentValue: currentValue[1],
+      });
 
-      const minValueContainer = document.createElement('p');
-      this.minCurrentValueContainer = minValueContainer;
-      minValueContainer.classList.add('config-panel__value');
-      minValueContainer.classList.add('config-panel__value_current-min-value');
-      const minValueLabel = document.createElement('label');
-      minValueLabel.classList.add('config-panel__label');
-      minValueLabel.textContent = 'Текущее мин. значение:';
-      const minValueInput = document.createElement('input');
-      this.minCurrentValueInput = minValueInput;
-      this.minCurrentValueInput.classList.add('current-min-value');
-      this.minCurrentValueInput.type = 'number';
-      this.minCurrentValueInput.value = `${currentValue[0]}`;
-      this.minCurrentValueInput.addEventListener('input', this._debounceInput);
-      minValueLabel.appendChild(this.minCurrentValueInput);
-      minValueContainer.appendChild(minValueLabel);
-      this.valuesContainer.insertAdjacentElement('afterbegin', minValueContainer);
+      this.maxCurrentValueInput = this.maxCurrentValueContainer.querySelector(`.${maxCurrentValueInput}`);
+
+      this.minCurrentValueContainer = this._getInputValueContainer({
+        containerClassName: minCurrentValueContainer,
+        labelText: 'Текущее мин. значение:',
+        valueInputClassName: minCurrentValueInput,
+        currentValue: currentValue[0],
+      });
+
+      this.minCurrentValueInput = this.minCurrentValueContainer.querySelector(`.${minCurrentValueInput}`);
+
+      this.valuesContainer.insertAdjacentElement('afterbegin', this.maxCurrentValueContainer);
+      this.valuesContainer.insertAdjacentElement('afterbegin', this.minCurrentValueContainer);
     } else {
       this.valuesContainer.removeChild(this.minCurrentValueContainer);
       this.valuesContainer.removeChild(this.maxCurrentValueContainer);
 
-      const currentValueContainer = document.createElement('p');
-      this.currentValueContainer = currentValueContainer;
-      this.currentValueContainer.classList.add('config-panel__value');
-      this.currentValueContainer.classList.add('config-panel__value_current-value');
-      const currentValueLabel = document.createElement('label');
-      currentValueLabel.classList.add('config-panel__label');
-      currentValueLabel.textContent = 'Текущее значение:';
-      const currentValueInput = document.createElement('input');
-      this.currentValueInput = currentValueInput;
-      this.currentValueInput.classList.add('current-max-value');
-      this.currentValueInput.type = 'number';
-      this.currentValueInput.value = `${currentValue}`;
-      this.currentValueInput.addEventListener('input', this._debounceInput);
-      currentValueLabel.appendChild(this.currentValueInput);
-      currentValueContainer.appendChild(currentValueLabel);
-      this.valuesContainer.insertAdjacentElement('afterbegin', currentValueContainer);
+      this.currentValueContainer = this._getInputValueContainer({
+        containerClassName: currentValueContainer,
+        labelText: 'Текущее значение:',
+        valueInputClassName: maxCurrentValueInput,
+        currentValue: currentValue as number,
+      });
+
+      this.currentValueInput = this.currentValueContainer.querySelector(`.${maxCurrentValueInput}`);
+
+      this.valuesContainer.insertAdjacentElement('afterbegin', this.currentValueContainer);
     }
+  };
+
+  private _getInputValueContainer = (options: IOptionsValueContainer) => {
+    const {
+      containerClassName, labelText, valueInputClassName, currentValue,
+    } = options;
+
+    const valueContainer = document.createElement('p');
+    valueContainer.classList.add(configPanelClassName.valueContainer);
+    valueContainer.classList.add(containerClassName);
+    const valueLabel = document.createElement('label');
+    valueLabel.classList.add(configPanelClassName.valueLabel);
+    valueLabel.textContent = labelText;
+    const valueInput = document.createElement('input');
+    valueInput.classList.add(valueInputClassName);
+    valueInput.type = 'number';
+    valueInput.value = `${currentValue}`;
+    valueInput.addEventListener('input', this._debounceInput);
+    valueLabel.appendChild(valueInput);
+    valueContainer.appendChild(valueLabel);
+    return valueContainer;
   };
 
   private _onOptionsUpdate = () => {
