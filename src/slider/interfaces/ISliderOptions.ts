@@ -1,11 +1,7 @@
-interface ISliderOptions {
+import IModelOptions from './IModelOptions';
+
+interface ISliderOptions extends IModelOptions {
   domParent: HTMLElement;
-  currentValues: number[];
-  range: { min: number; max: number };
-  isRuler: boolean;
-  isThumb: boolean;
-  step: number;
-  orientation: string;
 }
 
 export default ISliderOptions;
