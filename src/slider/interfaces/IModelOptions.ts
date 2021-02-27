@@ -1,10 +1,10 @@
 interface IModelOptions {
-  currentValues: number[];
+  currentValues: [number] | [number, number];
   range: { min: number; max: number };
   isRuler: boolean;
   isThumb: boolean;
   step: number;
-  orientation: string;
+  orientation: 'horizontal' | 'vertical';
 }
 
 export default IModelOptions;
