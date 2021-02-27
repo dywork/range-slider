@@ -61,6 +61,7 @@ describe('Model', () => {
       currentValues: [2],
       range: { min: 2, max: 10 },
     };
+
     model.updateOptions(newSliderOptions);
     expect(model.getOptions()).toEqual(correctSliderOptions);
   });
@@ -77,6 +78,7 @@ describe('Model', () => {
       currentValues: [10],
       range: { min: 2, max: 10 },
     };
+
     model.updateOptions(newSliderOptions);
     expect(model.getOptions()).toEqual(correctSliderOptions);
   });
@@ -93,6 +95,7 @@ describe('Model', () => {
       currentValues: [2, 10],
       range: { min: 2, max: 10 },
     };
+
     model.updateOptions(newSliderOptions);
     expect(model.getOptions()).toEqual(correctSliderOptions);
   });
