@@ -1,8 +1,8 @@
 import Presenter from './Presenter';
-import ISLiderOptions from '../interfaces/ISliderOptions';
+import ISliderOptions from '../interfaces/ISliderOptions';
 import defaultOptions from '../defaultOptions';
 
-let sliderOptions: ISLiderOptions;
+let sliderOptions: ISliderOptions;
 
 beforeEach(() => {
   sliderOptions = {
