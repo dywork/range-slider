@@ -5,14 +5,14 @@ $(document).ready(function () {
   const defaultSlider = $('.js-default-slider').rangeSlider({
     currentValues: [15],
     range: { min: 10, max: 30 },
-    isRuler: true,
+    withRuler: true,
     isThumb: true,
   });
 
   const rangeSlider = $('.js-range-slider').rangeSlider({
     currentValues: [15, 25],
     range: { min: 10, max: 30 },
-    isRuler: true,
+    withRuler: true,
     isThumb: true,
   });
 
@@ -20,14 +20,14 @@ $(document).ready(function () {
     currentValues: [10],
     range: { min: 10, max: 30 },
     step: 5,
-    isRuler: true,
+    withRuler: true,
     isThumb: true,
   });
 
   const verticalSlider = $('.js-vertical-slider').rangeSlider({
     currentValues: [15],
     range: { min: 10, max: 30 },
-    isRuler: true,
+    withRuler: true,
     isThumb: true,
     orientation: 'vertical',
   });

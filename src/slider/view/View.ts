@@ -62,9 +62,9 @@ class View extends Observer {
   };
 
   private _initViewComponents = () => {
-    const { isRuler } = this.modelOptions;
+    const { withRuler } = this.modelOptions;
 
-    if (isRuler) {
+    if (withRuler) {
       this.ruler = this._getRuler();
     } else {
       this.ruler = null;
@@ -81,12 +81,12 @@ class View extends Observer {
   };
 
   private _getRulerProps = (): IRulerProps => {
-    const { range, step, isRuler } = this.modelOptions;
+    const { range, step, withRuler } = this.modelOptions;
     if (!step) {
       return {
         range,
         step: 1,
-        isRuler,
+        withRuler,
         isVertical: this.isVertical,
       };
     }
@@ -94,7 +94,7 @@ class View extends Observer {
     return {
       range,
       step,
-      isRuler,
+      withRuler,
       isVertical: this.isVertical,
     };
   };
@@ -240,9 +240,9 @@ class View extends Observer {
 
   private _onRulerClick = (evt: MouseEvent) => {
     const clickNode = evt.target as HTMLElement;
-    const isRulerItem = clickNode.classList.contains(`${sliderClassName.rulerItem}`);
+    const withRulerItem = clickNode.classList.contains(`${sliderClassName.rulerItem}`);
 
-    if (isRulerItem) {
+    if (withRulerItem) {
       const newValue = +clickNode.textContent;
       const newSliderOptions = { ...this.modelOptions };
       const { currentValues } = newSliderOptions;
@@ -385,9 +385,9 @@ class View extends Observer {
 
   private _redrawValue = () => {
     this.scale.updateProps(this._getScaleProps());
-    const { isRuler } = this.modelOptions;
+    const { withRuler } = this.modelOptions;
 
-    if (isRuler) {
+    if (withRuler) {
       if (this.ruler) {
         if (this._hasRulerPropsChange()) {
           this.ruler.updateProps(this._getRulerProps());

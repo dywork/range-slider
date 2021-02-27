@@ -26,7 +26,7 @@ describe('View', () => {
   });
 
   it('создает корректную верстку для rangeSlider', () => {
-    const rangeSliderOptions = { ...modelOptions, currentValues: [15, 25] };
+    const rangeSliderOptions: IModelOptions = { ...modelOptions, currentValues: [15, 25] };
     const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassName.slider}`).length).toEqual(1);
@@ -37,7 +37,7 @@ describe('View', () => {
   });
 
   it('создает корректную верстку для слайдера с ruler', () => {
-    const rangeSliderOptions = { ...modelOptions, isRuler: true };
+    const rangeSliderOptions = { ...modelOptions, withRuler: true };
     const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassName.slider}`).length).toEqual(1);
@@ -48,7 +48,7 @@ describe('View', () => {
   });
 
   it('создает корректную верстку для слайдера без ruler', () => {
-    const rangeSliderOptions = { ...modelOptions, isRuler: false };
+    const rangeSliderOptions = { ...modelOptions, withRuler: false };
     const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassName.slider}`).length).toEqual(1);
@@ -81,7 +81,7 @@ describe('View', () => {
   });
 
   it('создает вертикальный слайдер', () => {
-    const rangeSliderOptions = { ...modelOptions, orientation: 'vertical' };
+    const rangeSliderOptions: IModelOptions = { ...modelOptions, orientation: 'vertical' };
     const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
     view.render();
     const isWrapHaveVerticalClass = document

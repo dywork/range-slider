@@ -47,7 +47,7 @@ const defaultSlider = $('#defaultSlider').rangeSlider();
 const customSlider = $('#customSlider').rangeSlider({
     currentValues: [15, 20],
     range: { min: 10, max: 30 },
-    isRuler: true,
+    withRuler: true,
     isThumb: true,
   });
 ```
@@ -61,7 +61,7 @@ const defaultOptions = {
     max: 30,
   },
   isThumb: true,
-  isRuler: false,
+  withRuler: false,
   step: 1,
   orientation: 'horizontal',
 }
@@ -73,7 +73,7 @@ const defaultOptions = {
 | currentValues     | number[] | \[10\] | Задает текущее значение слайдера, 1 число - слайдер с одним значением, 2 числа - слайдер с интервалом |
 | range     | { min: number; max: number } | range.min: 10, range.max: 30 |  Задает минимально и максимально возможное значение слайдера
 | isThumb | boolean | true | Определяет показывать ли подсказку над тогглом с его текущим значением |
-| isRuler | boolean | false | Определяет показывать ли линейку(шкалу) со всеми возможными значениями слайдера |
+| withRuler | boolean | false | Определяет показывать ли линейку(шкалу) со всеми возможными значениями слайдера |
 | step | number | 1 | Шаг значений |
 | orientation | string | horizontal | Определяет горизонтальный или вертикальный вид слайдера. Для горизонтального значение - 'horizontal', для вертикального - 'vertical' |
 

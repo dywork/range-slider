@@ -7,7 +7,7 @@ const defaultOptions: IModelOptions = {
     max: 30,
   },
   isThumb: true,
-  isRuler: false,
+  withRuler: false,
   step: 1,
   orientation: 'horizontal',
 };
