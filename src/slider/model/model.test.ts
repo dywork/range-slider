@@ -19,7 +19,12 @@ describe('Model', () => {
   });
 
   it('обновляет настройки слайдера', () => {
-    const newSliderOptions = { ...modelOptions, currentValues: [5], range: { min: 2, max: 10 } };
+    const newSliderOptions: IModelOptions = {
+      ...modelOptions,
+      currentValues: [5],
+      range: { min: 2, max: 10 },
+    };
+
     model.updateOptions(newSliderOptions);
     expect(model.getOptions()).toEqual(newSliderOptions);
   });
@@ -29,13 +34,19 @@ describe('Model', () => {
     const correctSliderOptions = {
       ...modelOptions,
     };
+
     model.updateOptions(newSliderOptions);
     expect(model.getOptions()).toEqual(correctSliderOptions);
   });
 
   it('не пропускает currentValue ниже диапазона range', () => {
-    const newSliderOptions = { ...modelOptions, currentValues: [1], range: { min: 2, max: 10 } };
-    const correctSliderOptions = {
+    const newSliderOptions: IModelOptions = {
+      ...modelOptions,
+      currentValues: [1],
+      range: { min: 2, max: 10 },
+    };
+
+    const correctSliderOptions: IModelOptions = {
       ...modelOptions,
       currentValues: [10],
       range: { min: 2, max: 10 },
@@ -45,8 +56,13 @@ describe('Model', () => {
   });
 
   it('не пропускает currentValue выше диапазона range', () => {
-    const newSliderOptions = { ...modelOptions, currentValues: [11], range: { min: 2, max: 10 } };
-    const correctSliderOptions = {
+    const newSliderOptions: IModelOptions = {
+      ...modelOptions,
+      currentValues: [11],
+      range: { min: 2, max: 10 },
+    };
+
+    const correctSliderOptions: IModelOptions = {
       ...modelOptions,
       currentValues: [10],
       range: { min: 2, max: 10 },
@@ -56,8 +72,13 @@ describe('Model', () => {
   });
 
   it('currentValue[0] не может быть больше currentValues[1] и наоборот', () => {
-    const newSliderOptions = { ...modelOptions, currentValues: [5, 3], range: { min: 2, max: 10 } };
-    const correctSliderOptions = {
+    const newSliderOptions: IModelOptions = {
+      ...modelOptions,
+      currentValues: [5, 3],
+      range: { min: 2, max: 10 },
+    };
+
+    const correctSliderOptions: IModelOptions = {
       ...modelOptions,
       currentValues: [2, 10],
       range: { min: 2, max: 10 },

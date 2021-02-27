@@ -198,7 +198,7 @@ class ConfigPanel {
       const { range } = newOptions;
       const minCurrentValue = currentValues[0];
       const maxCurrentValue = range.max;
-      const newCurrentValues = [minCurrentValue, maxCurrentValue];
+      const newCurrentValues: [number, number] = [minCurrentValue, maxCurrentValue];
       newOptions.currentValues = newCurrentValues;
       this.isDiapason = !this.isDiapason;
       this._toggleValueInputs(newCurrentValues);
