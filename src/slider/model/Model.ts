@@ -40,6 +40,10 @@ class Model extends Observer {
       confirmedOptions.step = defaultOptions.step;
     }
 
+    if (step <= 0) {
+      confirmedOptions.step = defaultOptions.step;
+    }
+
     if (range.min > range.max) {
       confirmedOptions.range.min = range.max;
     }
