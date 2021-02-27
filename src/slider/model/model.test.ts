@@ -39,6 +39,16 @@ describe('Model', () => {
     expect(model.getOptions()).toEqual(correctSliderOptions);
   });
 
+  it('step не может быть равен 0', () => {
+    const newSliderOptions = { ...modelOptions, step: 0 };
+    const correctSliderOptions = {
+      ...modelOptions,
+    };
+
+    model.updateOptions(newSliderOptions);
+    expect(model.getOptions()).toEqual(correctSliderOptions);
+  });
+
   it('не пропускает currentValue ниже диапазона range', () => {
     const newSliderOptions: IModelOptions = {
       ...modelOptions,
