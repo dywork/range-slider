@@ -2,7 +2,7 @@ interface IModelOptions {
   currentValues: [number] | [number, number];
   range: { min: number; max: number };
   withRuler: boolean;
-  isThumb: boolean;
+  withThumb: boolean;
   step: number;
   orientation: 'horizontal' | 'vertical';
 }

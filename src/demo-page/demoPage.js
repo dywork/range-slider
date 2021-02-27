@@ -6,14 +6,14 @@ $(document).ready(function () {
     currentValues: [15],
     range: { min: 10, max: 30 },
     withRuler: true,
-    isThumb: true,
+    withThumb: true,
   });
 
   const rangeSlider = $('.js-range-slider').rangeSlider({
     currentValues: [15, 25],
     range: { min: 10, max: 30 },
     withRuler: true,
-    isThumb: true,
+    withThumb: true,
   });
 
   const stepSlider = $('.js-step-slider').rangeSlider({
@@ -21,14 +21,14 @@ $(document).ready(function () {
     range: { min: 10, max: 30 },
     step: 5,
     withRuler: true,
-    isThumb: true,
+    withThumb: true,
   });
 
   const verticalSlider = $('.js-vertical-slider').rangeSlider({
     currentValues: [15],
     range: { min: 10, max: 30 },
     withRuler: true,
-    isThumb: true,
+    withThumb: true,
     orientation: 'vertical',
   });
 

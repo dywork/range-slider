@@ -59,7 +59,7 @@ describe('View', () => {
   });
 
   it('создает корректную верстку для слайдера с thumb', () => {
-    const rangeSliderOptions = { ...modelOptions, isThumb: true };
+    const rangeSliderOptions = { ...modelOptions, withThumb: true };
     const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassName.slider}`).length).toEqual(1);
@@ -70,7 +70,7 @@ describe('View', () => {
   });
 
   it('создает корректную верстку для слайдера без thumb', () => {
-    const rangeSliderOptions = { ...modelOptions, isThumb: false };
+    const rangeSliderOptions = { ...modelOptions, withThumb: false };
     const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassName.slider}`).length).toEqual(1);

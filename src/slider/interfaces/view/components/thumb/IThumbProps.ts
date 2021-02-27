@@ -1,6 +1,6 @@
 interface IThumbProps {
   value: number | number[];
-  isThumb: boolean;
+  withThumb: boolean;
 }
 
 export default IThumbProps;

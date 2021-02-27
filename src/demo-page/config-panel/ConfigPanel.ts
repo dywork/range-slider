@@ -78,7 +78,7 @@ class ConfigPanel {
       currentValues,
       range,
       withRuler,
-      isThumb,
+      withThumb,
       step,
       orientation,
     } = this.slider.getModelOptions();
@@ -86,7 +86,7 @@ class ConfigPanel {
       currentValues,
       range,
       withRuler,
-      isThumb,
+      withThumb,
       step,
       isVertical: orientation === 'vertical',
       isDiapason: currentValues.length === 2,
@@ -178,7 +178,7 @@ class ConfigPanel {
 
   private _onCheckboxChange = (evt: Event) => {
     const target = <HTMLInputElement>evt.target;
-    const nameOptions = target.getAttribute('data-value-name') as 'withRuler' | 'isThumb';
+    const nameOptions = target.getAttribute('data-value-name') as 'withRuler' | 'withThumb';
     const newOptions = { ...this.slider.getModelOptions() };
     newOptions[nameOptions] = target.checked;
     this.slider.updateOptions(newOptions);
@@ -295,14 +295,14 @@ class ConfigPanel {
   private _onOptionsUpdate = () => {
     this.isDiapason = this._hasDiapason();
     const {
-      currentValues, step, range, withRuler, isThumb,
+      currentValues, step, range, withRuler, withThumb,
     } = this.slider.getModelOptions();
 
     this.stepInput.value = `${step}`;
     this.minRangeInput.value = `${range.min}`;
     this.maxRangeInput.value = `${range.max}`;
     this.rulerCheckbox.checked = withRuler;
-    this.thumbCheckbox.checked = isThumb;
+    this.thumbCheckbox.checked = withThumb;
 
     if (this.isDiapason) {
       this.minCurrentValueInput.value = `${currentValues[0]}`;

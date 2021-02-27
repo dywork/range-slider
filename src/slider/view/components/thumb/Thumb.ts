@@ -41,9 +41,9 @@ class Thumb extends Observer {
   };
 
   private _redraw = () => {
-    const { value, isThumb } = this.props;
+    const { value, withThumb } = this.props;
 
-    if (isThumb) {
+    if (withThumb) {
       this.domNode.thumb.textContent = `${value}`;
     } else {
       this.notify('onThumbHide', '');

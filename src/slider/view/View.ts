@@ -114,14 +114,14 @@ class View extends Observer {
   };
 
   private _getToggles = () => {
-    const { currentValues, isThumb } = this.modelOptions;
+    const { currentValues, withThumb } = this.modelOptions;
 
     return currentValues.map((value: number) => {
       const scalePosition = this.scale.getPosition(value);
       const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
       const toggle = {
         main: new Toggle(toggleProps),
-        thumb: isThumb ? new Thumb(this._getThumbProps(value)) : null,
+        thumb: withThumb ? new Thumb(this._getThumbProps(value)) : null,
       };
 
       if (toggle.thumb) {
@@ -133,8 +133,8 @@ class View extends Observer {
   };
 
   private _getThumbProps = (value: number) => {
-    const { isThumb } = this.modelOptions;
-    return { isThumb, value };
+    const { withThumb } = this.modelOptions;
+    return { withThumb, value };
   };
 
   private _onThumbHide = () => {
@@ -186,8 +186,8 @@ class View extends Observer {
       this._saveRuler();
     }
 
-    const { isThumb } = this.modelOptions;
-    if (isThumb) {
+    const { withThumb } = this.modelOptions;
+    if (withThumb) {
       this._saveThumbDom();
     }
   };
@@ -401,7 +401,7 @@ class View extends Observer {
       }
     }
 
-    const { currentValues, isThumb } = this.modelOptions;
+    const { currentValues, withThumb } = this.modelOptions;
 
     currentValues.forEach((value, index) => {
       const scalePosition = this.scale.getPosition(value);
@@ -409,7 +409,7 @@ class View extends Observer {
       this.toggles[index].main.updateProps(toggleProps);
 
       const { thumb } = this.toggles[index];
-      if (isThumb) {
+      if (withThumb) {
         if (thumb) {
           thumb.updateProps(this._getThumbProps(value));
         } else {
