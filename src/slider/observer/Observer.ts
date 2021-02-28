@@ -1,7 +1,5 @@
-import Subscriber from './Subscriber';
-
 interface ISubscribers {
-  [index: string]: Subscriber;
+  [index: string]: Function[];
 }
 
 class Observer {
@@ -12,14 +10,17 @@ class Observer {
   }
 
   subscribe = (subName: string, callback: Function) => {
-    const subscriber = new Subscriber(subName);
-    subscriber.registerCallback(callback);
-    this.subscribers[subName] = subscriber;
+    if (this.subscribers[subName]) {
+      this.subscribers[subName].push(callback);
+    } else {
+      this.subscribers[subName] = [];
+      this.subscribers[subName].push(callback);
+    }
   };
 
   notify = (subName: string, data: any) => {
     if (this.subscribers[subName]) {
-      this.subscribers[subName].callbacks.forEach((callback: Function) => callback(data));
+      this.subscribers[subName].forEach((callback: Function) => callback(data));
     }
   };
 }
