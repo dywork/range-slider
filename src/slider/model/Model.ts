@@ -20,15 +20,15 @@ class Model extends Observer {
   private _getConfirmedOptions = (checkingOptions: IModelOptions) => {
     const confirmedOptions = { ...checkingOptions };
     const { currentValues, range, step } = confirmedOptions;
-    const isCurrentValuesNan = Number.isNaN(currentValues[0]) || Number.isNaN(currentValues[1]);
+    const isCurrentValuesNan = Number.isNaN(currentValues.min) || Number.isNaN(currentValues.max);
     const isRangeNan = Number.isNaN(range.min) || Number.isNaN(range.max);
     const isStepNan = Number.isNaN(step);
-    const isDiapason = currentValues.length === 2;
+    const isRange = Object.hasOwnProperty.call(currentValues, 'max');
 
     if (isCurrentValuesNan) {
       confirmedOptions.currentValues = defaultOptions.currentValues;
-      if (isDiapason) {
-        confirmedOptions.currentValues[1] = range.max;
+      if (isRange) {
+        confirmedOptions.currentValues.max = range.max;
       }
     }
 
@@ -48,25 +48,25 @@ class Model extends Observer {
       confirmedOptions.range.min = range.max;
     }
 
-    if (currentValues[0] < range.min) {
-      confirmedOptions.currentValues[0] = range.min;
+    if (currentValues.min < range.min) {
+      confirmedOptions.currentValues.min = range.min;
     }
 
-    if (currentValues[1] > range.max) {
-      confirmedOptions.currentValues[1] = range.max;
+    if (currentValues.max > range.max) {
+      confirmedOptions.currentValues.max = range.max;
     }
 
-    if (currentValues[0] > range.max) {
-      confirmedOptions.currentValues[0] = range.max;
+    if (currentValues.min > range.max) {
+      confirmedOptions.currentValues.min = range.max;
     }
 
-    if (currentValues[1] < range.min) {
-      confirmedOptions.currentValues[1] = range.min;
+    if (currentValues.max < range.min) {
+      confirmedOptions.currentValues.max = range.min;
     }
 
-    if (currentValues[1] < currentValues[0]) {
-      currentValues[0] = range.min;
-      currentValues[1] = range.max;
+    if (currentValues.max < currentValues.min) {
+      currentValues.min = range.min;
+      currentValues.max = range.max;
     }
 
     return confirmedOptions;
