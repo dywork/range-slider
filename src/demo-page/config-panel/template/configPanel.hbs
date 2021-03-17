@@ -3,20 +3,20 @@
   <p class="config-panel__value config-panel__value_current-min-value">
     <label class="config-panel__label">
       Текущее мин. значение:
-      <input class="current-min-value" type="number" value="{{currentValues.[0]}}">
+      <input class="current-min-value" type="number" value="{{currentValues.min}}">
     </label>
   </p>
   <p class="config-panel__value config-panel__value_current-max-value">
     <label class="config-panel__label">
       Текущее макс. значение:
-      <input class="current-max-value" type="number" value="{{currentValues.[1]}}">
+      <input class="current-max-value" type="number" value="{{currentValues.max}}">
     </label>
   </p>
   {{else}}
   <p class="config-panel__value config-panel__value_current-value">
     <label class="config-panel__label">
       Текущее значение:
-      <input class="current-value" type="number" value="{{currentValues.[0]}}">
+      <input class="current-value" type="number" value="{{currentValues.min}}">
     </label>
   </p>
   {{/if}}
