@@ -3,21 +3,21 @@ import './favicons/favicons';
 /* eslint-disable */
 $(document).ready(function () {
   const defaultSlider = $('.js-default-slider').rangeSlider({
-    currentValues: [15],
+    currentValues: { min: 15 },
     range: { min: 10, max: 30 },
     withRuler: true,
     withThumb: true,
   });
 
   const rangeSlider = $('.js-range-slider').rangeSlider({
-    currentValues: [15, 25],
+    currentValues: { min: 15, max: 26 },
     range: { min: 10, max: 30 },
     withRuler: true,
     withThumb: true,
   });
 
   const stepSlider = $('.js-step-slider').rangeSlider({
-    currentValues: [10],
+    currentValues: { min: 10 },
     range: { min: 10, max: 30 },
     step: 5,
     withRuler: true,
@@ -25,7 +25,7 @@ $(document).ready(function () {
   });
 
   const verticalSlider = $('.js-vertical-slider').rangeSlider({
-    currentValues: [15],
+    currentValues: { min: 15 },
     range: { min: 10, max: 30 },
     withRuler: true,
     withThumb: true,

@@ -1,7 +1,7 @@
 import IModelOptions from './interfaces/IModelOptions';
 
 const defaultOptions: IModelOptions = {
-  currentValues: [10],
+  currentValues: { min: 10 },
   range: {
     min: 10,
     max: 30,

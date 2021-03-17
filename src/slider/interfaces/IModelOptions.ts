@@ -1,5 +1,5 @@
 interface IModelOptions {
-  currentValues: [number] | [number, number];
+  currentValues: { min: number; max?: number };
   range: { min: number; max: number };
   withRuler: boolean;
   withThumb: boolean;

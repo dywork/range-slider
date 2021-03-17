@@ -26,7 +26,11 @@ describe('View', () => {
   });
 
   it('создает корректную верстку для rangeSlider', () => {
-    const rangeSliderOptions: IModelOptions = { ...modelOptions, currentValues: [15, 25] };
+    const rangeSliderOptions: IModelOptions = {
+      ...modelOptions,
+      currentValues: { min: 15, max: 25 },
+    };
+
     const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassName.slider}`).length).toEqual(1);
