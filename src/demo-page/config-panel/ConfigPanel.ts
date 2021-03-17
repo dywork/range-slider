@@ -45,7 +45,7 @@ class ConfigPanel {
 
   maxRangeInput: HTMLInputElement;
 
-  isDiapason: boolean;
+  isRange: boolean;
 
   thumbCheckbox: HTMLInputElement;
 
@@ -58,7 +58,7 @@ class ConfigPanel {
   constructor(domParent: HTMLElement, slider: Slider) {
     this.slider = slider;
     this.domParent = domParent;
-    this.isDiapason = this._hasDiapason();
+    this.isRange = this._hasRange();
   }
 
   init = () => {
@@ -89,19 +89,19 @@ class ConfigPanel {
       withThumb,
       step,
       isVertical: orientation === 'vertical',
-      isDiapason: this._hasDiapason(),
+      isRange: this._hasRange(),
     };
     configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
     return configPanelContainer;
   };
 
-  private _hasDiapason = () => {
+  private _hasRange = () => {
     const { currentValues } = this.slider.getModelOptions();
     return Object.hasOwnProperty.call(currentValues, 'max');
   };
 
   private _saveDom = () => {
-    if (this.isDiapason) {
+    if (this.isRange) {
       this.minCurrentValueContainer = this.domParent.querySelector(
         `.${configPanelClassName.minCurrentValueContainer}`,
       );
@@ -138,7 +138,7 @@ class ConfigPanel {
   };
 
   private _setListeners = () => {
-    if (this.isDiapason) {
+    if (this.isRange) {
       this.minCurrentValueInput.addEventListener('input', this._debounceInput);
       this.maxCurrentValueInput.addEventListener('input', this._debounceInput);
     } else {
@@ -164,7 +164,7 @@ class ConfigPanel {
     };
     newOptions.range = newRange;
 
-    if (this.isDiapason) {
+    if (this.isRange) {
       const minValue = parseInt(this.minCurrentValueInput.value, 10);
       const maxValue = parseInt(this.maxCurrentValueInput.value, 10);
       newOptions.currentValues = { min: minValue, max: maxValue };
@@ -189,15 +189,15 @@ class ConfigPanel {
     const newIsRange = (<HTMLInputElement>evt.target).checked;
     const { currentValues } = newOptions;
 
-    if (this.isDiapason && !newIsRange) {
+    if (this.isRange && !newIsRange) {
       const newCurrentValue = currentValues.min;
       const newCurrentValues = {
         min: newCurrentValue,
       };
       newOptions.currentValues = newCurrentValues;
-      this.isDiapason = !this.isDiapason;
+      this.isRange = !this.isRange;
       this._toggleValueInputs(newCurrentValues);
-    } else if (!this.isDiapason && newIsRange) {
+    } else if (!this.isRange && newIsRange) {
       const { range } = newOptions;
       const minCurrentValue = currentValues.min;
       const maxCurrentValue = range.max;
@@ -206,7 +206,7 @@ class ConfigPanel {
         max: maxCurrentValue,
       };
       newOptions.currentValues = newCurrentValues;
-      this.isDiapason = !this.isDiapason;
+      this.isRange = !this.isRange;
       this._toggleValueInputs(newCurrentValues);
     }
 
@@ -237,7 +237,7 @@ class ConfigPanel {
       minCurrentValueInput,
     } = configPanelClassName;
 
-    if (this.isDiapason) {
+    if (this.isRange) {
       this.valuesContainer.removeChild(this.currentValueContainer);
 
       this.maxCurrentValueContainer = this._getInputValueContainer({
@@ -303,7 +303,7 @@ class ConfigPanel {
   };
 
   private _onOptionsUpdate = () => {
-    this.isDiapason = this._hasDiapason();
+    this.isRange = this._hasRange();
     const {
       currentValues, step, range, withRuler, withThumb,
     } = this.slider.getModelOptions();
@@ -314,7 +314,7 @@ class ConfigPanel {
     this.rulerCheckbox.checked = withRuler;
     this.thumbCheckbox.checked = withThumb;
 
-    if (this.isDiapason) {
+    if (this.isRange) {
       this.minCurrentValueInput.value = `${currentValues.min}`;
       this.maxCurrentValueInput.value = `${currentValues.max}`;
     } else {
