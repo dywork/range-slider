@@ -45,9 +45,9 @@ class Scale {
 
   private _getTransformStyle = () => {
     const { currentValues, isVertical } = this.props;
-    const isDiapason = currentValues.length === 2;
+    const isRange = currentValues.length === 2;
 
-    if (isDiapason) {
+    if (isRange) {
       const scalePositions = currentValues.map((value: number) => this.getPosition(value));
       const translateScale = scalePositions[0] * 100;
       const totalPosition = scalePositions[1] - translateScale * 0.01;
