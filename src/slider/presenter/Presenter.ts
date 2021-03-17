@@ -24,7 +24,7 @@ class Presenter extends Observer {
   };
 
   updateOptions = (modelOptions: IModelOptions) => {
-    this._checkOnChangeDiapason(modelOptions);
+    this._checkOnChangeRange(modelOptions);
     this._checkOnChangeOrientation(modelOptions);
     this.model.updateOptions(this._getSplitModelOptions(modelOptions));
   };
@@ -65,14 +65,14 @@ class Presenter extends Observer {
     this.notify('modelOptionsUpdate', this.model.getOptions());
   };
 
-  private _checkOnChangeDiapason = (modelOptions: IModelOptions) => {
+  private _checkOnChangeRange = (modelOptions: IModelOptions) => {
     const { currentValues: oldCurrentValues } = this.model.getOptions();
     const { currentValues: newCurrentValues } = modelOptions;
-    const isOldDiapason = oldCurrentValues.length === 2;
-    const isNewDiapason = newCurrentValues.length === 2;
-    const isDiapasonChange = (!isOldDiapason && isNewDiapason) || (isOldDiapason && !isNewDiapason);
+    const isOldRange = oldCurrentValues.length === 2;
+    const isNewRange = newCurrentValues.length === 2;
+    const isRangeChange = (!isOldRange && isNewRange) || (isOldRange && !isNewRange);
 
-    if (isDiapasonChange) {
+    if (isRangeChange) {
       this.view.destroyDom();
       this.view = new View(modelOptions, this.domParent);
       this.view.subscribe('modelOptionsUpdate', this._onViewChangedModelOptions);
