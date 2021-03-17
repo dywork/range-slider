@@ -166,11 +166,11 @@ class ConfigPanel {
     newOptions.range = newRange;
 
     if (this.isRange) {
-      const minValue = parseInt(this.minCurrentValueInput.value, 10);
-      const maxValue = parseInt(this.maxCurrentValueInput.value, 10);
+      const minValue = +this.minCurrentValueInput.value;
+      const maxValue = +this.maxCurrentValueInput.value;
       newOptions.currentValues = { min: minValue, max: maxValue };
     } else {
-      newOptions.currentValues = { min: parseInt(this.currentValueInput.value, 10) };
+      newOptions.currentValues = { min: +this.currentValueInput.value };
     }
 
     newOptions.step = parseInt(this.stepInput.value, 10);
