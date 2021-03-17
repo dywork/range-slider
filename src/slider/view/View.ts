@@ -42,7 +42,7 @@ class View extends Observer {
     this.domParent = domParent;
     const { currentValues, orientation } = this.modelOptions;
     this.isVertical = orientation === 'vertical';
-    this.isDiapason = currentValues.length === 2;
+    this.isDiapason = Object.hasOwnProperty.call(currentValues, 'max');
     this._initViewComponents();
   }
 
@@ -116,7 +116,7 @@ class View extends Observer {
   private _getToggles = () => {
     const { currentValues, withThumb } = this.modelOptions;
 
-    return currentValues.map((value: number) => {
+    return Object.entries(currentValues).map(([, value]) => {
       const scalePosition = this.scale.getPosition(value);
       const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
       const toggle = {
@@ -248,24 +248,27 @@ class View extends Observer {
       const { currentValues } = newSliderOptions;
 
       if (this.isDiapason) {
-        const minValue = currentValues[0];
-        const maxValue = currentValues[1];
+        const { min, max } = currentValues;
         let newValueIndex;
-        if (newValue < minValue) {
+        if (newValue < min) {
           newValueIndex = 0;
         }
 
-        if (newValue > minValue && newValue < maxValue) {
-          newValueIndex = Math.round(newValue / (minValue + maxValue));
+        if (newValue > min && newValue < max) {
+          newValueIndex = Math.round(newValue / (min + max));
         }
 
-        if (newValue > maxValue) {
+        if (newValue > max) {
           newValueIndex = 1;
         }
 
-        currentValues[newValueIndex] = newValue;
+        if (newValueIndex > 0) {
+          currentValues.max = newValue;
+        } else {
+          currentValues.min = newValue;
+        }
       } else {
-        currentValues[0] = newValue;
+        currentValues.min = newValue;
       }
 
       this._dispatchModelOptions(newSliderOptions);
@@ -305,29 +308,36 @@ class View extends Observer {
     const newCurrentValue = this._getCurrentValueByPercent(percentOfSlider);
     const newSliderOptions = { ...this.modelOptions };
 
+    const indexMap = {
+      0: 'min',
+      1: 'max',
+    };
+
+    const currentValueKey = indexMap[this.activeToggleIndex as 0 | 1];
+
     if (this.isDiapason) {
       const isFirstValue = this.activeToggleIndex === 0;
-      const isLastValue = this.activeToggleIndex === newSliderOptions.currentValues.length - 1;
+      const isLastValue = this.activeToggleIndex === 1;
       const minOutRange = isFirstValue
-        ? newSliderOptions.currentValues[this.activeToggleIndex]
-        : newSliderOptions.currentValues[this.activeToggleIndex - 1];
+        ? newSliderOptions.currentValues.max
+        : newSliderOptions.currentValues.min;
       const maxOutRange = isLastValue
-        ? newSliderOptions.currentValues[this.activeToggleIndex]
-        : newSliderOptions.currentValues[this.activeToggleIndex + 1];
+        ? newSliderOptions.currentValues.min
+        : newSliderOptions.currentValues.max;
 
       if (isFirstValue) {
         const isOutOfRange = newCurrentValue >= maxOutRange;
-        newSliderOptions.currentValues[this.activeToggleIndex] = isOutOfRange
+        newSliderOptions.currentValues[currentValueKey as 'min' | 'max'] = isOutOfRange
           ? maxOutRange
           : newCurrentValue;
       } else if (isLastValue) {
         const isOutOfRange = newCurrentValue <= minOutRange;
-        newSliderOptions.currentValues[this.activeToggleIndex] = isOutOfRange
+        newSliderOptions.currentValues[currentValueKey as 'min' | 'max'] = isOutOfRange
           ? minOutRange
           : newCurrentValue;
       }
     } else {
-      newSliderOptions.currentValues[0] = newCurrentValue;
+      newSliderOptions.currentValues[currentValueKey as 'min' | 'max'] = newCurrentValue;
     }
 
     this._dispatchModelOptions(newSliderOptions);
@@ -403,7 +413,9 @@ class View extends Observer {
 
     const { currentValues, withThumb } = this.modelOptions;
 
-    currentValues.forEach((value, index) => {
+    Object.entries(currentValues).forEach(([key, value]) => {
+      const toggleIndexMap = { min: 0, max: 1 };
+      const index = toggleIndexMap[key as 'min' | 'max'];
       const scalePosition = this.scale.getPosition(value);
       const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
       this.toggles[index].main.updateProps(toggleProps);
@@ -441,7 +453,9 @@ class View extends Observer {
   private _onThumbMount = () => {
     const { currentValues } = this.modelOptions;
 
-    currentValues.forEach((value: number, index: number) => {
+    Object.entries(currentValues).forEach(([key, value]) => {
+      const toggleIndexMap = { min: 0, max: 1 };
+      const index = toggleIndexMap[key as 'min' | 'max'];
       const toggle = this.toggles[index];
       toggle.thumb = new Thumb(this._getThumbProps(value));
       toggle.thumb.subscribe('onThumbHide', this._onThumbHide);
