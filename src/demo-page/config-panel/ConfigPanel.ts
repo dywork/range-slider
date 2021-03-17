@@ -89,7 +89,7 @@ class ConfigPanel {
       withThumb,
       step,
       isVertical: orientation === 'vertical',
-      isDiapason: currentValues.length === 2,
+      isDiapason: this._hasDiapason(),
     };
     configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
     return configPanelContainer;
@@ -97,7 +97,7 @@ class ConfigPanel {
 
   private _hasDiapason = () => {
     const { currentValues } = this.slider.getModelOptions();
-    return currentValues.length === 2;
+    return Object.hasOwnProperty.call(currentValues, 'max');
   };
 
   private _saveDom = () => {
@@ -167,9 +167,9 @@ class ConfigPanel {
     if (this.isDiapason) {
       const minValue = parseInt(this.minCurrentValueInput.value, 10);
       const maxValue = parseInt(this.maxCurrentValueInput.value, 10);
-      newOptions.currentValues = [minValue, maxValue];
+      newOptions.currentValues = { min: minValue, max: maxValue };
     } else {
-      newOptions.currentValues = [parseInt(this.currentValueInput.value, 10)];
+      newOptions.currentValues = { min: parseInt(this.currentValueInput.value, 10) };
     }
 
     newOptions.step = parseInt(this.stepInput.value, 10);
@@ -190,15 +190,21 @@ class ConfigPanel {
     const { currentValues } = newOptions;
 
     if (this.isDiapason && !newIsRange) {
-      const newCurrentValue = currentValues[0];
-      newOptions.currentValues = [newCurrentValue];
+      const newCurrentValue = currentValues.min;
+      const newCurrentValues = {
+        min: newCurrentValue,
+      };
+      newOptions.currentValues = newCurrentValues;
       this.isDiapason = !this.isDiapason;
-      this._toggleValueInputs(newCurrentValue);
+      this._toggleValueInputs(newCurrentValues);
     } else if (!this.isDiapason && newIsRange) {
       const { range } = newOptions;
-      const minCurrentValue = currentValues[0];
+      const minCurrentValue = currentValues.min;
       const maxCurrentValue = range.max;
-      const newCurrentValues: [number, number] = [minCurrentValue, maxCurrentValue];
+      const newCurrentValues = {
+        min: minCurrentValue,
+        max: maxCurrentValue,
+      };
       newOptions.currentValues = newCurrentValues;
       this.isDiapason = !this.isDiapason;
       this._toggleValueInputs(newCurrentValues);
@@ -222,7 +228,7 @@ class ConfigPanel {
     sliderWrap.classList.toggle('config-panel__slider_vertical');
   };
 
-  private _toggleValueInputs = (currentValue: number | number[]) => {
+  private _toggleValueInputs = (currentValues: { min: number; max?: number }) => {
     const {
       currentValueContainer,
       maxCurrentValueContainer,
@@ -231,26 +237,30 @@ class ConfigPanel {
       minCurrentValueInput,
     } = configPanelClassName;
 
-    if (currentValue instanceof Array) {
+    if (this.isDiapason) {
       this.valuesContainer.removeChild(this.currentValueContainer);
 
       this.maxCurrentValueContainer = this._getInputValueContainer({
         containerClassName: maxCurrentValueContainer,
         labelText: 'Текущее макс. значение:',
         valueInputClassName: maxCurrentValueInput,
-        currentValue: currentValue[1],
+        currentValue: currentValues.max,
       });
 
-      this.maxCurrentValueInput = this.maxCurrentValueContainer.querySelector(`.${maxCurrentValueInput}`);
+      this.maxCurrentValueInput = this.maxCurrentValueContainer.querySelector(
+        `.${maxCurrentValueInput}`,
+      );
 
       this.minCurrentValueContainer = this._getInputValueContainer({
         containerClassName: minCurrentValueContainer,
         labelText: 'Текущее мин. значение:',
         valueInputClassName: minCurrentValueInput,
-        currentValue: currentValue[0],
+        currentValue: currentValues.min,
       });
 
-      this.minCurrentValueInput = this.minCurrentValueContainer.querySelector(`.${minCurrentValueInput}`);
+      this.minCurrentValueInput = this.minCurrentValueContainer.querySelector(
+        `.${minCurrentValueInput}`,
+      );
 
       this.valuesContainer.insertAdjacentElement('afterbegin', this.maxCurrentValueContainer);
       this.valuesContainer.insertAdjacentElement('afterbegin', this.minCurrentValueContainer);
@@ -262,7 +272,7 @@ class ConfigPanel {
         containerClassName: currentValueContainer,
         labelText: 'Текущее значение:',
         valueInputClassName: maxCurrentValueInput,
-        currentValue: currentValue as number,
+        currentValue: currentValues.min,
       });
 
       this.currentValueInput = this.currentValueContainer.querySelector(`.${maxCurrentValueInput}`);
@@ -305,10 +315,10 @@ class ConfigPanel {
     this.thumbCheckbox.checked = withThumb;
 
     if (this.isDiapason) {
-      this.minCurrentValueInput.value = `${currentValues[0]}`;
-      this.maxCurrentValueInput.value = `${currentValues[1]}`;
+      this.minCurrentValueInput.value = `${currentValues.min}`;
+      this.maxCurrentValueInput.value = `${currentValues.max}`;
     } else {
-      this.currentValueInput.value = `${currentValues[0]}`;
+      this.currentValueInput.value = `${currentValues.min}`;
     }
   };
 }
