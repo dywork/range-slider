@@ -1,5 +1,5 @@
 <fieldset class="config-panel__values">
-  {{#if isDiapason}}
+  {{#if isRange}}
   <p class="config-panel__value config-panel__value_current-min-value">
     <label class="config-panel__label">
       Текущее мин. значение:
@@ -55,7 +55,7 @@
   <p class="config-panel__value">
     <label class="config-panel__label">
       Диапазон:
-      <input class="diapason" type="checkbox" {{#if isDiapason}}checked{{/if}}>
+      <input class="diapason" type="checkbox" {{#if isRange}}checked{{/if}}>
     </label>
   </p>
   <p class="config-panel__value">
