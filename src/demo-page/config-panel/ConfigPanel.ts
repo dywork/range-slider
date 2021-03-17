@@ -1,6 +1,7 @@
 import configPanelClassName from './utils/configPanelClassName';
 import Slider from '../../slider/Slider';
 import IModelOptions from '../../slider/interfaces/IModelOptions';
+import CurrentValues from '../../slider/interfaces/types';
 
 interface IOptionsValueContainer {
   containerClassName: string;
@@ -228,7 +229,7 @@ class ConfigPanel {
     sliderWrap.classList.toggle('config-panel__slider_vertical');
   };
 
-  private _toggleValueInputs = (currentValues: { min: number; max?: number }) => {
+  private _toggleValueInputs = (currentValues: CurrentValues) => {
     const {
       currentValueContainer,
       maxCurrentValueContainer,
