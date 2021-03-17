@@ -45,10 +45,11 @@ class Scale {
 
   private _getTransformStyle = () => {
     const { currentValues, isVertical } = this.props;
-    const isRange = currentValues.length === 2;
+    const isRange = Object.hasOwnProperty.call(currentValues, 'max');
 
     if (isRange) {
-      const scalePositions = currentValues.map((value: number) => this.getPosition(value));
+      // eslint-disable-next-line max-len
+      const scalePositions = Object.entries(currentValues).map(([, value]) => this.getPosition(value));
       const translateScale = scalePositions[0] * 100;
       const totalPosition = scalePositions[1] - translateScale * 0.01;
 
@@ -59,7 +60,7 @@ class Scale {
       return `transform: translate(${translateScale}%, 0px) scale(${totalPosition}, 1);`;
     }
 
-    const totalPosition = this.getPosition(currentValues[0]);
+    const totalPosition = this.getPosition(currentValues.min);
 
     if (isVertical) {
       return `transform: scale(1, ${totalPosition});`;
