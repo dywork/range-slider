@@ -45,7 +45,7 @@ const defaultSlider = $('#defaultSlider').rangeSlider();
 ```
 ```javascript
 const customSlider = $('#customSlider').rangeSlider({
-    currentValues: [15, 20],
+    currentValues: { min: 15, max: 20 },
     range: { min: 10, max: 30 },
     withRuler: true,
     withThumb: true,
@@ -55,7 +55,7 @@ const customSlider = $('#customSlider').rangeSlider({
  Настройки по умолчанию:
 ```javascript
 const defaultOptions = {
-  currentValues: [10],
+  currentValues: { min: 10 },
   range: {
     min: 10,
     max: 30,
@@ -70,7 +70,7 @@ const defaultOptions = {
 ## Настройки
 | Название  | Тип  | Значение по умолчанию | Описание |
 | :------------: |:---------------:| :---------:|:--:|
-| currentValues     | number[] | \[10\] | Задает текущее значение слайдера, 1 число - слайдер с одним значением, 2 числа - слайдер с интервалом |
+| currentValues     | { min: number; max: number } | { min: 10 } | Задает текущее значение слайдера, 1 число - слайдер с одним значением, 2 числа - слайдер с интервалом |
 | range     | { min: number; max: number } | range.min: 10, range.max: 30 |  Задает минимально и максимально возможное значение слайдера
 | withThumb | boolean | true | Определяет показывать ли подсказку над тогглом с его текущим значением |
 | withRuler | boolean | false | Определяет показывать ли линейку(шкалу) со всеми возможными значениями слайдера |
