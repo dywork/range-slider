@@ -24,7 +24,7 @@ class View extends Observer {
 
   private isVertical: boolean;
 
-  private isDiapason: boolean;
+  private isRange: boolean;
 
   private ruler: Ruler;
 
@@ -42,7 +42,7 @@ class View extends Observer {
     this.domParent = domParent;
     const { currentValues, orientation } = this.modelOptions;
     this.isVertical = orientation === 'vertical';
-    this.isDiapason = Object.hasOwnProperty.call(currentValues, 'max');
+    this.isRange = Object.hasOwnProperty.call(currentValues, 'max');
     this._initViewComponents();
   }
 
@@ -247,7 +247,7 @@ class View extends Observer {
       const newSliderOptions = { ...this.modelOptions };
       const { currentValues } = newSliderOptions;
 
-      if (this.isDiapason) {
+      if (this.isRange) {
         const { min, max } = currentValues;
         let newValueIndex;
         if (newValue < min) {
@@ -315,7 +315,7 @@ class View extends Observer {
 
     const currentValueKey = indexMap[this.activeToggleIndex as 0 | 1];
 
-    if (this.isDiapason) {
+    if (this.isRange) {
       const isFirstValue = this.activeToggleIndex === 0;
       const isLastValue = this.activeToggleIndex === 1;
       const minOutRange = isFirstValue
