@@ -1,5 +1,7 @@
+import CurrentValues from '../../../types';
+
 interface IScaleProps {
-  currentValues: number[];
+  currentValues: CurrentValues;
   range: { min: number; max: number };
   isVertical: boolean;
 }
