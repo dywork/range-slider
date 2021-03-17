@@ -68,8 +68,8 @@ class Presenter extends Observer {
   private _checkOnChangeRange = (modelOptions: IModelOptions) => {
     const { currentValues: oldCurrentValues } = this.model.getOptions();
     const { currentValues: newCurrentValues } = modelOptions;
-    const isOldRange = oldCurrentValues.length === 2;
-    const isNewRange = newCurrentValues.length === 2;
+    const isOldRange = Object.hasOwnProperty.call(oldCurrentValues, 'max');
+    const isNewRange = Object.hasOwnProperty.call(newCurrentValues, 'max');
     const isRangeChange = (!isOldRange && isNewRange) || (isOldRange && !isNewRange);
 
     if (isRangeChange) {
