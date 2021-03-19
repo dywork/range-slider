@@ -10,7 +10,7 @@ class Observer {
   }
 
   subscribe = (subName: string, callback: Function) => {
-    if (this.subscribers[subName]) {
+    if (Object.hasOwnProperty.call(this.subscribers, subName)) {
       this.subscribers[subName].push(callback);
     } else {
       this.subscribers[subName] = [];
