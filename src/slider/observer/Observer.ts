@@ -1,5 +1,6 @@
+type Subscriber = (...args: any[]) => any;
 interface ISubscribers {
-  [index: string]: Function[];
+  [key: string]: Array<Subscriber>;
 }
 
 class Observer {
@@ -9,7 +10,7 @@ class Observer {
     this.subscribers = {};
   }
 
-  subscribe = (subName: string, callback: Function) => {
+  subscribe = (subName: string, callback: Subscriber) => {
     if (Object.hasOwnProperty.call(this.subscribers, subName)) {
       this.subscribers[subName].push(callback);
     } else {
@@ -20,7 +21,7 @@ class Observer {
 
   notify = (subName: string, data: any) => {
     if (this.subscribers[subName]) {
-      this.subscribers[subName].forEach((callback: Function) => callback(data));
+      this.subscribers[subName].forEach((callback: Subscriber) => callback(data));
     }
   };
 }
