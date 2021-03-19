@@ -2,6 +2,8 @@ import defaultOptions from '../defaultOptions';
 import Observer from '../observer/Observer';
 import IModelOptions from '../interfaces/IModelOptions';
 
+const has = require('has');
+
 class Model extends Observer {
   private modelOptions: IModelOptions;
 
@@ -23,7 +25,7 @@ class Model extends Observer {
     const isCurrentValuesNan = Number.isNaN(currentValues.min) || Number.isNaN(currentValues.max);
     const isRangeNan = Number.isNaN(range.min) || Number.isNaN(range.max);
     const isStepNan = Number.isNaN(step);
-    const isRange = Object.hasOwnProperty.call(currentValues, 'max');
+    const isRange = has(currentValues, 'max');
 
     if (isRangeNan) {
       confirmedOptions.range.min = defaultOptions.range.min;

@@ -3,6 +3,8 @@ import Slider from '../../slider/Slider';
 import IModelOptions from '../../slider/interfaces/IModelOptions';
 import CurrentValues from '../../slider/interfaces/types';
 
+const has = require('has');
+
 interface IOptionsValueContainer {
   containerClassName: string;
   labelText: string;
@@ -98,7 +100,7 @@ class ConfigPanel {
 
   private _hasRange = () => {
     const { currentValues } = this.slider.getModelOptions();
-    return Object.hasOwnProperty.call(currentValues, 'max');
+    return has(currentValues, 'max');
   };
 
   private _saveDom = () => {

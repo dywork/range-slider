@@ -10,6 +10,8 @@ import IScaleProps from '../interfaces/view/components/scale/IScaleProps';
 import IToggle from '../interfaces/view/components/toggle/IToggle';
 import IToggleProps from '../interfaces/view/components/toggle/IToggleProps';
 
+const has = require('has');
+
 interface IClickCoordinate {
   x: number;
   y: number;
@@ -42,7 +44,7 @@ class View extends Observer {
     this.domParent = domParent;
     const { currentValues, orientation } = this.modelOptions;
     this.isVertical = orientation === 'vertical';
-    this.isRange = Object.hasOwnProperty.call(currentValues, 'max');
+    this.isRange = has(currentValues, 'max');
     this._initViewComponents();
   }
 

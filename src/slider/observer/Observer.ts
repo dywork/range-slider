@@ -1,3 +1,5 @@
+const has = require('has');
+
 type Subscriber = (...args: any[]) => any;
 interface ISubscribers {
   [key: string]: Array<Subscriber>;
@@ -11,7 +13,7 @@ class Observer {
   }
 
   subscribe = (subName: string, callback: Subscriber) => {
-    if (Object.hasOwnProperty.call(this.subscribers, subName)) {
+    if (has(this.subscribers, subName)) {
       this.subscribers[subName].push(callback);
     } else {
       this.subscribers[subName] = [];

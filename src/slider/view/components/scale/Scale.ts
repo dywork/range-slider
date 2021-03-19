@@ -2,6 +2,7 @@ import sliderClassNames from '../../utils/sliderClassNames';
 import IScaleProps from '../../../interfaces/view/components/scale/IScaleProps';
 import IDomNode from '../../../interfaces/view/components/scale/IDomNode';
 
+const has = require('has');
 const scaleTemplate = require('./template.hbs');
 
 class Scale {
@@ -45,7 +46,7 @@ class Scale {
 
   private _getTransformStyle = () => {
     const { currentValues, isVertical } = this.props;
-    const isRange = Object.hasOwnProperty.call(currentValues, 'max');
+    const isRange = has(currentValues, 'max');
 
     if (isRange) {
       // eslint-disable-next-line max-len
