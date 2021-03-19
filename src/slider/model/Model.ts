@@ -72,33 +72,6 @@ class Model extends Observer {
 
     return confirmedOptions;
   };
-
-  private _getConfirmedSoloCurrentValues = (currentValues: { min: number; max?: number }) => {
-    const confirmedCurrentValues = { ...currentValues };
-    const { min } = confirmedCurrentValues;
-    const isCurrentValueNan = Number.isNaN(min);
-
-    if (isCurrentValueNan) {
-      const { currentValues: defaultCurrentValues } = defaultOptions;
-      confirmedCurrentValues.min = defaultCurrentValues.min;
-    }
-
-    return confirmedCurrentValues;
-  };
-
-  private _getConfirmedRangeCurrentValues = (currentValues: { min: number; max?: number }) => {
-    const confirmedCurrentValues = { ...currentValues };
-    const { min, max } = confirmedCurrentValues;
-    const isCurrentValuesNan = Number.isNaN(min) || Number.isNaN(max);
-
-    if (isCurrentValuesNan) {
-      const { currentValues: defaultCurrentValues, range: defaultRange } = defaultOptions;
-      confirmedCurrentValues.min = defaultCurrentValues.min;
-      confirmedCurrentValues.max = defaultRange.max;
-    }
-
-    return confirmedCurrentValues;
-  };
 }
 
 export default Model;
