@@ -37,11 +37,7 @@ class Model extends Observer {
       }
     }
 
-    if (isStepNan) {
-      confirmedOptions.step = defaultOptions.step;
-    }
-
-    if (step <= 0) {
+    if (isStepNan || step <= 0) {
       confirmedOptions.step = defaultOptions.step;
     }
 
