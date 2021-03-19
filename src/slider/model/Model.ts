@@ -26,11 +26,12 @@ class Model extends Observer {
     const isRange = Object.hasOwnProperty.call(currentValues, 'max');
 
     if (isRangeNan) {
-      confirmedOptions.range = defaultOptions.range;
+      confirmedOptions.range.min = defaultOptions.range.min;
+      confirmedOptions.range.max = defaultOptions.range.max;
     }
 
     if (isCurrentValuesNan) {
-      confirmedOptions.currentValues = defaultOptions.currentValues;
+      confirmedOptions.currentValues.min = defaultOptions.currentValues.min;
       if (isRange) {
         confirmedOptions.currentValues.max = range.max;
       }
