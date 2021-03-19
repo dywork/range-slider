@@ -2,7 +2,7 @@ import Ruler from './components/ruler/Ruler';
 import Scale from './components/scale/Scale';
 import Thumb from './components/thumb/Thumb';
 import Toggle from './components/toggle/Toggle';
-import sliderClassName from './utils/sliderClassName';
+import sliderClassNames from './utils/sliderClassNames';
 import Observer from '../observer/Observer';
 import IModelOptions from '../interfaces/IModelOptions';
 import IRulerProps from '../interfaces/view/components/ruler/IRulerProps';
@@ -81,12 +81,15 @@ class View extends Observer {
   };
 
   private _getRulerProps = (): IRulerProps => {
-    const { range, step, withRuler } = this.modelOptions;
+    const {
+      range, step, withRuler, rulerMaxSize,
+    } = this.modelOptions;
     if (!step) {
       return {
         range,
         step: 1,
         withRuler,
+        rulerMaxSize,
         isVertical: this.isVertical,
       };
     }
@@ -95,6 +98,7 @@ class View extends Observer {
       range,
       step,
       withRuler,
+      rulerMaxSize,
       isVertical: this.isVertical,
     };
   };
@@ -153,12 +157,12 @@ class View extends Observer {
 
   private _createSliderContainer = () => {
     const sliderDom = document.createElement('div');
-    sliderDom.classList.add(sliderClassName.slider);
+    sliderDom.classList.add(sliderClassNames.slider);
     const sliderContainer = document.createElement('div');
-    sliderContainer.classList.add(sliderClassName.wrap);
+    sliderContainer.classList.add(sliderClassNames.wrap);
 
     if (this.isVertical) {
-      sliderContainer.classList.add(sliderClassName.sliderVertical);
+      sliderContainer.classList.add(sliderClassNames.sliderVertical);
     }
 
     sliderContainer.appendChild(this.scale.getHtml());
@@ -178,7 +182,7 @@ class View extends Observer {
   };
 
   private _saveDom = () => {
-    this.slider = this.domParent.querySelector(`.${sliderClassName.slider}`);
+    this.slider = this.domParent.querySelector(`.${sliderClassNames.slider}`);
     this._saveScaleDom();
     this._saveTogglesDom();
 
@@ -195,17 +199,17 @@ class View extends Observer {
   private _saveScaleDom = () => this.scale.setDomNode(this._getScaleDom());
 
   private _getScaleDom = () => {
-    const bar = this.domParent.querySelector(`.${sliderClassName.bar}`) as HTMLElement;
-    const scale = this.domParent.querySelector(`.${sliderClassName.scale}`) as HTMLElement;
+    const bar = this.domParent.querySelector(`.${sliderClassNames.bar}`) as HTMLElement;
+    const scale = this.domParent.querySelector(`.${sliderClassNames.scale}`) as HTMLElement;
     return { scale, bar };
   };
 
   private _saveTogglesDom = () => {
-    const domToggles = this.domParent.querySelectorAll(`.${sliderClassName.toggle}`);
+    const domToggles = this.domParent.querySelectorAll(`.${sliderClassNames.toggle}`);
     domToggles.forEach((domToggle: HTMLElement, index) => {
       const domNode = {
         toggle: domToggle,
-        handle: domToggle.querySelector(`.${sliderClassName.handle}`) as HTMLElement,
+        handle: domToggle.querySelector(`.${sliderClassNames.handle}`) as HTMLElement,
       };
 
       this.toggles[index].main.setDomNode(domNode);
@@ -213,12 +217,12 @@ class View extends Observer {
   };
 
   private _saveRuler = () => {
-    const domRuler = this.domParent.querySelector(`.${sliderClassName.ruler}`) as HTMLElement;
+    const domRuler = this.domParent.querySelector(`.${sliderClassNames.ruler}`) as HTMLElement;
     this.ruler.setDomNode({ ruler: domRuler });
   };
 
   private _saveThumbDom = () => {
-    const domThumbs = this.domParent.querySelectorAll(`.${sliderClassName.thumb}`);
+    const domThumbs = this.domParent.querySelectorAll(`.${sliderClassNames.thumb}`);
     domThumbs.forEach((domThumb: HTMLElement, index) => {
       this.toggles[index].thumb.setDomNode({ thumb: domThumb });
     });
@@ -240,7 +244,7 @@ class View extends Observer {
 
   private _onRulerClick = (evt: MouseEvent) => {
     const clickNode = evt.target as HTMLElement;
-    const withRulerItem = clickNode.classList.contains(`${sliderClassName.rulerItem}`);
+    const withRulerItem = clickNode.classList.contains(`${sliderClassNames.rulerItem}`);
 
     if (withRulerItem) {
       const newValue = +clickNode.textContent;
@@ -282,9 +286,9 @@ class View extends Observer {
     this.toggles.forEach((toggle, index) => {
       const { toggle: toggleDom } = toggle.main.getDomNode();
       if (index === this.activeToggleIndex) {
-        toggleDom.classList.add(sliderClassName.toggleActive);
+        toggleDom.classList.add(sliderClassNames.toggleActive);
       } else {
-        toggleDom.classList.remove(sliderClassName.toggleActive);
+        toggleDom.classList.remove(sliderClassNames.toggleActive);
       }
     });
     document.addEventListener('mousemove', this._onToggleMove);
@@ -443,7 +447,7 @@ class View extends Observer {
     this.ruler = new Ruler(this._getRulerProps());
     this.ruler.subscribe('onRulerHide', this._onRulerHide);
     const domRuler = this.ruler.getHtml() as HTMLElement;
-    const domContainer = this.slider.querySelector(`.${sliderClassName.wrap}`);
+    const domContainer = this.slider.querySelector(`.${sliderClassNames.wrap}`);
     domContainer.appendChild(domRuler);
     this.ruler.setDomNode({ ruler: domRuler });
     const { ruler } = this.ruler.getDomNode();
@@ -461,7 +465,7 @@ class View extends Observer {
       toggle.thumb.subscribe('onThumbHide', this._onThumbHide);
       const domToggle = toggle.main.getDomNode().toggle;
       domToggle.appendChild(toggle.thumb.getHtml());
-      const domThumb = domToggle.querySelector(`.${sliderClassName.thumb}`) as HTMLElement;
+      const domThumb = domToggle.querySelector(`.${sliderClassNames.thumb}`) as HTMLElement;
       toggle.thumb.setDomNode({ thumb: domThumb });
     });
   };

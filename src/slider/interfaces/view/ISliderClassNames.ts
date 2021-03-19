@@ -1,4 +1,4 @@
-interface ISliderClassName {
+interface ISliderClassNames {
   overflowFix: string;
   slider: string;
   wrap: string;
@@ -13,4 +13,4 @@ interface ISliderClassName {
   sliderVertical: string;
 }
 
-export default ISliderClassName;
+export default ISliderClassNames;

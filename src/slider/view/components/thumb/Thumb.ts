@@ -1,4 +1,4 @@
-import sliderClassName from '../../utils/sliderClassName';
+import sliderClassNames from '../../utils/sliderClassNames';
 import Observer from '../../../observer/Observer';
 import IThumbProps from '../../../interfaces/view/components/thumb/IThumbProps';
 import IDomNode from '../../../interfaces/view/components/thumb/IDomNode';
@@ -17,7 +17,7 @@ class Thumb extends Observer {
 
   getHtml = () => {
     const { value } = this.props;
-    const templateOptions = { sliderClassName, value };
+    const templateOptions = { sliderClassNames, value };
     const thumb = document.createElement('div');
     thumb.innerHTML = thumbTemplate(templateOptions);
     return thumb.firstChild;

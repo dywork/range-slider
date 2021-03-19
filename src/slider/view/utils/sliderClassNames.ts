@@ -1,6 +1,6 @@
-import ISliderClassName from '../../interfaces/view/ISliderClassName';
+import ISliderClassNames from '../../interfaces/view/ISliderClassNames';
 
-const sliderClassName: ISliderClassName = {
+const sliderClassNames: ISliderClassNames = {
   overflowFix: 'range-slider-overflow',
   slider: 'range-slider',
   sliderVertical: 'range-slider_vertical',
@@ -15,4 +15,4 @@ const sliderClassName: ISliderClassName = {
   rulerItem: 'range-slider__ruler-item',
 };
 
-export default sliderClassName;
+export default sliderClassNames;

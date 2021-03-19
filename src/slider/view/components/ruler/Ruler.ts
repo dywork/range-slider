@@ -1,4 +1,4 @@
-import sliderClassName from '../../utils/sliderClassName';
+import sliderClassNames from '../../utils/sliderClassNames';
 import Observer from '../../../observer/Observer';
 import IRulerProps from '../../../interfaces/view/components/ruler/IRulerProps';
 import IDomNode from '../../../interfaces/view/components/ruler/IDomNode';
@@ -18,7 +18,7 @@ class Ruler extends Observer {
   getProps = () => this.props;
 
   getHtml = () => {
-    const templateOptions = { sliderClassName, items: this._getRulerItems() };
+    const templateOptions = { sliderClassNames, items: this._getRulerItems() };
     const ruler = document.createElement('div');
     ruler.innerHTML = rulerTemplate(templateOptions);
     return ruler.firstChild;
@@ -58,19 +58,21 @@ class Ruler extends Observer {
       const rulerItem = {
         value,
         style: this._getTransformStyleByValue(value),
-        class: sliderClassName.rulerItem,
+        class: sliderClassNames.rulerItem,
       };
       return rulerItem;
     });
   };
 
   private _getRulerValues = () => {
-    const { range, step } = this.props;
+    const { range, step, rulerMaxSize } = this.props;
     const midArr = [];
     const midQuantity = Math.floor((range.max - range.min) / step);
+    const rangeValueLength = 2;
+    const midArrLength = rulerMaxSize - rangeValueLength || midQuantity;
 
     // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < midQuantity; i++) {
+    for (let i = 0; i < midArrLength; i++) {
       const value = (i + 1) * step + range.min;
       midArr.push(value);
     }

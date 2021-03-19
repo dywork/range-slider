@@ -1,4 +1,4 @@
-import sliderClassName from '../../utils/sliderClassName';
+import sliderClassNames from '../../utils/sliderClassNames';
 import IToggleProps from '../../../interfaces/view/components/toggle/IToggleProps';
 import IDomNode from '../../../interfaces/view/components/toggle/IDomNode';
 
@@ -14,10 +14,10 @@ class Toggle {
   }
 
   getHtml = () => {
-    const templateOptions = { sliderClassName };
+    const templateOptions = { sliderClassNames };
     const toggle = document.createElement('div');
     toggle.innerHTML = toggleTemplate(templateOptions);
-    const viewToggle = toggle.querySelector(`.${sliderClassName.toggle}`);
+    const viewToggle = toggle.querySelector(`.${sliderClassNames.toggle}`);
     viewToggle.setAttribute('style', this._getTransformStyle());
     return toggle.firstChild;
   };

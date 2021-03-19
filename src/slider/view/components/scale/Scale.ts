@@ -1,4 +1,4 @@
-import sliderClassName from '../../utils/sliderClassName';
+import sliderClassNames from '../../utils/sliderClassNames';
 import IScaleProps from '../../../interfaces/view/components/scale/IScaleProps';
 import IDomNode from '../../../interfaces/view/components/scale/IDomNode';
 
@@ -14,10 +14,10 @@ class Scale {
   }
 
   getHtml = () => {
-    const templateOptions = { sliderClassName };
+    const templateOptions = { sliderClassNames };
     const scale = document.createElement('div');
     scale.innerHTML = scaleTemplate(templateOptions);
-    const scaleView = scale.querySelector(`.${sliderClassName.scale}`);
+    const scaleView = scale.querySelector(`.${sliderClassNames.scale}`);
     scaleView.setAttribute('style', this._getTransformStyle());
     return scale.firstChild;
   };
