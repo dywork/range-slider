@@ -83,15 +83,12 @@ class View extends Observer {
   };
 
   private _getRulerProps = (): IRulerProps => {
-    const {
-      range, step, withRuler, rulerMaxSize,
-    } = this.modelOptions;
+    const { range, step, withRuler } = this.modelOptions;
     if (!step) {
       return {
         range,
         step: 1,
         withRuler,
-        rulerMaxSize,
         isVertical: this.isVertical,
       };
     }
@@ -100,7 +97,6 @@ class View extends Observer {
       range,
       step,
       withRuler,
-      rulerMaxSize,
       isVertical: this.isVertical,
     };
   };
