@@ -48,6 +48,8 @@ class ConfigPanel {
 
   maxRangeInput: HTMLInputElement;
 
+  maxDecimalPlaceInput: HTMLInputElement;
+
   isRange: boolean;
 
   thumbCheckbox: HTMLInputElement;
@@ -84,6 +86,7 @@ class ConfigPanel {
       withThumb,
       step,
       orientation,
+      maxDecimalPlace,
     } = this.slider.getModelOptions();
     const configPanelOptions = {
       currentValues,
@@ -93,6 +96,7 @@ class ConfigPanel {
       step,
       isVertical: orientation === 'vertical',
       isRange: this._hasRange(),
+      maxDecimalPlace,
     };
     configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
     return configPanelContainer;
@@ -130,6 +134,7 @@ class ConfigPanel {
     this.stepInput = this.domParent.querySelector(`.${configPanelClassName.stepInput}`);
     this.minRangeInput = this.domParent.querySelector(`.${configPanelClassName.minRangeInput}`);
     this.maxRangeInput = this.domParent.querySelector(`.${configPanelClassName.maxRangeInput}`);
+    this.maxDecimalPlaceInput = this.domParent.querySelector(`.${configPanelClassName.maxDecimalPlaceInput}`);
     this.thumbCheckbox = this.domParent.querySelector(`.${configPanelClassName.thumbCheckbox}`);
     this.rulerCheckbox = this.domParent.querySelector(`.${configPanelClassName.rulerCheckbox}`);
     this.diapasonCheckbox = this.domParent.querySelector(
@@ -151,10 +156,10 @@ class ConfigPanel {
     this.stepInput.addEventListener('input', this._debounceInput);
     this.minRangeInput.addEventListener('input', this._debounceInput);
     this.maxRangeInput.addEventListener('input', this._debounceInput);
+    this.maxDecimalPlaceInput.addEventListener('input', this._debounceInput);
 
     this.thumbCheckbox.addEventListener('change', this._onCheckboxChange);
     this.rulerCheckbox.addEventListener('change', this._onCheckboxChange);
-
     this.diapasonCheckbox.addEventListener('change', this._onDiapasonChange);
     this.verticalCheckbox.addEventListener('change', this._onVerticalChange);
   };
@@ -176,6 +181,7 @@ class ConfigPanel {
     }
 
     newOptions.step = +this.stepInput.value;
+    newOptions.maxDecimalPlace = +this.maxDecimalPlaceInput.value;
     this.slider.updateOptions(newOptions);
   });
 

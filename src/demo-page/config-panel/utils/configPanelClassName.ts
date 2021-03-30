@@ -3,6 +3,7 @@ interface IConfigPanelClassName {
   maxCurrentValueContainer: string;
   minCurrentValueInput: string;
   maxCurrentValueInput: string;
+  maxDecimalPlaceInput: string;
   currentValueContainer: string;
   currentValueInput: string;
   valuesContainer: string;
@@ -22,6 +23,7 @@ const configPanelClassName: IConfigPanelClassName = {
   maxCurrentValueContainer: 'config-panel__value_current-max-value',
   minCurrentValueInput: 'current-min-value',
   maxCurrentValueInput: 'current-max-value',
+  maxDecimalPlaceInput: 'max-decimal-place',
   currentValueContainer: 'config-panel__value_current-value',
   currentValueInput: 'current-value',
   valuesContainer: 'config-panel__values',

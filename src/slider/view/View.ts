@@ -77,13 +77,17 @@ class View extends Observer {
   };
 
   private _getRulerProps = (): IRulerProps => {
-    const { range, step, withRuler } = this.modelOptions;
+    const {
+      range, step, withRuler, maxDecimalPlace,
+    } = this.modelOptions;
+
     if (!step) {
       return {
         range,
         step: 1,
         withRuler,
         isVertical: this.isVertical,
+        maxDecimalPlace,
       };
     }
 
@@ -92,6 +96,7 @@ class View extends Observer {
       step,
       withRuler,
       isVertical: this.isVertical,
+      maxDecimalPlace,
     };
   };
 
@@ -360,19 +365,19 @@ class View extends Observer {
   };
 
   private _getCurrentValueByPercent = (percent: number) => {
-    const { range, step } = this.modelOptions;
+    const { range, step, maxDecimalPlace } = this.modelOptions;
     const newCurrentValue = percent * (range.max - range.min) + range.min;
     if (step) {
       return this._getStepCurrentValue(newCurrentValue);
     }
 
-    return +newCurrentValue.toFixed();
+    return +newCurrentValue.toFixed(maxDecimalPlace);
   };
 
   private _getStepCurrentValue = (currentValue: number) => {
-    const { step, range } = this.modelOptions;
+    const { step, range, maxDecimalPlace } = this.modelOptions;
     let stepCurrentValue = Math.round((currentValue - range.min) / step) * step + range.min;
-    const isLastStepLess = +currentValue.toFixed() - range.max === 0;
+    const isLastStepLess = currentValue - range.max === 0;
 
     if (isLastStepLess) {
       stepCurrentValue = range.max;
@@ -382,7 +387,7 @@ class View extends Observer {
       stepCurrentValue = range.max;
     }
 
-    return stepCurrentValue;
+    return +stepCurrentValue.toFixed(maxDecimalPlace);
   };
 
   private _dispatchModelOptions = (modelOptions: IModelOptions) => {

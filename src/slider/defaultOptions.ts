@@ -10,6 +10,7 @@ const defaultOptions: IModelOptions = {
   withRuler: false,
   step: 1,
   orientation: 'horizontal',
+  maxDecimalPlace: 1,
 };
 
 export default defaultOptions;

@@ -4,7 +4,8 @@ import './favicons/favicons';
 $(document).ready(function () {
   const defaultSlider = $('.js-default-slider').rangeSlider({
     currentValues: { min: 15 },
-    range: { min: 10, max: 30 },
+    step: 1.4,
+    range: { min: 0.5, max: 13 },
     withRuler: true,
     withThumb: true,
   });
