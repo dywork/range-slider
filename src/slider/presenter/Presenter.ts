@@ -4,6 +4,8 @@ import Observer from '../observer/Observer';
 import IModelOptions from '../interfaces/IModelOptions';
 import ISliderOptions from '../interfaces/ISliderOptions';
 
+const has = require('has');
+
 class Presenter extends Observer {
   private model: Model;
 
@@ -68,8 +70,8 @@ class Presenter extends Observer {
   private _checkOnChangeRange = (modelOptions: IModelOptions) => {
     const { currentValues: oldCurrentValues } = this.model.getOptions();
     const { currentValues: newCurrentValues } = modelOptions;
-    const isOldRange = Object.hasOwnProperty.call(oldCurrentValues, 'max');
-    const isNewRange = Object.hasOwnProperty.call(newCurrentValues, 'max');
+    const isOldRange = has(oldCurrentValues, 'max');
+    const isNewRange = has(newCurrentValues, 'max');
     const isRangeChange = (!isOldRange && isNewRange) || (isOldRange && !isNewRange);
 
     if (isRangeChange) {
