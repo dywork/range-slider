@@ -65,13 +65,7 @@ class View extends Observer {
 
   private _initViewComponents = () => {
     const { withRuler } = this.modelOptions;
-
-    if (withRuler) {
-      this.ruler = this._getRuler();
-    } else {
-      this.ruler = null;
-    }
-
+    this.ruler = withRuler ? this._getRuler() : null;
     this.scale = this._getScale();
     this.toggles = this._getToggles();
   };
