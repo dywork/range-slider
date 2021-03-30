@@ -45,26 +45,7 @@ class Ruler extends Observer {
     parent.removeChild(ruler);
   };
 
-  private _redraw = () => {
-    this.domNode.ruler.textContent = '';
-    Array.from(this.getHtml().childNodes).forEach((item) => {
-      this.domNode.ruler.appendChild(item);
-    });
-  };
-
-  private _getRulerItems = () => {
-    const rulerValues = this._getRulerValues();
-    return rulerValues.map((value) => {
-      const rulerItem = {
-        value,
-        style: this._getTransformStyleByValue(value),
-        class: sliderClassNames.rulerItem,
-      };
-      return rulerItem;
-    });
-  };
-
-  private _getRulerValues = () => {
+  getRulerValues = () => {
     const { range, step, maxDecimalPlace } = this.props;
     const midArr = [];
     const midQuantity = Math.floor((range.max - range.min) / step);
@@ -76,6 +57,25 @@ class Ruler extends Observer {
     }
 
     return [range.min, ...midArr, range.max];
+  };
+
+  private _redraw = () => {
+    this.domNode.ruler.textContent = '';
+    Array.from(this.getHtml().childNodes).forEach((item) => {
+      this.domNode.ruler.appendChild(item);
+    });
+  };
+
+  private _getRulerItems = () => {
+    const rulerValues = this.getRulerValues();
+    return rulerValues.map((value) => {
+      const rulerItem = {
+        value,
+        style: this._getTransformStyleByValue(value),
+        class: sliderClassNames.rulerItem,
+      };
+      return rulerItem;
+    });
   };
 
   private _getTransformStyleByValue = (value: number) => {

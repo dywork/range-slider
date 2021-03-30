@@ -24,6 +24,8 @@ class Slider extends Observer {
 
   getDomParent = () => this.presenter.getDomParent();
 
+  getRulerValues = () => this.presenter.getRulerValues();
+
   private _alertSubs = () => {
     this.notify('modelOptionsUpdate', this.getModelOptions());
   };

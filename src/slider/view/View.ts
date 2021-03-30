@@ -63,6 +63,8 @@ class View extends Observer {
     this._redrawValue();
   };
 
+  getRulerValues = () => this.ruler.getRulerValues();
+
   private _initViewComponents = () => {
     const { withRuler } = this.modelOptions;
     this.ruler = withRuler ? this._getRuler() : null;

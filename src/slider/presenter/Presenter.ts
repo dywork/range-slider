@@ -35,6 +35,8 @@ class Presenter extends Observer {
 
   getDomParent = () => this.domParent;
 
+  getRulerValues = () => this.view.getRulerValues();
+
   private _getSplitModelOptions = (
     sliderOptions: ISliderOptions | IModelOptions,
   ): IModelOptions => {

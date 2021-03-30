@@ -52,6 +52,8 @@ class ConfigPanel {
 
   isRange: boolean;
 
+  withFractional: boolean;
+
   thumbCheckbox: HTMLInputElement;
 
   rulerCheckbox: HTMLInputElement;
@@ -64,6 +66,7 @@ class ConfigPanel {
     this.slider = slider;
     this.domParent = domParent;
     this.isRange = this._hasRange();
+    this.withFractional = this._hasFractional();
   }
 
   init = () => {
@@ -96,6 +99,7 @@ class ConfigPanel {
       step,
       isVertical: orientation === 'vertical',
       isRange: this._hasRange(),
+      withFractional: this.withFractional,
       maxDecimalPlace,
     };
     configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
@@ -105,6 +109,11 @@ class ConfigPanel {
   private _hasRange = () => {
     const { currentValues } = this.slider.getModelOptions();
     return has(currentValues, 'max');
+  };
+
+  private _hasFractional = () => {
+    const rulerNumbers = this.slider.getRulerValues();
+    return rulerNumbers.some((num) => !Number.isInteger(num));
   };
 
   private _saveDom = () => {
@@ -134,7 +143,9 @@ class ConfigPanel {
     this.stepInput = this.domParent.querySelector(`.${configPanelClassName.stepInput}`);
     this.minRangeInput = this.domParent.querySelector(`.${configPanelClassName.minRangeInput}`);
     this.maxRangeInput = this.domParent.querySelector(`.${configPanelClassName.maxRangeInput}`);
-    this.maxDecimalPlaceInput = this.domParent.querySelector(`.${configPanelClassName.maxDecimalPlaceInput}`);
+    this.maxDecimalPlaceInput = this.domParent.querySelector(
+      `.${configPanelClassName.maxDecimalPlaceInput}`,
+    );
     this.thumbCheckbox = this.domParent.querySelector(`.${configPanelClassName.thumbCheckbox}`);
     this.rulerCheckbox = this.domParent.querySelector(`.${configPanelClassName.rulerCheckbox}`);
     this.diapasonCheckbox = this.domParent.querySelector(
@@ -153,10 +164,13 @@ class ConfigPanel {
       this.currentValueInput.addEventListener('input', this._debounceInput);
     }
 
+    if (this.withFractional) {
+      this.maxDecimalPlaceInput.addEventListener('input', this._debounceInput);
+    }
+
     this.stepInput.addEventListener('input', this._debounceInput);
     this.minRangeInput.addEventListener('input', this._debounceInput);
     this.maxRangeInput.addEventListener('input', this._debounceInput);
-    this.maxDecimalPlaceInput.addEventListener('input', this._debounceInput);
 
     this.thumbCheckbox.addEventListener('change', this._onCheckboxChange);
     this.rulerCheckbox.addEventListener('change', this._onCheckboxChange);
@@ -180,8 +194,11 @@ class ConfigPanel {
       newOptions.currentValues = { min: +this.currentValueInput.value };
     }
 
+    if (this.withFractional) {
+      newOptions.maxDecimalPlace = +this.maxDecimalPlaceInput.value;
+    }
+
     newOptions.step = +this.stepInput.value;
-    newOptions.maxDecimalPlace = +this.maxDecimalPlaceInput.value;
     this.slider.updateOptions(newOptions);
   });
 
