@@ -162,8 +162,8 @@ class ConfigPanel {
   private _debounceInput = debounce(() => {
     const newOptions: IModelOptions = { ...this.slider.getModelOptions() };
     const newRange = {
-      min: parseInt(this.minRangeInput.value, 10),
-      max: parseInt(this.maxRangeInput.value, 10),
+      min: +this.minRangeInput.value,
+      max: +this.maxRangeInput.value,
     };
     newOptions.range = newRange;
 
@@ -175,7 +175,7 @@ class ConfigPanel {
       newOptions.currentValues = { min: +this.currentValueInput.value };
     }
 
-    newOptions.step = parseInt(this.stepInput.value, 10);
+    newOptions.step = +this.stepInput.value;
     this.slider.updateOptions(newOptions);
   });
 
