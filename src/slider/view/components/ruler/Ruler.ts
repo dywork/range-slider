@@ -46,13 +46,16 @@ class Ruler extends Observer {
   };
 
   getRulerValues = () => {
-    const { range, step, maxDecimalPlace } = this.props;
+    const {
+      range, step, maxDecimalPlace, rulerStep,
+    } = this.props;
+    const viewStep = rulerStep || step;
     const midArr = [];
-    const midQuantity = Math.floor((range.max - range.min) / step);
+    const midQuantity = Math.floor((range.max - range.min) / viewStep);
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < midQuantity; i++) {
-      const value = (i + 1) * step + range.min;
+      const value = (i + 1) * viewStep + range.min;
       midArr.push(+value.toFixed(maxDecimalPlace));
     }
 

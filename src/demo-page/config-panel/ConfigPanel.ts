@@ -50,6 +50,8 @@ class ConfigPanel {
 
   maxDecimalPlaceInput: HTMLInputElement;
 
+  rulerStepInput: HTMLInputElement;
+
   isRange: boolean;
 
   withFractional: boolean;
@@ -90,6 +92,7 @@ class ConfigPanel {
       step,
       orientation,
       maxDecimalPlace,
+      rulerStep,
     } = this.slider.getModelOptions();
     const configPanelOptions = {
       currentValues,
@@ -101,6 +104,7 @@ class ConfigPanel {
       isRange: this._hasRange(),
       withFractional: this.withFractional,
       maxDecimalPlace,
+      rulerStep,
     };
     configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
     return configPanelContainer;
@@ -141,6 +145,7 @@ class ConfigPanel {
 
     this.valuesContainer = this.domParent.querySelector(`.${configPanelClassName.valuesContainer}`);
     this.stepInput = this.domParent.querySelector(`.${configPanelClassName.stepInput}`);
+    this.rulerStepInput = this.domParent.querySelector(`.${configPanelClassName.rulerStepInput}`);
     this.minRangeInput = this.domParent.querySelector(`.${configPanelClassName.minRangeInput}`);
     this.maxRangeInput = this.domParent.querySelector(`.${configPanelClassName.maxRangeInput}`);
     this.maxDecimalPlaceInput = this.domParent.querySelector(
@@ -169,6 +174,7 @@ class ConfigPanel {
     }
 
     this.stepInput.addEventListener('input', this._debounceInput);
+    this.rulerStepInput.addEventListener('input', this._debounceInput);
     this.minRangeInput.addEventListener('input', this._debounceInput);
     this.maxRangeInput.addEventListener('input', this._debounceInput);
 
@@ -199,6 +205,7 @@ class ConfigPanel {
     }
 
     newOptions.step = +this.stepInput.value;
+    newOptions.rulerStep = +this.rulerStepInput.value;
     this.slider.updateOptions(newOptions);
   });
 
@@ -331,10 +338,11 @@ class ConfigPanel {
   private _onOptionsUpdate = () => {
     this.isRange = this._hasRange();
     const {
-      currentValues, step, range, withRuler, withThumb,
+      currentValues, step, range, withRuler, withThumb, rulerStep,
     } = this.slider.getModelOptions();
 
     this.stepInput.value = `${step}`;
+    this.rulerStepInput.value = `${rulerStep}`;
     this.minRangeInput.value = `${range.min}`;
     this.maxRangeInput.value = `${range.max}`;
     this.rulerCheckbox.checked = withRuler;
