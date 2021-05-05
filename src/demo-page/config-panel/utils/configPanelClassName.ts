@@ -3,6 +3,7 @@ interface IConfigPanelClassName {
   maxCurrentValueContainer: string;
   minCurrentValueInput: string;
   maxCurrentValueInput: string;
+  maxDecimalPlaceContainer: string;
   maxDecimalPlaceInput: string;
   currentValueContainer: string;
   currentValueInput: string;
@@ -17,6 +18,7 @@ interface IConfigPanelClassName {
   rulerCheckbox: string;
   diapasonCheckbox: string;
   verticalCheckbox: string;
+  hidedValueContainer: string;
 }
 
 const configPanelClassName: IConfigPanelClassName = {
@@ -24,6 +26,7 @@ const configPanelClassName: IConfigPanelClassName = {
   maxCurrentValueContainer: 'config-panel__value_current-max-value',
   minCurrentValueInput: 'current-min-value',
   maxCurrentValueInput: 'current-max-value',
+  maxDecimalPlaceContainer: 'config-panel__value_max-decimal',
   maxDecimalPlaceInput: 'max-decimal-place',
   currentValueContainer: 'config-panel__value_current-value',
   currentValueInput: 'current-value',
@@ -38,6 +41,7 @@ const configPanelClassName: IConfigPanelClassName = {
   rulerCheckbox: 'ruler-show',
   diapasonCheckbox: 'diapason',
   verticalCheckbox: 'vertical',
+  hidedValueContainer: 'config-panel__value--hided',
 };
 
 export default configPanelClassName;
