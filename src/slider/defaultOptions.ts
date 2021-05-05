@@ -9,6 +9,7 @@ const defaultOptions: IModelOptions = {
   withThumb: true,
   withRuler: false,
   step: 1,
+  rulerStep: 1,
   orientation: 'horizontal',
   maxDecimalPlace: 1,
 };
