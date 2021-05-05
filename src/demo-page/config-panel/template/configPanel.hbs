@@ -1,81 +1,70 @@
-<fieldset class="config-panel__values">
-  {{#if isRange}}
-  <p class="config-panel__value config-panel__value_current-min-value">
-    <label class="config-panel__label">
-      Текущее мин. значение:
-      <input class="current-min-value" type="number" value="{{currentValues.min}}">
-    </label>
-  </p>
-  <p class="config-panel__value config-panel__value_current-max-value">
-    <label class="config-panel__label">
-      Текущее макс. значение:
-      <input class="current-max-value" type="number" value="{{currentValues.max}}">
-    </label>
-  </p>
-  {{else}}
-  <p class="config-panel__value config-panel__value_current-value">
-    <label class="config-panel__label">
+<fieldset class="{{classNames.valuesContainer}}">
+  <p class="{{classNames.valueContainer}} {{classNames.currentValueContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Текущее значение:
-      <input class="current-value" type="number" value="{{currentValues.min}}">
+      <input class="{{classNames.currentValueInput}}" type="number" value="{{currentValues.min}}">
     </label>
   </p>
-  {{/if}}
-  <p class="config-panel__value">
-    <label class="config-panel__label">
+  <p class="{{classNames.valueContainer}} {{classNames.maxCurrentValueContainer}}">
+    <label class="{{classNames.valueLabel}}">
+      Текущее макс. значение:
+      <input class="{{classNames.maxCurrentValueInput}}" type="number" value="{{currentValues.max}}">
+    </label>
+  </p>
+  <p class="{{classNames.valueContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Шаг:
-      <input class="step" type="number" value="{{step}}">
+      <input class="{{classNames.stepInput}}" type="number" value="{{step}}">
     </label>
   </p>
-  <p class="config-panel__value">
-    <label class="config-panel__label">
+  <p class="{{classNames.valueContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Шаг для шкалы:
-      <input class="ruler-step" type="number" value="{{rulerStep}}">
+      <input class="{{classNames.rulerStepInput}}" type="number" value="{{rulerStep}}">
     </label>
   </p>
-  <p class="config-panel__value">
-    <label class="config-panel__label">
+  <p class="{{classNames.valueContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Мин. значение:
-      <input class="min-range-value" type="number" value={{range.min}}>
+      <input class="{{classNames.minRangeInput}}" type="number" value={{range.min}}>
     </label>
   </p>
-  <p class="config-panel__value">
-    <label class="config-panel__label">
+  <p class="{{classNames.valueContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Макс. значение:
-      <input class="max-range-value" type="number" value="{{range.max}}">
+      <input class="{{classNames.maxRangeInput}}" type="number" value="{{range.max}}">
     </label>
   </p>
-  {{#if withFractional}}
-  <p class="config-panel__value">
-    <label class="config-panel__label">
+  <p class="{{classNames.valueContainer}} {{classNames.maxDecimalPlaceContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Макс. знаков после запятой:
-      <input class="max-decimal-place" type="number" value="{{maxDecimalPlace}}">
+      <input class="{{classNames.maxDecimalPlaceInput}}" type="number" value="{{maxDecimalPlace}}">
     </label>
   </p>
-  {{/if}}
 </fieldset>
 <fieldset>
-  <p class="config-panel__value">
-    <label class="config-panel__label">
+  <p class="{{classNames.valueContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Показывать текущее значение:
-      <input class="thumb-show" data-value-name="withThumb" type="checkbox" {{#if withThumb}}checked{{/if}}>
+      <input class="{{classNames.thumbCheckbox}}" data-value-name="withThumb" type="checkbox" {{#if withThumb}}checked{{/if}}>
     </label>
   </p>
-  <p class="config-panel__value">
-    <label class="config-panel__label">
+  <p class="{{classNames.valueContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Шкала:
-      <input class="ruler-show" data-value-name="withRuler" type="checkbox" {{#if withRuler}}checked{{/if}}>
+      <input class="{{classNames.rulerCheckbox}}" data-value-name="withRuler" type="checkbox" {{#if withRuler}}checked{{/if}}>
     </label>
   </p>
-  <p class="config-panel__value">
-    <label class="config-panel__label">
+  <p class="{{classNames.valueContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Диапазон:
-      <input class="diapason" type="checkbox" {{#if isRange}}checked{{/if}}>
+      <input class="{{classNames.diapasonCheckbox}}" type="checkbox" {{#if isRange}}checked{{/if}}>
     </label>
   </p>
-  <p class="config-panel__value">
-    <label class="config-panel__label">
+  <p class="{{classNames.valueContainer}}">
+    <label class="{{classNames.valueLabel}}">
       Вертикальный слайдер:
-      <input class="vertical" type="checkbox" {{#if isVertical}}checked{{/if}}>
+      <input class="{{classNames.verticalCheckbox}}" type="checkbox" {{#if isVertical}}checked{{/if}}>
     </label>
   </p>
 </fieldset>
