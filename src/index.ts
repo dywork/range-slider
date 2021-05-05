@@ -3,7 +3,7 @@ import Slider from './slider/Slider';
 import defaultOptions from './slider/defaultOptions';
 import ISliderOptions from './slider/interfaces/ISliderOptions';
 import IModelOptions from './slider/interfaces/IModelOptions';
-import ConfigPanel from './demo-page/config-panel/ConfigPanelNew';
+import ConfigPanel from './demo-page/config-panel/ConfigPanel';
 import './demo-page/style.scss';
 import './demo-page/demoPage';
 
