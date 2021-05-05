@@ -17,3 +17,17 @@
   font-size: 24px;
   font-weight: normal;
 }
+
+.config-panel__value {
+  &--hided {
+    display: none;
+  }
+}
+
+.config-panel__label {
+  cursor: pointer;
+
+  input[type='checkbox'] {
+    cursor: pointer;
+  }
+}
