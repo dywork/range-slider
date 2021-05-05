@@ -11,15 +11,16 @@ type DomElements = {
   valuesContainer: HTMLElement;
   currentValueContainer: HTMLElement;
   currentValueInput: HTMLInputElement;
-  maxCurrentValueContainer: HTMLElement | null;
-  maxCurrentValueInput: HTMLInputElement | null;
+  maxCurrentValueContainer: HTMLElement;
+  maxCurrentValueInput: HTMLInputElement;
   stepInput: HTMLInputElement;
   rulerStepInput: HTMLInputElement;
+  rulerStepContainer: HTMLElement;
   minRangeInput: HTMLInputElement;
   maxRangeInput: HTMLInputElement;
   thumbCheckbox: HTMLInputElement;
-  maxDecimalPlaceContainer: HTMLElement | null;
-  maxDecimalPlaceInput: HTMLInputElement | null;
+  maxDecimalPlaceContainer: HTMLElement;
+  maxDecimalPlaceInput: HTMLInputElement;
   rulerCheckbox: HTMLInputElement;
   diapasonCheckbox: HTMLInputElement;
   verticalCheckbox: HTMLInputElement;
@@ -84,7 +85,11 @@ class ConfigPanel {
   };
 
   private toggleHangingInputs = () => {
-    const { maxCurrentValueContainer, maxDecimalPlaceContainer } = this.domElements;
+    const {
+      maxCurrentValueContainer,
+      maxDecimalPlaceContainer,
+      rulerStepContainer,
+    } = this.domElements;
     const { hidedValueContainer } = configPanelClassName;
 
     if (this.hasFractional()) {
@@ -98,6 +103,13 @@ class ConfigPanel {
     } else {
       maxCurrentValueContainer.classList.add(hidedValueContainer);
     }
+
+    const { withRuler } = this.slider.getModelOptions();
+    if (withRuler) {
+      rulerStepContainer.classList.remove(hidedValueContainer);
+    } else {
+      rulerStepContainer.classList.add(hidedValueContainer);
+    }
   };
 
   private saveDom = () => {
@@ -105,6 +117,7 @@ class ConfigPanel {
       valuesContainer: valuesContainerClass,
       stepInput: stepInputClass,
       rulerStepInput: rulerStepInputClass,
+      rulerStepContainer: rulerStepContainerClass,
       minRangeInput: minRangeInputClass,
       maxRangeInput: maxRangeInputClass,
       maxDecimalPlaceContainer: maxDecimalPlaceContainerClass,
@@ -123,28 +136,41 @@ class ConfigPanel {
     const currentValueContainer = this.domParent.querySelector(
       `.${currentValueContainerClass}`,
     ) as HTMLElement;
+
     const currentValueInput = this.domParent.querySelector(
       `.${currentValueInputClass}`,
     ) as HTMLInputElement;
+
     const stepInput = this.domParent.querySelector(`.${stepInputClass}`) as HTMLInputElement;
+
+    const rulerStepContainer = this.domParent.querySelector(
+      `.${rulerStepContainerClass}`,
+    ) as HTMLInputElement;
+
     const rulerStepInput = this.domParent.querySelector(
       `.${rulerStepInputClass}`,
     ) as HTMLInputElement;
+
     const minRangeInput = this.domParent.querySelector(
       `.${minRangeInputClass}`,
     ) as HTMLInputElement;
+
     const maxRangeInput = this.domParent.querySelector(
       `.${maxRangeInputClass}`,
     ) as HTMLInputElement;
+
     const thumbCheckbox = this.domParent.querySelector(
       `.${thumbCheckboxClass}`,
     ) as HTMLInputElement;
+
     const rulerCheckbox = this.domParent.querySelector(
       `.${rulerCheckboxClass}`,
     ) as HTMLInputElement;
+
     const diapasonCheckbox = this.domParent.querySelector(
       `.${diapasonCheckboxClass}`,
     ) as HTMLInputElement;
+
     const verticalCheckbox = this.domParent.querySelector(
       `.${verticalCheckboxClass}`,
     ) as HTMLInputElement;
@@ -173,6 +199,7 @@ class ConfigPanel {
       maxCurrentValueInput,
       stepInput,
       rulerStepInput,
+      rulerStepContainer,
       minRangeInput,
       maxRangeInput,
       thumbCheckbox,
@@ -350,8 +377,13 @@ class ConfigPanel {
   };
 
   private hasFractional = () => {
-    const rulerNumbers = this.slider.getRulerValues();
-    return rulerNumbers.some((num) => !Number.isInteger(num));
+    const { withRuler } = this.slider.getModelOptions();
+    if (withRuler) {
+      const rulerNumbers = this.slider.getRulerValues();
+      return rulerNumbers.some((num) => !Number.isInteger(num));
+    }
+
+    return false;
   };
 }
 

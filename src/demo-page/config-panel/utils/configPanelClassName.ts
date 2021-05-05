@@ -12,6 +12,7 @@ interface IConfigPanelClassName {
   valueLabel: string;
   stepInput: string;
   rulerStepInput: string;
+  rulerStepContainer: string;
   minRangeInput: string;
   maxRangeInput: string;
   thumbCheckbox: string;
@@ -35,6 +36,7 @@ const configPanelClassName: IConfigPanelClassName = {
   valueLabel: 'config-panel__label',
   stepInput: 'step',
   rulerStepInput: 'ruler-step',
+  rulerStepContainer: 'ruler-step-container',
   minRangeInput: 'min-range-value',
   maxRangeInput: 'max-range-value',
   thumbCheckbox: 'thumb-show',
