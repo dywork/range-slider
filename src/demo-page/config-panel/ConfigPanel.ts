@@ -39,21 +39,21 @@ class ConfigPanel {
 
   init = () => {
     this.renderPanel();
-    this.slider.subscribe('modelOptionsUpdate', this._onOptionsUpdate);
+    this.slider.subscribe('modelOptionsUpdate', this.onOptionsUpdate);
   };
 
   private renderPanel = () => {
-    this._mountPanel();
-    this._saveDom();
-    this._toggleHangingInputs();
-    this._setListeners();
+    this.mountPanel();
+    this.saveDom();
+    this.toggleHangingInputs();
+    this.setListeners();
   };
 
-  private _mountPanel = () => {
-    this.domParent.appendChild(this._getPanelContainer());
+  private mountPanel = () => {
+    this.domParent.appendChild(this.getPanelContainer());
   };
 
-  private _getPanelContainer = () => {
+  private getPanelContainer = () => {
     const configPanelContainer = document.createElement('div');
     const classNames = { ...configPanelClassName };
     const {
@@ -73,7 +73,7 @@ class ConfigPanel {
       withRuler,
       withThumb,
       step,
-      isRange: this._hasRange(),
+      isRange: this.hasRange(),
       isVertical: orientation === 'vertical',
       maxDecimalPlace,
       rulerStep,
@@ -83,24 +83,24 @@ class ConfigPanel {
     return configPanelContainer;
   };
 
-  private _toggleHangingInputs = () => {
+  private toggleHangingInputs = () => {
     const { maxCurrentValueContainer, maxDecimalPlaceContainer } = this.domElements;
     const { hidedValueContainer } = configPanelClassName;
 
-    if (this._hasFractional()) {
+    if (this.hasFractional()) {
       maxDecimalPlaceContainer.classList.remove(hidedValueContainer);
     } else {
       maxDecimalPlaceContainer.classList.add(hidedValueContainer);
     }
 
-    if (this._hasRange()) {
+    if (this.hasRange()) {
       maxCurrentValueContainer.classList.remove(hidedValueContainer);
     } else {
       maxCurrentValueContainer.classList.add(hidedValueContainer);
     }
   };
 
-  private _saveDom = () => {
+  private saveDom = () => {
     const {
       valuesContainer: valuesContainerClass,
       stepInput: stepInputClass,
@@ -184,7 +184,7 @@ class ConfigPanel {
     };
   };
 
-  private _setListeners = () => {
+  private setListeners = () => {
     const {
       currentValueInput,
       stepInput,
@@ -199,32 +199,32 @@ class ConfigPanel {
       verticalCheckbox,
     } = this.domElements;
 
-    currentValueInput.addEventListener('input', this._debounceInput);
-    stepInput.addEventListener('input', this._debounceInput);
-    rulerStepInput.addEventListener('input', this._debounceInput);
-    minRangeInput.addEventListener('input', this._debounceInput);
-    maxRangeInput.addEventListener('input', this._debounceInput);
+    currentValueInput.addEventListener('input', this.debounceInput);
+    stepInput.addEventListener('input', this.debounceInput);
+    rulerStepInput.addEventListener('input', this.debounceInput);
+    minRangeInput.addEventListener('input', this.debounceInput);
+    maxRangeInput.addEventListener('input', this.debounceInput);
 
-    thumbCheckbox.addEventListener('change', this._onCheckboxChange);
-    rulerCheckbox.addEventListener('change', this._onCheckboxChange);
-    diapasonCheckbox.addEventListener('change', this._onDiapasonChange);
-    verticalCheckbox.addEventListener('change', this._onVerticalChange);
+    thumbCheckbox.addEventListener('change', this.onCheckboxChange);
+    rulerCheckbox.addEventListener('change', this.onCheckboxChange);
+    diapasonCheckbox.addEventListener('change', this.onDiapasonChange);
+    verticalCheckbox.addEventListener('change', this.onVerticalChange);
 
-    if (this._hasRange()) {
-      maxCurrentValueInput.addEventListener('input', this._debounceInput);
+    if (this.hasRange()) {
+      maxCurrentValueInput.addEventListener('input', this.debounceInput);
     }
 
-    if (this._hasFractional()) {
-      maxDecimalPlaceInput.addEventListener('input', this._debounceInput);
+    if (this.hasFractional()) {
+      maxDecimalPlaceInput.addEventListener('input', this.debounceInput);
     }
   };
 
-  private _debounceInput = debounce(() => {
-    const newOptions = this._getNewModelOptions();
+  private debounceInput = debounce(() => {
+    const newOptions = this.getNewModelOptions();
     this.slider.updateOptions(newOptions);
   });
 
-  private _getNewModelOptions = () => {
+  private getNewModelOptions = () => {
     const {
       minRangeInput,
       maxRangeInput,
@@ -248,20 +248,20 @@ class ConfigPanel {
 
     const currentValues: CurrentValues = { min: +currentValueInput.value };
 
-    if (this._hasRange()) {
+    if (this.hasRange()) {
       currentValues.max = +maxCurrentValueInput.value;
     }
 
     newOptions.currentValues = currentValues;
 
-    if (this._hasFractional()) {
+    if (this.hasFractional()) {
       newOptions.maxDecimalPlace = +maxDecimalPlaceInput.value;
     }
 
     return newOptions;
   };
 
-  private _onCheckboxChange = (evt: Event) => {
+  private onCheckboxChange = (evt: Event) => {
     const target = <HTMLInputElement>evt.target;
     const nameOptions = target.getAttribute('data-value-name') as 'withRuler' | 'withThumb';
     const newOptions = { ...this.slider.getModelOptions() };
@@ -269,15 +269,15 @@ class ConfigPanel {
     this.slider.updateOptions(newOptions);
   };
 
-  private _onVerticalChange = (evt: Event) => {
+  private onVerticalChange = (evt: Event) => {
     const newOptions = { ...this.slider.getModelOptions() };
     const newIsVertical = (<HTMLInputElement>evt.target).checked;
     newOptions.orientation = newIsVertical ? 'vertical' : 'horizontal';
-    this._toggleOrientation();
+    this.toggleOrientation();
     this.slider.updateOptions(newOptions);
   };
 
-  private _onDiapasonChange = (evt: Event) => {
+  private onDiapasonChange = (evt: Event) => {
     const newOptions = { ...this.slider.getModelOptions() };
     const newCurrentValues = { ...this.slider.getModelOptions().currentValues };
     const newIsRange = (<HTMLInputElement>evt.target).checked;
@@ -293,14 +293,14 @@ class ConfigPanel {
     this.slider.updateOptions(newOptions);
   };
 
-  private _toggleOrientation = () => {
+  private toggleOrientation = () => {
     const sliderParent = this.slider.getDomParent();
     const sliderWrap = sliderParent.querySelector('.range-slider__wrap');
     sliderParent.classList.toggle('config-panel__slider_vertical');
     sliderWrap.classList.toggle('config-panel__slider_vertical');
   };
 
-  private _onOptionsUpdate = () => {
+  private onOptionsUpdate = () => {
     const {
       minRangeInput,
       maxRangeInput,
@@ -330,26 +330,26 @@ class ConfigPanel {
     rulerCheckbox.checked = withRuler;
     thumbCheckbox.checked = withThumb;
 
-    if (this._hasRange()) {
+    if (this.hasRange()) {
       currentValueInput.value = `${currentValues.min}`;
       maxCurrentValueInput.value = `${currentValues.max}`;
     } else {
       currentValueInput.value = `${currentValues.min}`;
     }
 
-    if (this._hasFractional()) {
+    if (this.hasFractional()) {
       maxDecimalPlaceInput.value = `${maxDecimalPlace}`;
     }
 
-    this._toggleHangingInputs();
+    this.toggleHangingInputs();
   };
 
-  private _hasRange = (): boolean => {
+  private hasRange = (): boolean => {
     const { currentValues } = this.slider.getModelOptions();
     return has(currentValues, 'max');
   };
 
-  private _hasFractional = () => {
+  private hasFractional = () => {
     const rulerNumbers = this.slider.getRulerValues();
     return rulerNumbers.some((num) => !Number.isInteger(num));
   };

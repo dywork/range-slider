@@ -18,7 +18,7 @@ class Ruler extends Observer {
   getProps = () => this.props;
 
   getHtml = () => {
-    const templateOptions = { sliderClassNames, items: this._getRulerItems() };
+    const templateOptions = { sliderClassNames, items: this.getRulerItems() };
     const ruler = document.createElement('div');
     ruler.innerHTML = rulerTemplate(templateOptions);
     return ruler.firstChild;
@@ -33,7 +33,7 @@ class Ruler extends Observer {
   updateProps = (props: IRulerProps) => {
     this.props = props;
     if (this.props.withRuler) {
-      this._redraw();
+      this.redraw();
     } else {
       this.notify('onRulerHide', '');
     }
@@ -62,28 +62,28 @@ class Ruler extends Observer {
     return [range.min, ...midArr, range.max];
   };
 
-  private _redraw = () => {
+  private redraw = () => {
     this.domNode.ruler.textContent = '';
     Array.from(this.getHtml().childNodes).forEach((item) => {
       this.domNode.ruler.appendChild(item);
     });
   };
 
-  private _getRulerItems = () => {
+  private getRulerItems = () => {
     const rulerValues = this.getRulerValues();
     return rulerValues.map((value) => {
       const rulerItem = {
         value,
-        style: this._getTransformStyleByValue(value),
+        style: this.getTransformStyleByValue(value),
         class: sliderClassNames.rulerItem,
       };
       return rulerItem;
     });
   };
 
-  private _getTransformStyleByValue = (value: number) => {
+  private getTransformStyleByValue = (value: number) => {
     const { isVertical } = this.props;
-    const position = this._getPositionByValue(value);
+    const position = this.getPositionByValue(value);
 
     if (isVertical) {
       return `transform: translate(0px, ${position}%);`;
@@ -92,7 +92,7 @@ class Ruler extends Observer {
     return `transform: translate(${position}%, 0px);`;
   };
 
-  private _getPositionByValue(value: number): number {
+  private getPositionByValue(value: number): number {
     const { range } = this.props;
     return ((+value - range.min) / (range.max - range.min)) * 1000;
   }

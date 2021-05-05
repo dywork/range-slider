@@ -15,19 +15,19 @@ class Presenter extends Observer {
   constructor(sliderOptions: ISliderOptions) {
     super();
     this.domParent = sliderOptions.domParent;
-    this.model = new Model(this._getSplitModelOptions(sliderOptions));
+    this.model = new Model(this.getSplitModelOptions(sliderOptions));
     this.view = new View(this.model.getOptions(), sliderOptions.domParent);
   }
 
   init = () => {
-    this._subscribeModules();
+    this.subscribeModules();
     this.view.render();
   };
 
   updateOptions = (modelOptions: IModelOptions) => {
-    this._checkOnChangeRange(modelOptions);
-    this._checkOnChangeOrientation(modelOptions);
-    this.model.updateOptions(this._getSplitModelOptions(modelOptions));
+    this.checkOnChangeRange(modelOptions);
+    this.checkOnChangeOrientation(modelOptions);
+    this.model.updateOptions(this.getSplitModelOptions(modelOptions));
   };
 
   getModelOptions = () => this.model.getOptions();
@@ -36,7 +36,7 @@ class Presenter extends Observer {
 
   getRulerValues = () => this.view.getRulerValues();
 
-  private _getSplitModelOptions = (
+  private getSplitModelOptions = (
     sliderOptions: ISliderOptions | IModelOptions,
   ): IModelOptions => {
     const {
@@ -62,22 +62,22 @@ class Presenter extends Observer {
     };
   };
 
-  private _subscribeModules = () => {
-    this.model.subscribe('modelOptionsUpdate', this._onModelOptionsUpdate);
-    this.view.subscribe('modelOptionsUpdate', this._onViewChangedModelOptions);
+  private subscribeModules = () => {
+    this.model.subscribe('modelOptionsUpdate', this.onModelOptionsUpdate);
+    this.view.subscribe('modelOptionsUpdate', this.onViewChangedModelOptions);
   };
 
-  private _onModelOptionsUpdate = (modelOptions: IModelOptions) => {
+  private onModelOptionsUpdate = (modelOptions: IModelOptions) => {
     this.view.updateModelOptions(modelOptions);
     this.notify('modelOptionsUpdate', this.model.getOptions());
   };
 
-  private _onViewChangedModelOptions = (modelOptions: IModelOptions) => {
+  private onViewChangedModelOptions = (modelOptions: IModelOptions) => {
     this.model.updateOptions(modelOptions);
     this.notify('modelOptionsUpdate', this.model.getOptions());
   };
 
-  private _checkOnChangeRange = (modelOptions: IModelOptions) => {
+  private checkOnChangeRange = (modelOptions: IModelOptions) => {
     const { currentValues: oldCurrentValues } = this.model.getOptions();
     const { currentValues: newCurrentValues } = modelOptions;
     const isOldRange = has(oldCurrentValues, 'max');
@@ -87,12 +87,12 @@ class Presenter extends Observer {
     if (isRangeChange) {
       this.view.destroyDom();
       this.view = new View(modelOptions, this.domParent);
-      this.view.subscribe('modelOptionsUpdate', this._onViewChangedModelOptions);
+      this.view.subscribe('modelOptionsUpdate', this.onViewChangedModelOptions);
       this.view.render();
     }
   };
 
-  private _checkOnChangeOrientation = (modelOptions: IModelOptions) => {
+  private checkOnChangeOrientation = (modelOptions: IModelOptions) => {
     const { orientation: oldOrientation } = this.model.getOptions();
     const { orientation: newOrientation } = modelOptions;
     const isOrientationChange = oldOrientation !== newOrientation;
@@ -100,7 +100,7 @@ class Presenter extends Observer {
     if (isOrientationChange) {
       this.view.destroyDom();
       this.view = new View(modelOptions, this.domParent);
-      this.view.subscribe('modelOptionsUpdate', this._onViewChangedModelOptions);
+      this.view.subscribe('modelOptionsUpdate', this.onViewChangedModelOptions);
       this.view.render();
     }
   };

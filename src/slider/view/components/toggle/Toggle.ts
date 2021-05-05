@@ -18,7 +18,7 @@ class Toggle {
     const toggle = document.createElement('div');
     toggle.innerHTML = toggleTemplate(templateOptions);
     const viewToggle = toggle.querySelector(`.${sliderClassNames.toggle}`);
-    viewToggle.setAttribute('style', this._getTransformStyle());
+    viewToggle.setAttribute('style', this.getTransformStyle());
     return toggle.firstChild;
   };
 
@@ -30,16 +30,16 @@ class Toggle {
 
   updateProps = (props: IToggleProps) => {
     this.props = props;
-    this._redraw();
+    this.redraw();
   };
 
-  private _redraw = () => {
-    this.domNode.toggle.setAttribute('style', this._getTransformStyle());
+  private redraw = () => {
+    this.domNode.toggle.setAttribute('style', this.getTransformStyle());
   };
 
-  private _getTransformStyle = () => {
+  private getTransformStyle = () => {
     const { isVertical } = this.props;
-    const togglePosition = this._getPosition();
+    const togglePosition = this.getPosition();
 
     if (isVertical) {
       return `transform: translate(0px, ${togglePosition}%);`;
@@ -48,7 +48,7 @@ class Toggle {
     return `transform: translate(${togglePosition}%, 0px);`;
   };
 
-  private _getPosition = () => {
+  private getPosition = () => {
     const { scalePosition } = this.props;
     const togglePosition = scalePosition * 1000;
     return togglePosition;

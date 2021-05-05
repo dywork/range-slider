@@ -13,7 +13,7 @@ class Slider extends Observer {
 
   init = () => {
     this.presenter.init();
-    this.presenter.subscribe('modelOptionsUpdate', this._alertSubs);
+    this.presenter.subscribe('modelOptionsUpdate', this.alertSubs);
   };
 
   updateOptions = (modelOptions: IModelOptions) => {
@@ -26,7 +26,7 @@ class Slider extends Observer {
 
   getRulerValues = () => this.presenter.getRulerValues();
 
-  private _alertSubs = () => {
+  private alertSubs = () => {
     this.notify('modelOptionsUpdate', this.getModelOptions());
   };
 }

@@ -19,7 +19,7 @@ class Scale {
     const scale = document.createElement('div');
     scale.innerHTML = scaleTemplate(templateOptions);
     const scaleView = scale.querySelector(`.${sliderClassNames.scale}`);
-    scaleView.setAttribute('style', this._getTransformStyle());
+    scaleView.setAttribute('style', this.getTransformStyle());
     return scale.firstChild;
   };
 
@@ -37,22 +37,20 @@ class Scale {
 
   updateProps = (props: IScaleProps) => {
     this.props = props;
-    this._redraw();
+    this.redraw();
   };
 
-  private _redraw = () => {
-    this.domNode.scale.setAttribute('style', this._getTransformStyle());
+  private redraw = () => {
+    this.domNode.scale.setAttribute('style', this.getTransformStyle());
   };
 
-  private _getTransformStyle = () => {
+  private getTransformStyle = () => {
     const { currentValues, isVertical } = this.props;
     const isRange = has(currentValues, 'max');
 
     if (isRange) {
       // eslint-disable-next-line max-len
-      const scalePositions = Object.entries(currentValues).map(([, value]) =>
-        this.getPosition(value),
-      );
+      const scalePositions = Object.entries(currentValues).map(([, value]) => this.getPosition(value));
       const translateScale = scalePositions[0] * 100;
       const totalPosition = scalePositions[1] - translateScale * 0.01;
 

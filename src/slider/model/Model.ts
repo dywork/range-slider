@@ -8,19 +8,21 @@ class Model extends Observer {
 
   constructor(modelOptions: IModelOptions) {
     super();
-    this.modelOptions = this._getConfirmedOptions(modelOptions);
+    this.modelOptions = this.getConfirmedOptions(modelOptions);
   }
 
   getOptions = () => this.modelOptions;
 
   updateOptions = (newOptions: IModelOptions) => {
-    this.modelOptions = this._getConfirmedOptions(newOptions);
+    this.modelOptions = this.getConfirmedOptions(newOptions);
     this.notify('modelOptionsUpdate', this.modelOptions);
   };
 
-  private _getConfirmedOptions = (checkingOptions: IModelOptions) => {
+  private getConfirmedOptions = (checkingOptions: IModelOptions) => {
     const confirmedOptions = { ...checkingOptions };
-    const { currentValues, range, step, rulerStep } = confirmedOptions;
+    const {
+      currentValues, range, step, rulerStep,
+    } = confirmedOptions;
     const isCurrentValuesNan = Number.isNaN(currentValues.min) || Number.isNaN(currentValues.max);
     const isRangeNan = Number.isNaN(range.min) || Number.isNaN(range.max);
     const isStepNan = Number.isNaN(step);

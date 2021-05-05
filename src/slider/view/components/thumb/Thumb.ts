@@ -37,10 +37,10 @@ class Thumb extends Observer {
 
   updateProps = (props: IThumbProps) => {
     this.props = props;
-    this._redraw();
+    this.redraw();
   };
 
-  private _redraw = () => {
+  private redraw = () => {
     const { value, withThumb } = this.props;
 
     if (withThumb) {
