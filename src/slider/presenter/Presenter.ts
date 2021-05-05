@@ -41,7 +41,14 @@ class Presenter extends Observer {
     sliderOptions: ISliderOptions | IModelOptions,
   ): IModelOptions => {
     const {
-      currentValues, range, withRuler, withThumb, step, orientation, maxDecimalPlace, rulerStep,
+      currentValues,
+      range,
+      withRuler,
+      withThumb,
+      step,
+      orientation,
+      maxDecimalPlace,
+      rulerStep,
     } = sliderOptions;
 
     return {
