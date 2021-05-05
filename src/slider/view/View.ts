@@ -1,3 +1,4 @@
+import has from 'has';
 import Ruler from './components/ruler/Ruler';
 import Scale from './components/scale/Scale';
 import Thumb from './components/thumb/Thumb';
@@ -9,8 +10,6 @@ import IRulerProps from '../interfaces/view/components/ruler/IRulerProps';
 import IScaleProps from '../interfaces/view/components/scale/IScaleProps';
 import IToggle from '../interfaces/view/components/toggle/IToggle';
 import IToggleProps from '../interfaces/view/components/toggle/IToggleProps';
-
-const has = require('has');
 
 interface IClickCoordinate {
   x: number;
@@ -79,9 +78,7 @@ class View extends Observer {
   };
 
   private _getRulerProps = (): IRulerProps => {
-    const {
-      range, step, withRuler, maxDecimalPlace, rulerStep,
-    } = this.modelOptions;
+    const { range, step, withRuler, maxDecimalPlace, rulerStep } = this.modelOptions;
 
     if (!step) {
       return {

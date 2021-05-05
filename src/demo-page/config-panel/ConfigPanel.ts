@@ -1,10 +1,10 @@
+import has from 'has';
 import configPanelClassName from './utils/configPanelClassName';
 import Slider from '../../slider/Slider';
 import IModelOptions from '../../slider/interfaces/IModelOptions';
 import CurrentValues from '../../slider/interfaces/types';
 import debounce from './utils/debounce';
 
-const has = require('has');
 const configPanelTemplate = require('./template/configPanel.hbs');
 
 type DomElements = {

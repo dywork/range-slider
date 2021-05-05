@@ -1,8 +1,7 @@
+import has from 'has';
 import defaultOptions from '../defaultOptions';
 import Observer from '../observer/Observer';
 import IModelOptions from '../interfaces/IModelOptions';
-
-const has = require('has');
 
 class Model extends Observer {
   private modelOptions: IModelOptions;
@@ -21,9 +20,7 @@ class Model extends Observer {
 
   private _getConfirmedOptions = (checkingOptions: IModelOptions) => {
     const confirmedOptions = { ...checkingOptions };
-    const {
-      currentValues, range, step, rulerStep,
-    } = confirmedOptions;
+    const { currentValues, range, step, rulerStep } = confirmedOptions;
     const isCurrentValuesNan = Number.isNaN(currentValues.min) || Number.isNaN(currentValues.max);
     const isRangeNan = Number.isNaN(range.min) || Number.isNaN(range.max);
     const isStepNan = Number.isNaN(step);

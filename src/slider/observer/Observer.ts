@@ -1,4 +1,4 @@
-const has = require('has');
+import has from 'has';
 
 type Subscriber = (...args: any[]) => any;
 interface ISubscribers {
@@ -13,11 +13,12 @@ class Observer {
   }
 
   subscribe = (subName: string, callback: Subscriber) => {
-    if (has(this.subscribers, subName)) {
+    const hasProp = has(this.subscribers, subName);
+
+    if (hasProp) {
       this.subscribers[subName].push(callback);
     } else {
-      this.subscribers[subName] = [];
-      this.subscribers[subName].push(callback);
+      this.subscribers[subName] = [callback];
     }
   };
 

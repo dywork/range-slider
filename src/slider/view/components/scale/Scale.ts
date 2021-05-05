@@ -1,8 +1,8 @@
+import has from 'has';
 import sliderClassNames from '../../utils/sliderClassNames';
 import IScaleProps from '../../../interfaces/view/components/scale/IScaleProps';
 import IDomNode from '../../../interfaces/view/components/scale/IDomNode';
 
-const has = require('has');
 const scaleTemplate = require('./template.hbs');
 
 class Scale {
@@ -50,7 +50,9 @@ class Scale {
 
     if (isRange) {
       // eslint-disable-next-line max-len
-      const scalePositions = Object.entries(currentValues).map(([, value]) => this.getPosition(value));
+      const scalePositions = Object.entries(currentValues).map(([, value]) =>
+        this.getPosition(value),
+      );
       const translateScale = scalePositions[0] * 100;
       const totalPosition = scalePositions[1] - translateScale * 0.01;
 

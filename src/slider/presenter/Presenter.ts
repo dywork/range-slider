@@ -1,10 +1,9 @@
+import has from 'has';
 import Model from '../model/Model';
 import View from '../view/View';
 import Observer from '../observer/Observer';
 import IModelOptions from '../interfaces/IModelOptions';
 import ISliderOptions from '../interfaces/ISliderOptions';
-
-const has = require('has');
 
 class Presenter extends Observer {
   private model: Model;
