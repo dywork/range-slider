@@ -231,6 +231,7 @@ class ConfigPanel {
     rulerStepInput.addEventListener('input', this.debounceInput);
     minRangeInput.addEventListener('input', this.debounceInput);
     maxRangeInput.addEventListener('input', this.debounceInput);
+    maxDecimalPlaceInput.addEventListener('input', this.debounceInput);
 
     thumbCheckbox.addEventListener('change', this.onCheckboxChange);
     rulerCheckbox.addEventListener('change', this.onCheckboxChange);
@@ -239,10 +240,6 @@ class ConfigPanel {
 
     if (this.hasRange()) {
       maxCurrentValueInput.addEventListener('input', this.debounceInput);
-    }
-
-    if (this.hasFractional()) {
-      maxDecimalPlaceInput.addEventListener('input', this.debounceInput);
     }
   };
 
