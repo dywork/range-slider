@@ -3,7 +3,7 @@ const debounce = (callback: Function) => {
 
   return (argument: any) => {
     clearTimeout(timeout);
-    timeout = setTimeout(callback, 500, argument);
+    timeout = setTimeout(callback, 700, argument);
   };
 };
 
