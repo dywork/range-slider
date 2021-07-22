@@ -258,7 +258,8 @@ class View extends Observer {
           newValueIndex = 0;
         }
 
-        if (newValue > min && newValue < max) {
+        const isNewValueInDiapason = newValue > min && newValue < max;
+        if (isNewValueInDiapason) {
           newValueIndex = Math.round(newValue / (min + max));
         }
 
