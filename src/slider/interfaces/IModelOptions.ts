@@ -7,7 +7,6 @@ interface IModelOptions {
   withThumb: boolean;
   step: number;
   orientation: 'horizontal' | 'vertical';
-  maxDecimalPlace?: number;
 }
 
 export default IModelOptions;

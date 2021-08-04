@@ -17,8 +17,6 @@ type DomElements = {
   minRangeInput: HTMLInputElement;
   maxRangeInput: HTMLInputElement;
   thumbCheckbox: HTMLInputElement;
-  maxDecimalPlaceContainer: HTMLElement;
-  maxDecimalPlaceInput: HTMLInputElement;
   rulerCheckbox: HTMLInputElement;
   diapasonCheckbox: HTMLInputElement;
   verticalCheckbox: HTMLInputElement;
@@ -56,7 +54,7 @@ class ConfigPanel {
     const configPanelContainer = document.createElement('div');
     const classNames = { ...configPanelClassName };
     const {
-      currentValues, range, withRuler, withThumb, step, orientation, maxDecimalPlace,
+      currentValues, range, withRuler, withThumb, step, orientation,
     } = this.slider.getModelOptions();
     const configPanelOptions = {
       classNames,
@@ -67,7 +65,6 @@ class ConfigPanel {
       step,
       isRange: this.hasRange(),
       isVertical: orientation === 'vertical',
-      maxDecimalPlace,
     };
 
     configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
@@ -91,8 +88,6 @@ class ConfigPanel {
       stepInput: stepInputClass,
       minRangeInput: minRangeInputClass,
       maxRangeInput: maxRangeInputClass,
-      maxDecimalPlaceContainer: maxDecimalPlaceContainerClass,
-      maxDecimalPlaceInput: maxDecimalPlaceInputClass,
       thumbCheckbox: thumbCheckboxClass,
       rulerCheckbox: rulerCheckboxClass,
       diapasonCheckbox: diapasonCheckboxClass,
@@ -138,14 +133,6 @@ class ConfigPanel {
       `.${verticalCheckboxClass}`,
     ) as HTMLInputElement;
 
-    const maxDecimalPlaceContainer = this.domParent.querySelector(
-      `.${maxDecimalPlaceContainerClass}`,
-    ) as HTMLInputElement;
-
-    const maxDecimalPlaceInput = this.domParent.querySelector(
-      `.${maxDecimalPlaceInputClass}`,
-    ) as HTMLInputElement;
-
     const maxCurrentValueContainer = this.domParent.querySelector(
       `.${maxCurrentValueContainerClass}`,
     ) as HTMLElement;
@@ -164,8 +151,6 @@ class ConfigPanel {
       minRangeInput,
       maxRangeInput,
       thumbCheckbox,
-      maxDecimalPlaceContainer,
-      maxDecimalPlaceInput,
       rulerCheckbox,
       diapasonCheckbox,
       verticalCheckbox,
@@ -179,7 +164,6 @@ class ConfigPanel {
       maxCurrentValueInput,
       minRangeInput,
       maxRangeInput,
-      maxDecimalPlaceInput,
       thumbCheckbox,
       rulerCheckbox,
       diapasonCheckbox,
@@ -190,7 +174,6 @@ class ConfigPanel {
     stepInput.addEventListener('input', this.debounceInput);
     minRangeInput.addEventListener('input', this.debounceInput);
     maxRangeInput.addEventListener('input', this.debounceInput);
-    maxDecimalPlaceInput.addEventListener('input', this.debounceInput);
 
     thumbCheckbox.addEventListener('change', this.onCheckboxChange);
     rulerCheckbox.addEventListener('change', this.onCheckboxChange);

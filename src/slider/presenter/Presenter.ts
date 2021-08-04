@@ -46,7 +46,6 @@ class Presenter extends Observer {
       withThumb,
       step,
       orientation,
-      maxDecimalPlace,
     } = sliderOptions;
 
     return {
@@ -56,7 +55,6 @@ class Presenter extends Observer {
       withThumb,
       step,
       orientation,
-      maxDecimalPlace,
     };
   };
 

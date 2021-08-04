@@ -64,7 +64,6 @@ const defaultOptions = {
   withRuler: false,
   step: 1,
   orientation: 'horizontal',
-  maxDecimalPlace: 1,
 }
 ```
 
@@ -77,7 +76,6 @@ const defaultOptions = {
 | withRuler | boolean | false | Определяет показывать ли линейку(шкалу) со всеми возможными значениями слайдера |
 | step | number | 1 | Шаг значений |
 | orientation | string | horizontal | Определяет горизонтальный или вертикальный вид слайдера. Для горизонтального значение - 'horizontal', для вертикального - 'vertical' |
-| maxDecimalPlace? | number | 1 | Кол-во знаков после запятой |
 
 ## Архитектура приложения
 UML диаграмма:
