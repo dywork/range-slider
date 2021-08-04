@@ -5,7 +5,6 @@ $(document).ready(function () {
   const defaultSlider = $('.js-default-slider').rangeSlider({
     currentValues: { min: 15 },
     step: 1,
-    rulerStep: 2,
     range: { min: 0, max: 30 },
     withRuler: true,
     withThumb: true,

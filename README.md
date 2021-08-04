@@ -63,7 +63,6 @@ const defaultOptions = {
   withThumb: true,
   withRuler: false,
   step: 1,
-  rulerStep: 1,
   orientation: 'horizontal',
   maxDecimalPlace: 1,
 }
@@ -77,7 +76,6 @@ const defaultOptions = {
 | withThumb | boolean | true | Определяет показывать ли подсказку над тогглом с его текущим значением |
 | withRuler | boolean | false | Определяет показывать ли линейку(шкалу) со всеми возможными значениями слайдера |
 | step | number | 1 | Шаг значений |
-| rulerStep? | number | 1 | Шаг отображаемых значений на шкале |
 | orientation | string | horizontal | Определяет горизонтальный или вертикальный вид слайдера. Для горизонтального значение - 'horizontal', для вертикального - 'vertical' |
 | maxDecimalPlace? | number | 1 | Кол-во знаков после запятой |
 

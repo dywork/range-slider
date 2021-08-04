@@ -46,17 +46,15 @@ class Ruler extends Observer {
   };
 
   getRulerValues = () => {
-    const {
-      range, step, maxDecimalPlace, rulerStep,
-    } = this.props;
-    const viewStep = rulerStep || step;
+    const { range, step } = this.props;
+    const midQuantity = Math.ceil((range.max - range.min) / step);
+    const viewStep = Math.ceil(midQuantity / 5) * step;
     const midArr = [];
-    const midQuantity = Math.floor((range.max - range.min) / viewStep);
+    let value = range.min;
 
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < midQuantity; i++) {
-      const value = (i + 1) * viewStep + range.min;
-      midArr.push(+value.toFixed(maxDecimalPlace));
+    for (let i = 0; value < range.max; i += 1) {
+      value += viewStep;
+      if (value < range.max) midArr.push(Number(value.toLocaleString('en')));
     }
 
     return [range.min, ...midArr, range.max];

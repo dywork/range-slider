@@ -6,7 +6,6 @@ interface IModelOptions {
   withRuler: boolean;
   withThumb: boolean;
   step: number;
-  rulerStep?: number;
   orientation: 'horizontal' | 'vertical';
   maxDecimalPlace?: number;
 }

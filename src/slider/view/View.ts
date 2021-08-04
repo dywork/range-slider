@@ -79,7 +79,7 @@ class View extends Observer {
 
   private getRulerProps = (): IRulerProps => {
     const {
-      range, step, withRuler, maxDecimalPlace, rulerStep,
+      range, step, withRuler, maxDecimalPlace,
     } = this.modelOptions;
 
     if (!step) {
@@ -89,7 +89,6 @@ class View extends Observer {
         withRuler,
         isVertical: this.isVertical,
         maxDecimalPlace,
-        rulerStep,
       };
     }
 
@@ -99,7 +98,6 @@ class View extends Observer {
       withRuler,
       isVertical: this.isVertical,
       maxDecimalPlace,
-      rulerStep,
     };
   };
 

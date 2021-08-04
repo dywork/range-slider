@@ -14,8 +14,6 @@ type DomElements = {
   maxCurrentValueContainer: HTMLElement;
   maxCurrentValueInput: HTMLInputElement;
   stepInput: HTMLInputElement;
-  rulerStepInput: HTMLInputElement;
-  rulerStepContainer: HTMLElement;
   minRangeInput: HTMLInputElement;
   maxRangeInput: HTMLInputElement;
   thumbCheckbox: HTMLInputElement;
@@ -58,14 +56,7 @@ class ConfigPanel {
     const configPanelContainer = document.createElement('div');
     const classNames = { ...configPanelClassName };
     const {
-      currentValues,
-      range,
-      withRuler,
-      withThumb,
-      step,
-      orientation,
-      maxDecimalPlace,
-      rulerStep,
+      currentValues, range, withRuler, withThumb, step, orientation, maxDecimalPlace,
     } = this.slider.getModelOptions();
     const configPanelOptions = {
       classNames,
@@ -77,7 +68,6 @@ class ConfigPanel {
       isRange: this.hasRange(),
       isVertical: orientation === 'vertical',
       maxDecimalPlace,
-      rulerStep,
     };
 
     configPanelContainer.innerHTML = configPanelTemplate(configPanelOptions);
@@ -85,30 +75,13 @@ class ConfigPanel {
   };
 
   private toggleHangingInputs = () => {
-    const {
-      maxCurrentValueContainer,
-      maxDecimalPlaceContainer,
-      rulerStepContainer,
-    } = this.domElements;
+    const { maxCurrentValueContainer } = this.domElements;
     const { hidedValueContainer } = configPanelClassName;
-
-    if (this.hasFractional()) {
-      maxDecimalPlaceContainer.classList.remove(hidedValueContainer);
-    } else {
-      maxDecimalPlaceContainer.classList.add(hidedValueContainer);
-    }
 
     if (this.hasRange()) {
       maxCurrentValueContainer.classList.remove(hidedValueContainer);
     } else {
       maxCurrentValueContainer.classList.add(hidedValueContainer);
-    }
-
-    const { withRuler } = this.slider.getModelOptions();
-    if (withRuler) {
-      rulerStepContainer.classList.remove(hidedValueContainer);
-    } else {
-      rulerStepContainer.classList.add(hidedValueContainer);
     }
   };
 
@@ -116,8 +89,6 @@ class ConfigPanel {
     const {
       valuesContainer: valuesContainerClass,
       stepInput: stepInputClass,
-      rulerStepInput: rulerStepInputClass,
-      rulerStepContainer: rulerStepContainerClass,
       minRangeInput: minRangeInputClass,
       maxRangeInput: maxRangeInputClass,
       maxDecimalPlaceContainer: maxDecimalPlaceContainerClass,
@@ -142,14 +113,6 @@ class ConfigPanel {
     ) as HTMLInputElement;
 
     const stepInput = this.domParent.querySelector(`.${stepInputClass}`) as HTMLInputElement;
-
-    const rulerStepContainer = this.domParent.querySelector(
-      `.${rulerStepContainerClass}`,
-    ) as HTMLInputElement;
-
-    const rulerStepInput = this.domParent.querySelector(
-      `.${rulerStepInputClass}`,
-    ) as HTMLInputElement;
 
     const minRangeInput = this.domParent.querySelector(
       `.${minRangeInputClass}`,
@@ -198,8 +161,6 @@ class ConfigPanel {
       maxCurrentValueContainer,
       maxCurrentValueInput,
       stepInput,
-      rulerStepInput,
-      rulerStepContainer,
       minRangeInput,
       maxRangeInput,
       thumbCheckbox,
@@ -216,7 +177,6 @@ class ConfigPanel {
       currentValueInput,
       stepInput,
       maxCurrentValueInput,
-      rulerStepInput,
       minRangeInput,
       maxRangeInput,
       maxDecimalPlaceInput,
@@ -228,7 +188,6 @@ class ConfigPanel {
 
     currentValueInput.addEventListener('input', this.debounceInput);
     stepInput.addEventListener('input', this.debounceInput);
-    rulerStepInput.addEventListener('input', this.debounceInput);
     minRangeInput.addEventListener('input', this.debounceInput);
     maxRangeInput.addEventListener('input', this.debounceInput);
     maxDecimalPlaceInput.addEventListener('input', this.debounceInput);
@@ -250,18 +209,11 @@ class ConfigPanel {
 
   private getNewModelOptions = () => {
     const {
-      minRangeInput,
-      maxRangeInput,
-      currentValueInput,
-      maxCurrentValueInput,
-      maxDecimalPlaceInput,
-      stepInput,
-      rulerStepInput,
+      minRangeInput, maxRangeInput, currentValueInput, maxCurrentValueInput, stepInput,
     } = this.domElements;
     const newOptions: IModelOptions = { ...this.slider.getModelOptions() };
 
     newOptions.step = +stepInput.value;
-    newOptions.rulerStep = +rulerStepInput.value;
 
     const newRange = {
       min: +minRangeInput.value,
@@ -277,10 +229,6 @@ class ConfigPanel {
     }
 
     newOptions.currentValues = currentValues;
-
-    if (this.hasFractional()) {
-      newOptions.maxDecimalPlace = +maxDecimalPlaceInput.value;
-    }
 
     return newOptions;
   };
@@ -330,25 +278,16 @@ class ConfigPanel {
       maxRangeInput,
       currentValueInput,
       maxCurrentValueInput,
-      maxDecimalPlaceInput,
       stepInput,
-      rulerStepInput,
       rulerCheckbox,
       thumbCheckbox,
     } = this.domElements;
 
     const {
-      currentValues,
-      step,
-      range,
-      withRuler,
-      withThumb,
-      rulerStep,
-      maxDecimalPlace,
+      currentValues, step, range, withRuler, withThumb,
     } = this.slider.getModelOptions();
 
     stepInput.value = `${step}`;
-    rulerStepInput.value = `${rulerStep}`;
     minRangeInput.value = `${range.min}`;
     maxRangeInput.value = `${range.max}`;
     rulerCheckbox.checked = withRuler;
@@ -361,26 +300,12 @@ class ConfigPanel {
       currentValueInput.value = `${currentValues.min}`;
     }
 
-    if (this.hasFractional()) {
-      maxDecimalPlaceInput.value = `${maxDecimalPlace}`;
-    }
-
     this.toggleHangingInputs();
   };
 
   private hasRange = (): boolean => {
     const { currentValues } = this.slider.getModelOptions();
     return has(currentValues, 'max');
-  };
-
-  private hasFractional = () => {
-    const { withRuler } = this.slider.getModelOptions();
-    if (withRuler) {
-      const rulerNumbers = this.slider.getRulerValues();
-      return rulerNumbers.some((num) => !Number.isInteger(num));
-    }
-
-    return false;
   };
 }
 

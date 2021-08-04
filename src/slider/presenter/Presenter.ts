@@ -47,7 +47,6 @@ class Presenter extends Observer {
       step,
       orientation,
       maxDecimalPlace,
-      rulerStep,
     } = sliderOptions;
 
     return {
@@ -58,7 +57,6 @@ class Presenter extends Observer {
       step,
       orientation,
       maxDecimalPlace,
-      rulerStep,
     };
   };
 

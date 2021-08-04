@@ -21,7 +21,7 @@ class Model extends Observer {
   private getConfirmedOptions = (checkingOptions: IModelOptions) => {
     const confirmedOptions = { ...checkingOptions };
     const {
-      currentValues, range, step, rulerStep,
+      currentValues, range, step,
     } = confirmedOptions;
     const isCurrentValuesNan = Number.isNaN(currentValues.min) || Number.isNaN(currentValues.max);
     const isRangeNan = Number.isNaN(range.min) || Number.isNaN(range.max);
@@ -42,18 +42,6 @@ class Model extends Observer {
 
     if (isStepNan || step <= 0) {
       confirmedOptions.step = defaultOptions.step;
-    }
-
-    if (rulerStep !== undefined) {
-      if (rulerStep < step) {
-        confirmedOptions.rulerStep = step;
-      }
-
-      const isMultipleStep = rulerStep % step === 0;
-
-      if (!isMultipleStep) {
-        confirmedOptions.rulerStep = step;
-      }
     }
 
     if (range.min > range.max) {
