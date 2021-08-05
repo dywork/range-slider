@@ -170,22 +170,22 @@ class ConfigPanel {
       verticalCheckbox,
     } = this.domElements;
 
-    currentValueInput.addEventListener('input', this.debounceInput);
-    stepInput.addEventListener('input', this.debounceInput);
-    minRangeInput.addEventListener('input', this.debounceInput);
-    maxRangeInput.addEventListener('input', this.debounceInput);
+    currentValueInput.addEventListener('input', this.handleInput);
+    stepInput.addEventListener('input', this.handleInput);
+    minRangeInput.addEventListener('input', this.handleInput);
+    maxRangeInput.addEventListener('input', this.handleInput);
 
-    thumbCheckbox.addEventListener('change', this.onCheckboxChange);
-    rulerCheckbox.addEventListener('change', this.onCheckboxChange);
-    diapasonCheckbox.addEventListener('change', this.onDiapasonChange);
-    verticalCheckbox.addEventListener('change', this.onVerticalChange);
+    thumbCheckbox.addEventListener('change', this.handleCheckboxChange);
+    rulerCheckbox.addEventListener('change', this.handleCheckboxChange);
+    diapasonCheckbox.addEventListener('change', this.handleDiapasonChange);
+    verticalCheckbox.addEventListener('change', this.handleVerticalChange);
 
     if (this.hasRange()) {
-      maxCurrentValueInput.addEventListener('input', this.debounceInput);
+      maxCurrentValueInput.addEventListener('input', this.handleInput);
     }
   };
 
-  private debounceInput = debounce(() => {
+  private handleInput = debounce(() => {
     const newOptions = this.getNewModelOptions();
     this.slider.updateOptions(newOptions);
   });
@@ -216,7 +216,7 @@ class ConfigPanel {
     return newOptions;
   };
 
-  private onCheckboxChange = (evt: Event) => {
+  private handleCheckboxChange = (evt: Event) => {
     const target = <HTMLInputElement>evt.target;
     const nameOptions = target.getAttribute('data-value-name') as 'withRuler' | 'withThumb';
     const newOptions = { ...this.slider.getModelOptions() };
@@ -224,7 +224,7 @@ class ConfigPanel {
     this.slider.updateOptions(newOptions);
   };
 
-  private onVerticalChange = (evt: Event) => {
+  private handleVerticalChange = (evt: Event) => {
     const newOptions = { ...this.slider.getModelOptions() };
     const newIsVertical = (<HTMLInputElement>evt.target).checked;
     newOptions.orientation = newIsVertical ? 'vertical' : 'horizontal';
@@ -232,7 +232,7 @@ class ConfigPanel {
     this.slider.updateOptions(newOptions);
   };
 
-  private onDiapasonChange = (evt: Event) => {
+  private handleDiapasonChange = (evt: Event) => {
     const newOptions = { ...this.slider.getModelOptions() };
     const newCurrentValues = { ...this.slider.getModelOptions().currentValues };
     const newIsRange = (<HTMLInputElement>evt.target).checked;

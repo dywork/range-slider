@@ -225,18 +225,18 @@ class View extends Observer {
   private setListeners = () => {
     if (this.ruler) {
       const { ruler } = this.ruler.getDomNode();
-      ruler.addEventListener('click', this.onRulerClick);
+      ruler.addEventListener('click', this.handleRulerClick);
     }
 
     this.toggles.forEach((toggle, toggleIndex: number) => {
       const { handle } = toggle.main.getDomNode();
       handle.addEventListener('mousedown', (evt: MouseEvent) => {
-        this.onToggleMouseDown(evt, toggleIndex);
+        this.handleToggleMouseDown(evt, toggleIndex);
       });
     });
   };
 
-  private onRulerClick = (evt: MouseEvent) => {
+  private handleRulerClick = (evt: MouseEvent) => {
     const clickNode = evt.target as HTMLElement;
     const withRulerItem = clickNode.classList.contains(`${sliderClassNames.rulerItem}`);
 
@@ -274,7 +274,7 @@ class View extends Observer {
     }
   };
 
-  private onToggleMouseDown = (evt: MouseEvent, toggleIndex: number) => {
+  private handleToggleMouseDown = (evt: MouseEvent, toggleIndex: number) => {
     evt.preventDefault();
     this.activeToggle = this.toggles[toggleIndex].main;
     this.activeToggleIndex = toggleIndex;
@@ -286,19 +286,19 @@ class View extends Observer {
         toggleDom.classList.remove(sliderClassNames.toggleActive);
       }
     });
-    document.addEventListener('mousemove', this.onToggleMove);
-    document.addEventListener('mouseup', this.onToggleUp);
+    document.addEventListener('mousemove', this.handleToggleMove);
+    document.addEventListener('mouseup', this.handleToggleUp);
   };
 
-  private onToggleMove = (evt: MouseEvent) => {
+  private handleToggleMove = (evt: MouseEvent) => {
     evt.preventDefault();
     this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
   };
 
-  private onToggleUp = (evt: MouseEvent) => {
+  private handleToggleUp = (evt: MouseEvent) => {
     evt.preventDefault();
-    document.removeEventListener('mousemove', this.onToggleMove);
-    document.removeEventListener('mouseup', this.onToggleUp);
+    document.removeEventListener('mousemove', this.handleToggleMove);
+    document.removeEventListener('mouseup', this.handleToggleUp);
   };
 
   private changeCurrentValue = (clickCoordinate: IClickCoordinate) => {
@@ -448,7 +448,7 @@ class View extends Observer {
     domContainer.appendChild(domRuler);
     this.ruler.setDomNode({ ruler: domRuler });
     const { ruler } = this.ruler.getDomNode();
-    ruler.addEventListener('click', this.onRulerClick);
+    ruler.addEventListener('click', this.handleRulerClick);
   };
 
   private onThumbMount = () => {
