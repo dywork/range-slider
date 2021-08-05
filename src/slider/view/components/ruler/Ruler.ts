@@ -54,7 +54,7 @@ class Ruler extends Observer {
 
     for (let i = 0; value < range.max; i += 1) {
       value += viewStep;
-      if (value < range.max) midArr.push(Number(value.toLocaleString('en')));
+      if (value < range.max) midArr.push(Number(value.toLocaleString('en', { useGrouping: false })));
     }
 
     return [range.min, ...midArr, range.max];

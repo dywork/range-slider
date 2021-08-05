@@ -366,10 +366,12 @@ class View extends Observer {
     const { range, step } = this.modelOptions;
     const newCurrentValue = percent * (range.max - range.min) + range.min;
     if (step) {
-      return this.getStepCurrentValue(newCurrentValue);
+      return Number(
+        this.getStepCurrentValue(newCurrentValue).toLocaleString('en', { useGrouping: false }),
+      );
     }
 
-    return newCurrentValue;
+    return Number(newCurrentValue.toLocaleString('en', { useGrouping: false }));
   };
 
   private getStepCurrentValue = (currentValue: number) => {
