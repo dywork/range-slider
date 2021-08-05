@@ -3,6 +3,7 @@ interface IConfigPanelClassName {
   maxCurrentValueContainer: string;
   minCurrentValueInput: string;
   maxCurrentValueInput: string;
+  verticalSlider: string;
   currentValueContainer: string;
   currentValueInput: string;
   valuesContainer: string;
@@ -23,6 +24,7 @@ const configPanelClassName: IConfigPanelClassName = {
   maxCurrentValueContainer: 'config-panel__value_current-max-value',
   minCurrentValueInput: 'current-min-value',
   maxCurrentValueInput: 'current-max-value',
+  verticalSlider: 'config-panel__slider_vertical',
   currentValueContainer: 'config-panel__value_current-value',
   currentValueInput: 'current-value',
   valuesContainer: 'config-panel__values',

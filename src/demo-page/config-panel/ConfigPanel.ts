@@ -1,5 +1,6 @@
 import has from 'has';
 import configPanelClassName from './utils/configPanelClassName';
+import sliderClassNames from '../../slider/view/utils/sliderClassNames';
 import Slider from '../../slider/Slider';
 import IModelOptions from '../../slider/interfaces/IModelOptions';
 import CurrentValues from '../../slider/interfaces/types';
@@ -249,10 +250,12 @@ class ConfigPanel {
   };
 
   private toggleOrientation = () => {
+    const { wrap } = sliderClassNames;
+    const { verticalSlider } = configPanelClassName;
     const sliderParent = this.slider.getDomParent();
-    const sliderWrap = sliderParent.querySelector('.range-slider__wrap');
-    sliderParent.classList.toggle('config-panel__slider_vertical');
-    sliderWrap.classList.toggle('config-panel__slider_vertical');
+    const sliderWrap = sliderParent.querySelector(`.${wrap}`);
+    sliderParent.classList.toggle(verticalSlider);
+    sliderWrap.classList.toggle(verticalSlider);
   };
 
   private onOptionsUpdate = () => {
