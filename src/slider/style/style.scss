@@ -13,7 +13,7 @@
 
 .range-slider_vertical {
   .range-slider__bar {
-    width: 4.1px;
+    width: 5px;
     height: 100%;
   }
 
@@ -45,9 +45,10 @@
 
 .range-slider__bar {
   position: relative;
-  height: 4.1px;
+  height: 5px;
   border: none;
   background-color: $barColor;
+  cursor: pointer;
 }
 
 .range-slider__scale {

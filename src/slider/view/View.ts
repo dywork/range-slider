@@ -223,6 +223,9 @@ class View extends Observer {
   };
 
   private setListeners = () => {
+    const { bar } = this.scale.getDomNode();
+    bar.addEventListener('click', this.handleBarClick);
+
     if (this.ruler) {
       const { ruler } = this.ruler.getDomNode();
       ruler.addEventListener('click', this.handleRulerClick);
@@ -241,6 +244,34 @@ class View extends Observer {
         this.handleToggleMouseDown(evt, toggleIndex);
       });
     });
+  };
+
+  private handleBarClick = (evt: MouseEvent) => {
+    evt.preventDefault();
+    let activeToggleIndex = 0;
+
+    if (this.isRange) {
+      const togglesPositions = this.toggles.map((toggle: IToggle): number => {
+        const toggleHtml = toggle.main.getHtml() as HTMLElement;
+        const positionRegExp = this.isVertical ? /(\d*.\d*)%\)/ : /\((\d*.\d*)%/;
+        const indexForRegExp = 1;
+        return Number(toggleHtml.getAttribute('style').match(positionRegExp)[indexForRegExp]);
+      });
+
+      const { pageX, pageY } = evt;
+      const clickCoordinate = this.isVertical ? pageY : pageX;
+      const offsetDirection = this.isVertical ? this.slider.offsetTop : this.slider.offsetLeft;
+      const offsetSize = this.isVertical ? this.slider.offsetHeight : this.slider.offsetWidth;
+      const cleanCoordinate = clickCoordinate - offsetDirection;
+      const clickPercentOfSize = (cleanCoordinate / offsetSize) * 1000;
+      const minValueDistance = Math.abs(clickPercentOfSize - togglesPositions[0]);
+      const maxValueDistance = Math.abs(clickPercentOfSize - togglesPositions[1]);
+      activeToggleIndex = minValueDistance < maxValueDistance ? 0 : 1;
+    }
+
+    this.activeToggleIndex = activeToggleIndex;
+    this.activeToggle = this.toggles[activeToggleIndex].main;
+    this.changeCurrentValue({ x: evt.pageX, y: evt.pageY });
   };
 
   private handleRulerClick = (evt: MouseEvent) => {
