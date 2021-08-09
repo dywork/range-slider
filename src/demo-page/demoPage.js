@@ -5,21 +5,21 @@ $(document).ready(function () {
   const defaultSlider = $('.js-default-slider').rangeSlider({
     currentValues: { min: 15 },
     step: 1,
-    range: { min: 0, max: 30 },
+    range: { min: 0, max: 100 },
     withRuler: true,
     withThumb: true,
   });
 
   const rangeSlider = $('.js-range-slider').rangeSlider({
-    currentValues: { min: 15, max: 26 },
-    range: { min: 10, max: 30 },
+    currentValues: { min: 28, max: 82 },
+    range: { min: 10, max: 100 },
     withRuler: true,
     withThumb: true,
   });
 
   const stepSlider = $('.js-step-slider').rangeSlider({
     currentValues: { min: 10 },
-    range: { min: 10, max: 30 },
+    range: { min: 10, max: 100 },
     step: 5,
     withRuler: true,
     withThumb: true,
@@ -27,7 +27,7 @@ $(document).ready(function () {
 
   const verticalSlider = $('.js-vertical-slider').rangeSlider({
     currentValues: { min: 15 },
-    range: { min: 10, max: 30 },
+    range: { min: 10, max: 100 },
     withRuler: true,
     withThumb: true,
     orientation: 'vertical',
