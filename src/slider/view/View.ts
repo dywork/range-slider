@@ -230,6 +230,13 @@ class View extends Observer {
 
     this.toggles.forEach((toggle, toggleIndex: number) => {
       const { handle } = toggle.main.getDomNode();
+      const { withThumb } = this.modelOptions;
+      if (withThumb) {
+        const { thumb } = toggle.thumb.getDomNode();
+        thumb.addEventListener('mousedown', (evt: MouseEvent) => {
+          this.handleToggleMouseDown(evt, toggleIndex);
+        });
+      }
       handle.addEventListener('mousedown', (evt: MouseEvent) => {
         this.handleToggleMouseDown(evt, toggleIndex);
       });

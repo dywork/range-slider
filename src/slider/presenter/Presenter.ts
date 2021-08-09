@@ -27,6 +27,7 @@ class Presenter extends Observer {
   updateOptions = (modelOptions: IModelOptions) => {
     this.checkOnChangeRange(modelOptions);
     this.checkOnChangeOrientation(modelOptions);
+    this.checkOnChangeThumbDisplay(modelOptions);
     this.model.updateOptions(this.getSplitModelOptions(modelOptions));
   };
 
@@ -36,16 +37,9 @@ class Presenter extends Observer {
 
   getRulerValues = () => this.view.getRulerValues();
 
-  private getSplitModelOptions = (
-    sliderOptions: ISliderOptions | IModelOptions,
-  ): IModelOptions => {
+  private getSplitModelOptions = (sliderOptions: ISliderOptions | IModelOptions): IModelOptions => {
     const {
-      currentValues,
-      range,
-      withRuler,
-      withThumb,
-      step,
-      orientation,
+      currentValues, range, withRuler, withThumb, step, orientation,
     } = sliderOptions;
 
     return {
@@ -81,10 +75,7 @@ class Presenter extends Observer {
     const isRangeChange = (!isOldRange && isNewRange) || (isOldRange && !isNewRange);
 
     if (isRangeChange) {
-      this.view.destroyDom();
-      this.view = new View(modelOptions, this.domParent);
-      this.view.subscribe('modelOptionsUpdate', this.onViewChangedModelOptions);
-      this.view.render();
+      this.renderNewView(modelOptions);
     }
   };
 
@@ -94,11 +85,25 @@ class Presenter extends Observer {
     const isOrientationChange = oldOrientation !== newOrientation;
 
     if (isOrientationChange) {
-      this.view.destroyDom();
-      this.view = new View(modelOptions, this.domParent);
-      this.view.subscribe('modelOptionsUpdate', this.onViewChangedModelOptions);
-      this.view.render();
+      this.renderNewView(modelOptions);
     }
+  };
+
+  private checkOnChangeThumbDisplay = (modelOptions: IModelOptions) => {
+    const { withThumb: oldWithThumb } = this.model.getOptions();
+    const { withThumb: newWithThumb } = modelOptions;
+    const isWithThumbChange = oldWithThumb !== newWithThumb;
+
+    if (isWithThumbChange) {
+      this.renderNewView(modelOptions);
+    }
+  };
+
+  private renderNewView = (modelOptions: IModelOptions) => {
+    this.view.destroyDom();
+    this.view = new View(modelOptions, this.domParent);
+    this.view.subscribe('modelOptionsUpdate', this.onViewChangedModelOptions);
+    this.view.render();
   };
 }
 
