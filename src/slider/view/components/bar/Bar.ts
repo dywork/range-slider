@@ -1,16 +1,16 @@
 import has from 'has';
 import sliderClassNames from '../../utils/sliderClassNames';
-import IScaleProps from '../../../interfaces/view/components/scale/IScaleProps';
-import IDomNode from '../../../interfaces/view/components/scale/IDomNode';
+import IBarProps from '../../../interfaces/view/components/bar/IBarProps';
+import IDomNode from '../../../interfaces/view/components/bar/IDomNode';
 
 const scaleTemplate = require('./template.hbs');
 
-class Scale {
-  private props: IScaleProps;
+class Bar {
+  private props: IBarProps;
 
   private domNode: IDomNode;
 
-  constructor(props: IScaleProps) {
+  constructor(props: IBarProps) {
     this.props = props;
   }
 
@@ -35,7 +35,7 @@ class Scale {
     this.domNode = domNode;
   };
 
-  updateProps = (props: IScaleProps) => {
+  updateProps = (props: IBarProps) => {
     this.props = props;
     this.redraw();
   };
@@ -71,4 +71,4 @@ class Scale {
   };
 }
 
-export default Scale;
+export default Bar;

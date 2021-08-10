@@ -1,9 +1,9 @@
 import CurrentValues from '../../../types';
 
-interface IScaleProps {
+interface IBarProps {
   currentValues: CurrentValues;
   range: { min: number; max: number };
   isVertical: boolean;
 }
 
-export default IScaleProps;
+export default IBarProps;

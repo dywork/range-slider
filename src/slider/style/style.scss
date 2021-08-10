@@ -1,124 +1,47 @@
 @import './color.scss';
+@import '../view/components/ruler/ruler.scss';
+@import '../view/components/thumb/thumb.scss';
+@import '../view/components/bar/bar.scss';
+@import '../view/components/toggle/toggle.scss';
 
-.range-slider-overflow {
-  overflow: hidden;
-}
-
-.range-slider,
-.range-slider__wrap {
+.range-slider {
   position: relative;
   width: 100%;
   height: 100%;
-}
 
-.range-slider_vertical {
-  .range-slider__bar {
+  &__wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__bar_vertical {
     width: 5px;
     height: 100%;
   }
 
-  .range-slider__toggle {
+  &__ruler_vertical {
+    height: 100%;
+    top: -400px;
+    left: 81px;
+  }
+
+  &__ruler-item_vertical {
     top: -5px;
     left: -5px;
     width: auto;
     height: 10%;
   }
 
-  .range-slider__ruler {
-    height: 100%;
-    top: -400px;
-    left: 81px;
-
-    li {
-      top: -5px;
-      left: -5px;
-      width: auto;
-      height: 10%;
-    }
+  &__toggle_vertical {
+    top: -5px;
+    left: -5px;
+    width: auto;
+    height: 10%;
   }
 
-  .range-slider__thumb {
+  &__thumb_vertical {
     top: -4px;
     left: 22px;
   }
-}
-
-.range-slider__bar {
-  position: relative;
-  height: 5px;
-  border: none;
-  background-color: $barColor;
-  cursor: pointer;
-}
-
-.range-slider__scale {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  background-color: $mainColor;
-  transform-origin: 0 0;
-}
-
-.range-slider__ruler {
-  position: relative;
-  top: 10px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  color: $textColor;
-
-  li {
-    position: absolute;
-    top: -5px;
-    left: -7px;
-    z-index: 4;
-    width: 10%;
-    height: 0;
-    font-size: 14px;
-    cursor: pointer;
-  }
-}
-
-.range-slider__toggle {
-  position: absolute;
-  top: -5px;
-  left: -7px;
-  z-index: 4;
-  width: 10%;
-  height: 0;
-
-  &_active {
-    z-index: 10;
-  }
-}
-
-.range-slider__handle {
-  box-sizing: border-box;
-  position: absolute;
-  z-index: 1;
-  display: block;
-  width: 14px;
-  height: 14px;
-  font-size: 0;
-  background-color: $mainColor;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.range-slider__thumb {
-  position: absolute;
-  top: -25px;
-  left: -18px;
-  z-index: 0;
-  min-width: 41px;
-  padding: 2px 4px;
-  color: $textColor;
-  font-size: 14px;
-  text-align: center;
-  background: $mainColor;
-  cursor: pointer;
 }

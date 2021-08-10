@@ -1,13 +1,13 @@
 import has from 'has';
 import Ruler from './components/ruler/Ruler';
-import Scale from './components/scale/Scale';
+import Bar from './components/bar/Bar';
 import Thumb from './components/thumb/Thumb';
 import Toggle from './components/toggle/Toggle';
 import sliderClassNames from './utils/sliderClassNames';
 import Observer from '../observer/Observer';
 import IModelOptions from '../interfaces/IModelOptions';
 import IRulerProps from '../interfaces/view/components/ruler/IRulerProps';
-import IScaleProps from '../interfaces/view/components/scale/IScaleProps';
+import IBarProps from '../interfaces/view/components/bar/IBarProps';
 import IToggle from '../interfaces/view/components/toggle/IToggle';
 import IToggleProps from '../interfaces/view/components/toggle/IToggleProps';
 
@@ -29,7 +29,7 @@ class View extends Observer {
 
   private ruler: Ruler;
 
-  private scale: Scale;
+  private bar: Bar;
 
   private toggles: IToggle[];
 
@@ -50,6 +50,9 @@ class View extends Observer {
   render = () => {
     this.mountSlider();
     this.saveDom();
+    if (this.isVertical) {
+      this.setVerticalClasses();
+    }
     this.setListeners();
   };
 
@@ -67,7 +70,7 @@ class View extends Observer {
   private initViewComponents = () => {
     const { withRuler } = this.modelOptions;
     this.ruler = withRuler ? this.getRuler() : null;
-    this.scale = this.getScale();
+    this.bar = this.getBar();
     this.toggles = this.getToggles();
   };
 
@@ -104,9 +107,9 @@ class View extends Observer {
     }
   };
 
-  private getScale = () => new Scale(this.getScaleProps());
+  private getBar = () => new Bar(this.getBarProps());
 
-  private getScaleProps = (): IScaleProps => {
+  private getBarProps = (): IBarProps => {
     const { currentValues, range } = this.modelOptions;
     return { currentValues, range, isVertical: this.isVertical };
   };
@@ -115,7 +118,7 @@ class View extends Observer {
     const { currentValues, withThumb } = this.modelOptions;
 
     return Object.entries(currentValues).map(([, value]) => {
-      const scalePosition = this.scale.getPosition(value);
+      const scalePosition = this.bar.getPosition(value);
       const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
       const toggle = {
         main: new Toggle(toggleProps),
@@ -154,12 +157,7 @@ class View extends Observer {
     sliderDom.classList.add(sliderClassNames.slider);
     const sliderContainer = document.createElement('div');
     sliderContainer.classList.add(sliderClassNames.wrap);
-
-    if (this.isVertical) {
-      sliderContainer.classList.add(sliderClassNames.sliderVertical);
-    }
-
-    sliderContainer.appendChild(this.scale.getHtml());
+    sliderContainer.appendChild(this.bar.getHtml());
 
     if (this.ruler) {
       sliderContainer.appendChild(this.ruler.getHtml());
@@ -177,7 +175,7 @@ class View extends Observer {
 
   private saveDom = () => {
     this.slider = this.domParent.querySelector(`.${sliderClassNames.slider}`);
-    this.saveScaleDom();
+    this.saveBarDom();
     this.saveTogglesDom();
 
     if (this.ruler) {
@@ -190,9 +188,9 @@ class View extends Observer {
     }
   };
 
-  private saveScaleDom = () => this.scale.setDomNode(this.getScaleDom());
+  private saveBarDom = () => this.bar.setDomNode(this.getBarDom());
 
-  private getScaleDom = () => {
+  private getBarDom = () => {
     const bar = this.domParent.querySelector(`.${sliderClassNames.bar}`) as HTMLElement;
     const scale = this.domParent.querySelector(`.${sliderClassNames.scale}`) as HTMLElement;
     return { scale, bar };
@@ -222,8 +220,33 @@ class View extends Observer {
     });
   };
 
+  private setVerticalClasses = () => {
+    const { bar } = this.bar.getDomNode();
+    bar.classList.add(`${sliderClassNames.barVertical}`);
+
+    const { withRuler, withThumb } = this.modelOptions;
+    this.toggles.forEach((toggle: IToggle) => {
+      const { toggle: toggleHtml } = toggle.main.getDomNode();
+      toggleHtml.classList.add(`${sliderClassNames.toggleVertical}`);
+
+      if (withThumb) {
+        const { thumb } = toggle.thumb.getDomNode();
+        thumb.classList.add(`${sliderClassNames.thumbVertical}`);
+      }
+    });
+
+    if (withRuler) {
+      const { ruler } = this.ruler.getDomNode();
+      const rulerItems = ruler.querySelectorAll(`.${sliderClassNames.rulerItem}`);
+      ruler.classList.add(`${sliderClassNames.rulerVertical}`);
+      rulerItems.forEach((item) => {
+        item.classList.add(`${sliderClassNames.rulerItemVertical}`);
+      });
+    }
+  };
+
   private setListeners = () => {
-    const { bar } = this.scale.getDomNode();
+    const { bar } = this.bar.getDomNode();
     bar.addEventListener('click', this.handleBarClick);
 
     if (this.ruler) {
@@ -440,7 +463,7 @@ class View extends Observer {
   };
 
   private redrawValue = () => {
-    this.scale.updateProps(this.getScaleProps());
+    this.bar.updateProps(this.getBarProps());
     const { withRuler } = this.modelOptions;
 
     if (withRuler) {
@@ -462,7 +485,7 @@ class View extends Observer {
     Object.entries(currentValues).forEach(([key, value]) => {
       const toggleIndexMap = { min: 0, max: 1 };
       const index = toggleIndexMap[key as 'min' | 'max'];
-      const scalePosition = this.scale.getPosition(value);
+      const scalePosition = this.bar.getPosition(value);
       const toggleProps: IToggleProps = { scalePosition, isVertical: this.isVertical };
       this.toggles[index].main.updateProps(toggleProps);
 

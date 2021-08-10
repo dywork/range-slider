@@ -7,7 +7,7 @@ import IModelOptions from '../interfaces/IModelOptions';
 let modelOptions: IModelOptions;
 
 beforeEach(() => {
-  document.body.innerHTML = '<div id="defaultSlider"></div>';
+  document.body.innerHTML = '<div class="js-default-slider"></div>';
   modelOptions = {
     ...defaultOptions,
   };
@@ -15,7 +15,7 @@ beforeEach(() => {
 
 describe('View', () => {
   it('создает слайдер в DOM', () => {
-    const view = new View(modelOptions, document.querySelector('#defaultSlider'));
+    const view = new View(modelOptions, document.querySelector('.js-default-slider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -31,7 +31,7 @@ describe('View', () => {
       currentValues: { min: 15, max: 25 },
     };
 
-    const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
+    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -42,7 +42,7 @@ describe('View', () => {
 
   it('создает корректную верстку для слайдера с ruler', () => {
     const rangeSliderOptions = { ...modelOptions, withRuler: true };
-    const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
+    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -53,7 +53,7 @@ describe('View', () => {
 
   it('создает корректную верстку для слайдера без ruler', () => {
     const rangeSliderOptions = { ...modelOptions, withRuler: false };
-    const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
+    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -64,7 +64,7 @@ describe('View', () => {
 
   it('создает корректную верстку для слайдера с thumb', () => {
     const rangeSliderOptions = { ...modelOptions, withThumb: true };
-    const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
+    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -75,7 +75,7 @@ describe('View', () => {
 
   it('создает корректную верстку для слайдера без thumb', () => {
     const rangeSliderOptions = { ...modelOptions, withThumb: false };
-    const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
+    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -86,15 +86,19 @@ describe('View', () => {
 
   it('создает вертикальный слайдер', () => {
     const rangeSliderOptions: IModelOptions = { ...modelOptions, orientation: 'vertical' };
-    const view = new View(rangeSliderOptions, document.querySelector('#defaultSlider'));
+    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
     view.render();
-    const isWrapHaveVerticalClass = document
-      .querySelector(`.${sliderClassNames.wrap}`)
-      .classList.contains(`${sliderClassNames.sliderVertical}`);
+    const isBarHaveVerticalClass = document
+      .querySelector(`.${sliderClassNames.bar}`)
+      .classList.contains(`${sliderClassNames.barVertical}`);
+    const isToggleHaveVerticalClass = document
+      .querySelector(`.${sliderClassNames.toggle}`)
+      .classList.contains(`${sliderClassNames.toggleVertical}`);
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.scale}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.bar}`).length).toEqual(1);
-    expect(isWrapHaveVerticalClass).toBe(true);
+    expect(isBarHaveVerticalClass).toBe(true);
+    expect(isToggleHaveVerticalClass).toBe(true);
   });
 });
