@@ -264,9 +264,16 @@ class View extends Observer {
       const offsetSize = this.isVertical ? this.slider.offsetHeight : this.slider.offsetWidth;
       const cleanCoordinate = clickCoordinate - offsetDirection;
       const clickPercentOfSize = (cleanCoordinate / offsetSize) * 1000;
-      const minValueDistance = Math.abs(clickPercentOfSize - togglesPositions[0]);
-      const maxValueDistance = Math.abs(clickPercentOfSize - togglesPositions[1]);
-      activeToggleIndex = minValueDistance < maxValueDistance ? 0 : 1;
+      const minValuePosition = togglesPositions[0];
+      const maxValuePosition = togglesPositions[1];
+      const minValueDistance = Math.abs(clickPercentOfSize - minValuePosition);
+      const maxValueDistance = Math.abs(clickPercentOfSize - maxValuePosition);
+
+      if (minValuePosition === maxValuePosition) {
+        activeToggleIndex = clickPercentOfSize < minValuePosition ? 0 : 1;
+      } else {
+        activeToggleIndex = minValueDistance < maxValueDistance ? 0 : 1;
+      }
     }
 
     this.activeToggleIndex = activeToggleIndex;
