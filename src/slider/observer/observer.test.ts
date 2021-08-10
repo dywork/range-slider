@@ -1,4 +1,5 @@
 import Observer from './Observer';
+import SubEvents from '../SubEvents';
 
 let observer: Observer;
 
@@ -11,8 +12,8 @@ describe('Observer', () => {
     observer = new Observer();
     spyOn(observer, 'subscribe');
     const testSubCallBack = () => {};
-    observer.subscribe('testSub', testSubCallBack);
-    expect(observer.subscribe).toHaveBeenCalledWith('testSub', testSubCallBack);
+    observer.subscribe(SubEvents.testSub, testSubCallBack);
+    expect(observer.subscribe).toHaveBeenCalledWith(SubEvents.testSub, testSubCallBack);
   });
 
   it('оповещает', () => {
@@ -24,9 +25,9 @@ describe('Observer', () => {
     });
     spyOn(observer, 'subscribe');
     spyOn(observer, 'notify');
-    observer.subscribe('testSub', testSubCallBack);
-    observer.notify('testSub', testData);
-    expect(observer.subscribe).toHaveBeenCalledWith('testSub', testSubCallBack);
-    expect(observer.notify).toHaveBeenCalledWith('testSub', testData);
+    observer.subscribe(SubEvents.testSub, testSubCallBack);
+    observer.notify(SubEvents.testSub, testData);
+    expect(observer.subscribe).toHaveBeenCalledWith(SubEvents.testSub, testSubCallBack);
+    expect(observer.notify).toHaveBeenCalledWith(SubEvents.testSub, testData);
   });
 });

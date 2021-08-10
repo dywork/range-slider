@@ -2,6 +2,7 @@ import has from 'has';
 import configPanelClassName from './utils/configPanelClassName';
 import sliderClassNames from '../../slider/view/utils/sliderClassNames';
 import Slider from '../../slider/Slider';
+import SubEvents from '../../slider/SubEvents';
 import IModelOptions from '../../slider/interfaces/IModelOptions';
 import CurrentValues from '../../slider/interfaces/types';
 import debounce from './utils/debounce';
@@ -37,7 +38,7 @@ class ConfigPanel {
 
   init = () => {
     this.renderPanel();
-    this.slider.subscribe('modelOptionsUpdate', this.onOptionsUpdate);
+    this.slider.subscribe(SubEvents.modelOptionsUpdate, this.onOptionsUpdate);
   };
 
   private renderPanel = () => {

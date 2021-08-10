@@ -1,6 +1,7 @@
 import has from 'has';
 import defaultOptions from '../defaultOptions';
 import Observer from '../observer/Observer';
+import SubEvents from '../SubEvents';
 import IModelOptions from '../interfaces/IModelOptions';
 
 class Model extends Observer {
@@ -15,7 +16,7 @@ class Model extends Observer {
 
   updateOptions = (newOptions: IModelOptions) => {
     this.modelOptions = this.getConfirmedOptions(newOptions);
-    this.notify('modelOptionsUpdate', this.modelOptions);
+    this.notify(SubEvents.modelOptionsUpdate, this.modelOptions);
   };
 
   private getConfirmedOptions = (checkingOptions: IModelOptions) => {

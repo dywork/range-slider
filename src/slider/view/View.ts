@@ -4,6 +4,7 @@ import Bar from './components/bar/Bar';
 import Thumb from './components/thumb/Thumb';
 import Toggle from './components/toggle/Toggle';
 import sliderClassNames from './utils/sliderClassNames';
+import SubEvents from '../SubEvents';
 import Observer from '../observer/Observer';
 import IModelOptions from '../interfaces/IModelOptions';
 import IRulerProps from '../interfaces/view/components/ruler/IRulerProps';
@@ -76,7 +77,7 @@ class View extends Observer {
 
   private getRuler = () => {
     const ruler = new Ruler(this.getRulerProps());
-    ruler.subscribe('onRulerHide', this.onRulerHide);
+    ruler.subscribe(SubEvents.rulerHide, this.handleRulerHide);
     return ruler;
   };
 
@@ -100,7 +101,7 @@ class View extends Observer {
     };
   };
 
-  private onRulerHide = () => {
+  private handleRulerHide = () => {
     if (this.ruler) {
       this.ruler.destroyDom();
       this.ruler = null;
@@ -126,7 +127,7 @@ class View extends Observer {
       };
 
       if (toggle.thumb) {
-        toggle.thumb.subscribe('onThumbHide', this.onThumbHide);
+        toggle.thumb.subscribe(SubEvents.thumbHide, this.handleThumbHide);
       }
 
       return toggle;
@@ -138,7 +139,7 @@ class View extends Observer {
     return { withThumb, value };
   };
 
-  private onThumbHide = () => {
+  private handleThumbHide = () => {
     this.toggles.forEach((toggle: IToggle) => {
       if (toggle.thumb) {
         toggle.thumb.destroyDom();
@@ -459,7 +460,7 @@ class View extends Observer {
   };
 
   private dispatchModelOptions = (modelOptions: IModelOptions) => {
-    this.notify('modelOptionsUpdate', modelOptions);
+    this.notify(SubEvents.modelOptionsUpdate, modelOptions);
   };
 
   private redrawValue = () => {
@@ -510,7 +511,7 @@ class View extends Observer {
 
   private onRulerMount = () => {
     this.ruler = new Ruler(this.getRulerProps());
-    this.ruler.subscribe('onRulerHide', this.onRulerHide);
+    this.ruler.subscribe(SubEvents.rulerHide, this.handleRulerHide);
     const domRuler = this.ruler.getHtml() as HTMLElement;
     const domContainer = this.slider.querySelector(`.${sliderClassNames.wrap}`);
     domContainer.appendChild(domRuler);
@@ -527,7 +528,7 @@ class View extends Observer {
       const index = toggleIndexMap[key as 'min' | 'max'];
       const toggle = this.toggles[index];
       toggle.thumb = new Thumb(this.getThumbProps(value));
-      toggle.thumb.subscribe('onThumbHide', this.onThumbHide);
+      toggle.thumb.subscribe(SubEvents.thumbHide, this.handleThumbHide);
       const domToggle = toggle.main.getDomNode().toggle;
       domToggle.appendChild(toggle.thumb.getHtml());
       const domThumb = domToggle.querySelector(`.${sliderClassNames.thumb}`) as HTMLElement;

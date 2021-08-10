@@ -1,4 +1,5 @@
 import has from 'has';
+import SubEvents from '../SubEvents';
 
 type Subscriber = (...args: any[]) => any;
 interface ISubscribers {
@@ -12,7 +13,7 @@ class Observer {
     this.subscribers = {};
   }
 
-  subscribe = (subName: string, callback: Subscriber) => {
+  subscribe = (subName: SubEvents, callback: Subscriber) => {
     const hasProp = has(this.subscribers, subName);
 
     if (hasProp) {
@@ -22,7 +23,7 @@ class Observer {
     }
   };
 
-  notify = (subName: string, data: any) => {
+  notify = (subName: SubEvents, data: any) => {
     if (this.subscribers[subName]) {
       this.subscribers[subName].forEach((callback: Subscriber) => callback(data));
     }
