@@ -517,6 +517,11 @@ class View extends Observer {
     domContainer.appendChild(domRuler);
     this.ruler.setDomNode({ ruler: domRuler });
     const { ruler } = this.ruler.getDomNode();
+    if (this.isVertical) {
+      ruler.classList.add(sliderClassNames.rulerVertical);
+      const rulerItems = ruler.querySelectorAll(`.${sliderClassNames.rulerItem}`);
+      rulerItems.forEach((item) => item.classList.add(`${sliderClassNames.rulerItemVertical}`));
+    }
     ruler.addEventListener('click', this.handleRulerClick);
   };
 
