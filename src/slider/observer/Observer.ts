@@ -23,7 +23,7 @@ class Observer {
     }
   };
 
-  notify = (subName: SubEvents, data: any) => {
+  notify = <T>(subName: SubEvents, data: T) => {
     if (this.subscribers[subName]) {
       this.subscribers[subName].forEach((callback: Subscriber) => callback(data));
     }
