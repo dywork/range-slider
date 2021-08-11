@@ -29,6 +29,7 @@ plan.txt
 build/
 dist/
 stats.json
+coverage
 
 #Pixel perfect screenshots
 pp
