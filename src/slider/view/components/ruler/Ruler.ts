@@ -38,7 +38,8 @@ class Ruler extends Observer {
 
   updateProps = (props: IRulerProps) => {
     this.props = props;
-    if (this.props.withRuler) {
+    const { withRuler } = this.props;
+    if (withRuler) {
       this.redraw();
     } else {
       this.notify(SubEvents.rulerHide, '');
