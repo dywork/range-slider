@@ -41,7 +41,8 @@ class Model extends Observer {
       }
     }
 
-    if (isStepNan || step <= 0) {
+    const isStepInvalid = isStepNan || step <= 0;
+    if (isStepInvalid) {
       confirmedOptions.step = defaultOptions.step;
     }
 

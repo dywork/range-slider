@@ -468,19 +468,14 @@ class View extends Observer {
   private redrawValue = () => {
     this.bar.updateProps(this.getBarProps());
     const { withRuler } = this.modelOptions;
-
-    if (withRuler) {
-      if (this.ruler) {
-        if (this.hasRulerPropsChange()) {
-          this.ruler.updateProps(this.getRulerProps());
-        }
-      } else {
-        this.onRulerMount();
-      }
-    } else if (this.ruler) {
-      if (this.hasRulerPropsChange()) {
-        this.ruler.updateProps(this.getRulerProps());
-      }
+    const isOldRulerUpdate = !withRuler && this.ruler && this.hasRulerPropsChange();
+    const isNewRulerUpdate = withRuler && this.ruler && this.hasRulerPropsChange();
+    const isRulerMustBeCreate = withRuler && !this.ruler;
+    const isRulerMustBeUpdate = isOldRulerUpdate || isNewRulerUpdate;
+    if (isRulerMustBeUpdate) {
+      this.ruler.updateProps(this.getRulerProps());
+    } else if (isRulerMustBeCreate) {
+      this.onRulerMount();
     }
 
     const { currentValues, withThumb } = this.modelOptions;
@@ -493,12 +488,11 @@ class View extends Observer {
       this.toggles[index].main.updateProps(toggleProps);
 
       const { thumb } = this.toggles[index];
-      if (withThumb) {
-        if (thumb) {
-          thumb.updateProps(this.getThumbProps(value));
-        } else {
-          this.onThumbMount();
-        }
+      const isThumbExist = withThumb && thumb;
+      if (isThumbExist) {
+        thumb.updateProps(this.getThumbProps(value));
+      } else if (withThumb) {
+        this.onThumbMount();
       } else if (thumb) {
         thumb.updateProps(this.getThumbProps(value));
       }
