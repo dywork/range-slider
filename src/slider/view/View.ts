@@ -472,6 +472,7 @@ class View extends Observer {
     const isNewRulerUpdate = withRuler && this.ruler && this.hasRulerPropsChange();
     const isRulerMustBeCreate = withRuler && !this.ruler;
     const isRulerMustBeUpdate = isOldRulerUpdate || isNewRulerUpdate;
+
     if (isRulerMustBeUpdate) {
       this.ruler.updateProps(this.getRulerProps());
     } else if (isRulerMustBeCreate) {
