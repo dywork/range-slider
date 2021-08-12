@@ -2,7 +2,7 @@ import has from 'has';
 import Model from '../model/Model';
 import View from '../view/View';
 import Observer from '../observer/Observer';
-import SubEvents from '../SubEvents';
+import ObserverEvents from '../observer/ObserverEvents';
 import IModelOptions from '../interfaces/IModelOptions';
 import ISliderOptions from '../interfaces/ISliderOptions';
 
@@ -54,18 +54,18 @@ class Presenter extends Observer {
   };
 
   private subscribeModules = () => {
-    this.model.subscribe(SubEvents.modelOptionsUpdate, this.onModelOptionsUpdate);
-    this.view.subscribe(SubEvents.modelOptionsUpdate, this.onViewChangedModelOptions);
+    this.model.subscribe(ObserverEvents.modelOptionsUpdate, this.onModelOptionsUpdate);
+    this.view.subscribe(ObserverEvents.modelOptionsUpdate, this.onViewChangedModelOptions);
   };
 
   private onModelOptionsUpdate = (modelOptions: IModelOptions) => {
     this.view.updateModelOptions(modelOptions);
-    this.notify(SubEvents.modelOptionsUpdate, this.model.getOptions());
+    this.notify(ObserverEvents.modelOptionsUpdate, this.model.getOptions());
   };
 
   private onViewChangedModelOptions = (modelOptions: IModelOptions) => {
     this.model.updateOptions(modelOptions);
-    this.notify(SubEvents.modelOptionsUpdate, this.model.getOptions());
+    this.notify(ObserverEvents.modelOptionsUpdate, this.model.getOptions());
   };
 
   private checkOnChangeRange = (modelOptions: IModelOptions) => {
@@ -103,7 +103,7 @@ class Presenter extends Observer {
   private renderNewView = (modelOptions: IModelOptions) => {
     this.view.destroyDom();
     this.view = new View(modelOptions, this.domParent);
-    this.view.subscribe(SubEvents.modelOptionsUpdate, this.onViewChangedModelOptions);
+    this.view.subscribe(ObserverEvents.modelOptionsUpdate, this.onViewChangedModelOptions);
     this.view.render();
   };
 }

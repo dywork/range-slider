@@ -1,8 +1,8 @@
-enum SubEvents {
+enum ObserverEvents {
   modelOptionsUpdate,
   rulerHide,
   thumbHide,
   testSub,
 }
 
-export default SubEvents;
+export default ObserverEvents;

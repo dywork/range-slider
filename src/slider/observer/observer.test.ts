@@ -1,5 +1,5 @@
 import Observer from './Observer';
-import SubEvents from '../SubEvents';
+import ObserverEvents from './ObserverEvents';
 
 let observer: Observer;
 
@@ -11,7 +11,7 @@ describe('Observer', () => {
   it('подписывает', () => {
     observer = new Observer();
     const testSubCallBack = jest.fn();
-    observer.subscribe(SubEvents.testSub, testSubCallBack);
+    observer.subscribe(ObserverEvents.testSub, testSubCallBack);
     expect(testSubCallBack.mock.calls.length).toBe(0);
   });
 
@@ -19,8 +19,8 @@ describe('Observer', () => {
     observer = new Observer();
     const testData = { text: 'hello from test' };
     const testSubCallBack = jest.fn();
-    observer.subscribe(SubEvents.testSub, testSubCallBack);
-    observer.notify(SubEvents.testSub, testData);
+    observer.subscribe(ObserverEvents.testSub, testSubCallBack);
+    observer.notify(ObserverEvents.testSub, testData);
     expect(testSubCallBack.mock.calls.length).toBe(1);
   });
 });

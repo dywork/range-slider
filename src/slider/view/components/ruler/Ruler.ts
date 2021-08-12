@@ -1,5 +1,5 @@
 import sliderClassNames from '../../utils/sliderClassNames';
-import SubEvents from '../../../SubEvents';
+import ObserverEvents from '../../../observer/ObserverEvents';
 import Observer from '../../../observer/Observer';
 import IRulerProps from '../../../interfaces/view/components/ruler/IRulerProps';
 import IDomNode from '../../../interfaces/view/components/ruler/IDomNode';
@@ -42,7 +42,7 @@ class Ruler extends Observer {
     if (withRuler) {
       this.redraw();
     } else {
-      this.notify(SubEvents.rulerHide, '');
+      this.notify(ObserverEvents.rulerHide, '');
     }
   };
 

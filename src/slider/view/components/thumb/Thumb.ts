@@ -1,5 +1,5 @@
 import sliderClassNames from '../../utils/sliderClassNames';
-import SubEvents from '../../../SubEvents';
+import ObserverEvents from '../../../observer/ObserverEvents';
 import Observer from '../../../observer/Observer';
 import IThumbProps from '../../../interfaces/view/components/thumb/IThumbProps';
 import IDomNode from '../../../interfaces/view/components/thumb/IDomNode';
@@ -47,7 +47,7 @@ class Thumb extends Observer {
     if (withThumb) {
       this.domNode.thumb.textContent = `${value}`;
     } else {
-      this.notify(SubEvents.thumbHide, '');
+      this.notify(ObserverEvents.thumbHide, '');
     }
   };
 }

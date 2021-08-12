@@ -2,7 +2,7 @@ import Observer from './observer/Observer';
 import Presenter from './presenter/Presenter';
 import ISliderOptions from './interfaces/ISliderOptions';
 import IModelOptions from './interfaces/IModelOptions';
-import SubEvents from './SubEvents';
+import ObserverEvents from './observer/ObserverEvents';
 
 class Slider extends Observer {
   private presenter: Presenter;
@@ -14,7 +14,7 @@ class Slider extends Observer {
 
   init = () => {
     this.presenter.init();
-    this.presenter.subscribe(SubEvents.modelOptionsUpdate, this.alertSubs);
+    this.presenter.subscribe(ObserverEvents.modelOptionsUpdate, this.alertSubs);
   };
 
   updateOptions = (modelOptions: IModelOptions) => {
@@ -28,9 +28,9 @@ class Slider extends Observer {
   getRulerValues = () => this.presenter.getRulerValues();
 
   private alertSubs = () => {
-    this.notify(SubEvents.modelOptionsUpdate, this.getModelOptions());
+    this.notify(ObserverEvents.modelOptionsUpdate, this.getModelOptions());
   };
 }
 
 export default Slider;
-export type { SubEvents };
+export type { ObserverEvents };
