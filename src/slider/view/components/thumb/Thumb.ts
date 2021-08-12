@@ -16,7 +16,7 @@ class Thumb extends Observer {
     this.props = props;
   }
 
-  getHtml = () => {
+  getHtml = (): ChildNode => {
     const { value } = this.props;
     const templateOptions = { sliderClassNames, value };
     const thumb = document.createElement('div');

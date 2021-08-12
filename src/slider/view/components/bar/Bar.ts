@@ -14,7 +14,7 @@ class Bar {
     this.props = props;
   }
 
-  getHtml = () => {
+  getHtml = (): ChildNode => {
     const templateOptions = { sliderClassNames };
     const scale = document.createElement('div');
     scale.innerHTML = scaleTemplate(templateOptions);
@@ -23,7 +23,7 @@ class Bar {
     return scale.firstChild;
   };
 
-  getPosition = (currentValue: number) => {
+  getPosition = (currentValue: number): number => {
     const { range } = this.props;
     const scalePosition = (+currentValue - range.min) / (range.max - range.min);
     return scalePosition;
@@ -44,7 +44,7 @@ class Bar {
     this.domNode.scale.setAttribute('style', this.getTransformStyle());
   };
 
-  private getTransformStyle = () => {
+  private getTransformStyle = (): string => {
     const { currentValues, isVertical } = this.props;
     const isRange = has(currentValues, 'max');
 

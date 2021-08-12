@@ -13,7 +13,7 @@ class Toggle {
     this.props = props;
   }
 
-  getHtml = () => {
+  getHtml = (): ChildNode => {
     const templateOptions = { sliderClassNames };
     const toggle = document.createElement('div');
     toggle.innerHTML = toggleTemplate(templateOptions);
@@ -37,7 +37,7 @@ class Toggle {
     this.domNode.toggle.setAttribute('style', this.getTransformStyle());
   };
 
-  private getTransformStyle = () => {
+  private getTransformStyle = (): string => {
     const { isVertical } = this.props;
     const togglePosition = this.getPosition();
 
@@ -48,7 +48,7 @@ class Toggle {
     return `transform: translate(${togglePosition}%, 0px);`;
   };
 
-  private getPosition = () => {
+  private getPosition = (): number => {
     const { scalePosition } = this.props;
     const togglePosition = scalePosition * 1000;
     return togglePosition;

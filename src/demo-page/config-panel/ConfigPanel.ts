@@ -52,7 +52,7 @@ class ConfigPanel {
     this.domParent.appendChild(this.getPanelContainer());
   };
 
-  private getPanelContainer = () => {
+  private getPanelContainer = (): HTMLDivElement => {
     const configPanelContainer = document.createElement('div');
     const classNames = { ...configPanelClassName };
     const {
@@ -192,7 +192,7 @@ class ConfigPanel {
     this.slider.updateOptions(newOptions);
   });
 
-  private getNewModelOptions = () => {
+  private getNewModelOptions = (): IModelOptions => {
     const {
       minRangeInput, maxRangeInput, currentValueInput, maxCurrentValueInput, stepInput,
     } = this.domElements;

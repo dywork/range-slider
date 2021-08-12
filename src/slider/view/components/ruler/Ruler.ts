@@ -3,6 +3,8 @@ import SubEvents from '../../../SubEvents';
 import Observer from '../../../observer/Observer';
 import IRulerProps from '../../../interfaces/view/components/ruler/IRulerProps';
 import IDomNode from '../../../interfaces/view/components/ruler/IDomNode';
+import IRulerTemplateOptions from '../../../interfaces/view/components/ruler/IRulerTemplateOptions';
+import RulerItem from '../../../interfaces/view/components/ruler/RulerItem';
 
 const rulerTemplate = require('./template.hbs');
 
@@ -18,8 +20,11 @@ class Ruler extends Observer {
 
   getProps = () => this.props;
 
-  getHtml = () => {
-    const templateOptions = { sliderClassNames, items: this.getRulerItems() };
+  getHtml = (): ChildNode => {
+    const templateOptions: IRulerTemplateOptions = {
+      sliderClassNames,
+      items: this.getRulerItems(),
+    };
     const ruler = document.createElement('div');
     ruler.innerHTML = rulerTemplate(templateOptions);
     return ruler.firstChild;
@@ -46,7 +51,7 @@ class Ruler extends Observer {
     parent.removeChild(ruler);
   };
 
-  getRulerValues = () => {
+  getRulerValues = (): number[] => {
     const { range, step } = this.props;
     const midQuantity = Math.ceil((range.max - range.min) / step);
     const viewStep = Math.ceil(midQuantity / 5) * step;
@@ -68,7 +73,7 @@ class Ruler extends Observer {
     });
   };
 
-  private getRulerItems = () => {
+  private getRulerItems = (): RulerItem[] => {
     const rulerValues = this.getRulerValues();
     return rulerValues.map((value) => {
       const rulerItem = {
@@ -80,7 +85,7 @@ class Ruler extends Observer {
     });
   };
 
-  private getTransformStyleByValue = (value: number) => {
+  private getTransformStyleByValue = (value: number): string => {
     const { isVertical } = this.props;
     const position = this.getPositionByValue(value);
 

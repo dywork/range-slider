@@ -19,7 +19,7 @@ class Model extends Observer {
     this.notify(SubEvents.modelOptionsUpdate, this.modelOptions);
   };
 
-  private getConfirmedOptions = (checkingOptions: IModelOptions) => {
+  private getConfirmedOptions = (checkingOptions: IModelOptions): IModelOptions => {
     const confirmedOptions = { ...checkingOptions };
     const {
       currentValues, range, step,

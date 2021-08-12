@@ -11,6 +11,8 @@ import IRulerProps from '../interfaces/view/components/ruler/IRulerProps';
 import IBarProps from '../interfaces/view/components/bar/IBarProps';
 import IToggle from '../interfaces/view/components/toggle/IToggle';
 import IToggleProps from '../interfaces/view/components/toggle/IToggleProps';
+import IThumbProps from '../interfaces/view/components/thumb/IThumbProps';
+import IDomNode from '../interfaces/view/components/bar/IDomNode';
 
 interface IClickCoordinate {
   x: number;
@@ -75,7 +77,7 @@ class View extends Observer {
     this.toggles = this.getToggles();
   };
 
-  private getRuler = () => {
+  private getRuler = (): Ruler => {
     const ruler = new Ruler(this.getRulerProps());
     ruler.subscribe(SubEvents.rulerHide, this.handleRulerHide);
     return ruler;
@@ -115,7 +117,7 @@ class View extends Observer {
     return { currentValues, range, isVertical: this.isVertical };
   };
 
-  private getToggles = () => {
+  private getToggles = (): IToggle[] => {
     const { currentValues, withThumb } = this.modelOptions;
 
     return Object.entries(currentValues).map(([, value]) => {
@@ -134,7 +136,7 @@ class View extends Observer {
     });
   };
 
-  private getThumbProps = (value: number) => {
+  private getThumbProps = (value: number): IThumbProps => {
     const { withThumb } = this.modelOptions;
     return { withThumb, value };
   };
@@ -153,7 +155,7 @@ class View extends Observer {
     this.domParent.appendChild(this.createSliderContainer());
   };
 
-  private createSliderContainer = () => {
+  private createSliderContainer = (): HTMLDivElement => {
     const sliderDom = document.createElement('div');
     sliderDom.classList.add(sliderClassNames.slider);
     const sliderContainer = document.createElement('div');
@@ -191,7 +193,7 @@ class View extends Observer {
 
   private saveBarDom = () => this.bar.setDomNode(this.getBarDom());
 
-  private getBarDom = () => {
+  private getBarDom = (): IDomNode => {
     const bar = this.domParent.querySelector(`.${sliderClassNames.bar}`) as HTMLElement;
     const scale = this.domParent.querySelector(`.${sliderClassNames.scale}`) as HTMLElement;
     return { scale, bar };
@@ -411,7 +413,7 @@ class View extends Observer {
     this.dispatchModelOptions(newSliderOptions);
   };
 
-  private getCleanCoordinate = (clickCoordinate: IClickCoordinate) => {
+  private getCleanCoordinate = (clickCoordinate: IClickCoordinate): number => {
     const { toggle: activeToggle } = this.activeToggle.getDomNode();
     const halfHandleWidth = activeToggle.offsetWidth / 4;
     const leftToggleMargin = this.isVertical ? 5 : 7;
@@ -423,7 +425,7 @@ class View extends Observer {
     return cleanCoordinate;
   };
 
-  private getPercent = (value: number) => {
+  private getPercent = (value: number): number => {
     const offset = this.isVertical ? this.slider.offsetHeight : this.slider.offsetWidth;
     let percent = value / offset;
     if (percent > 1) percent = 1;
@@ -431,7 +433,7 @@ class View extends Observer {
     return percent;
   };
 
-  private getCurrentValueByPercent = (percent: number) => {
+  private getCurrentValueByPercent = (percent: number): number => {
     const { range, step } = this.modelOptions;
     const newCurrentValue = percent * (range.max - range.min) + range.min;
     if (step) {
@@ -443,7 +445,7 @@ class View extends Observer {
     return Number(newCurrentValue.toLocaleString('en', { useGrouping: false }));
   };
 
-  private getStepCurrentValue = (currentValue: number) => {
+  private getStepCurrentValue = (currentValue: number): number => {
     const { step, range } = this.modelOptions;
     let stepCurrentValue = Math.round((currentValue - range.min) / step) * step + range.min;
     const isLastStepLess = currentValue - range.max === 0;
@@ -503,7 +505,7 @@ class View extends Observer {
     });
   };
 
-  private hasRulerPropsChange = () => {
+  private hasRulerPropsChange = (): boolean => {
     const oldRulerProps = this.ruler.getProps();
     const newRulerProps = this.getRulerProps();
     return JSON.stringify(oldRulerProps) !== JSON.stringify(newRulerProps);
