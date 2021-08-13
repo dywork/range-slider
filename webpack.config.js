@@ -3,9 +3,12 @@ const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: {
+    'range-slider': './src/slider/index.ts',
+    panel: './src/demo-page/index.ts',
+  },
   output: {
-    filename: 'index.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, './build'),
   },
   plugins: [
