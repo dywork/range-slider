@@ -76,11 +76,14 @@ class Ruler extends Observer {
 
   private getRulerItems = (): RulerItem[] => {
     const rulerValues = this.getRulerValues();
+    const { isVertical } = this.props;
     return rulerValues.map((value) => {
       const rulerItem = {
         value,
         style: this.getTransformStyleByValue(value),
-        class: sliderClassNames.rulerItem,
+        class: isVertical
+          ? `${sliderClassNames.rulerItem} ${sliderClassNames.rulerItemVertical}`
+          : `${sliderClassNames.rulerItem}`,
       };
       return rulerItem;
     });
