@@ -33,4 +33,3 @@ class Slider extends Observer {
 }
 
 export default Slider;
-export type { ObserverEvents };
