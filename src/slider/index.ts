@@ -3,6 +3,7 @@ import Slider from './Slider';
 import defaultOptions from './defaultOptions';
 import ISliderOptions from './interfaces/ISliderOptions';
 import IModelOptions from './interfaces/IModelOptions';
+import './style/style.scss';
 
 declare global {
   interface JQuery {
