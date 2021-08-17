@@ -24,17 +24,4 @@ describe('Presenter', () => {
     presenter.updateOptions(newSliderOptions);
     expect.call(presenter.updateOptions);
   });
-
-  // it('обновляет currentValues при изменении диапазона', () => {
-  //   document.body.innerHTML = '<div class="js-default-slider"></div>';
-  //   console.log(document.body.innerHTML);
-  //   const presenter = new Presenter({
-  //     ...sliderOptions,
-  //     domParent: document.querySelector('.js-default-slider'),
-  //   });
-  //   const newModelOptions = { ...defaultOptions, currentValues: { min: 10, max: 15 } };
-  //   presenter.updateOptions(newModelOptions);
-  //   const { currentValues } = presenter.getModelOptions();
-  //   expect(currentValues.max).toBe(15);
-  // });
 });

@@ -261,20 +261,4 @@ describe('View', () => {
     const { max } = modelOptions.range;
     expect(thumbValue).not.toBe(max);
   });
-
-  // it('обновляет состояние toggleActive', () => {
-  //   const rangeSliderOptions = { ...modelOptions, currentValues: { min: 10, max: 15 } };
-  //   const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
-  //   const spy = jest.spyOn(view, 'notify');
-  //   view.render();
-  //   const toggles = document.querySelectorAll(`.${sliderClassNames.toggle}`);
-  //   const handles = document.querySelectorAll(`.${sliderClassNames.handle}`);
-  //   const minHandle = handles[0] as HTMLInputElement;
-  //   const minToggle = toggles[0] as HTMLElement;
-  //   const maxHandle = handles[1] as HTMLInputElement;
-  //   const maxToggle = toggles[1] as HTMLElement;
-  //   minHandle.click();
-  //   console.log(minToggle.classList);
-  //   // expect(spy).toBeCalled();
-  // });
 });
