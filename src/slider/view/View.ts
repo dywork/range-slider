@@ -421,7 +421,17 @@ class View extends Observer {
 
   private getStepCurrentValue = (currentValue: number): number => {
     const { step, range } = this.modelOptions;
-    const stepCurrentValue = Math.round((currentValue - range.min) / step) * step + range.min;
+    let stepCurrentValue = Math.round((currentValue - range.min) / step) * step + range.min;
+    const isLastStepLess = currentValue - range.max === 0;
+
+    if (isLastStepLess) {
+      stepCurrentValue = range.max;
+    }
+
+    if (stepCurrentValue >= range.max) {
+      stepCurrentValue = range.max;
+    }
+
     return stepCurrentValue;
   };
 
