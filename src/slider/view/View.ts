@@ -86,15 +86,6 @@ class View extends Observer {
   private getRulerProps = (): IRulerProps => {
     const { range, step, withRuler } = this.modelOptions;
 
-    if (!step) {
-      return {
-        range,
-        step: 1,
-        withRuler,
-        isVertical: this.isVertical,
-      };
-    }
-
     return {
       range,
       step,
@@ -128,10 +119,6 @@ class View extends Observer {
         thumb: withThumb ? new Thumb(this.getThumbProps(value)) : null,
       };
 
-      if (toggle.thumb) {
-        toggle.thumb.subscribe(ObserverEvents.thumbHide, this.handleThumbHide);
-      }
-
       return toggle;
     });
   };
@@ -139,16 +126,6 @@ class View extends Observer {
   private getThumbProps = (value: number): IThumbProps => {
     const { withThumb } = this.modelOptions;
     return { withThumb, value };
-  };
-
-  private handleThumbHide = () => {
-    this.toggles.forEach((toggle: IToggle) => {
-      if (toggle.thumb) {
-        toggle.thumb.destroyDom();
-        // eslint-disable-next-line no-param-reassign
-        toggle.thumb = null;
-      }
-    });
   };
 
   private mountSlider = () => {
@@ -434,30 +411,17 @@ class View extends Observer {
   };
 
   private getCurrentValueByPercent = (percent: number): number => {
-    const { range, step } = this.modelOptions;
+    const { range } = this.modelOptions;
     const newCurrentValue = percent * (range.max - range.min) + range.min;
-    if (step) {
-      return Number(
-        this.getStepCurrentValue(newCurrentValue).toLocaleString('en', { useGrouping: false }),
-      );
-    }
 
-    return Number(newCurrentValue.toLocaleString('en', { useGrouping: false }));
+    return Number(
+      this.getStepCurrentValue(newCurrentValue).toLocaleString('en', { useGrouping: false }),
+    );
   };
 
   private getStepCurrentValue = (currentValue: number): number => {
     const { step, range } = this.modelOptions;
-    let stepCurrentValue = Math.round((currentValue - range.min) / step) * step + range.min;
-    const isLastStepLess = currentValue - range.max === 0;
-
-    if (isLastStepLess) {
-      stepCurrentValue = range.max;
-    }
-
-    if (stepCurrentValue >= range.max) {
-      stepCurrentValue = range.max;
-    }
-
+    const stepCurrentValue = Math.round((currentValue - range.min) / step) * step + range.min;
     return stepCurrentValue;
   };
 
@@ -470,13 +434,10 @@ class View extends Observer {
     const { withRuler } = this.modelOptions;
     const isOldRulerUpdate = !withRuler && this.ruler && this.hasRulerPropsChange();
     const isNewRulerUpdate = withRuler && this.ruler && this.hasRulerPropsChange();
-    const isRulerMustBeCreate = withRuler && !this.ruler;
     const isRulerMustBeUpdate = isOldRulerUpdate || isNewRulerUpdate;
 
     if (isRulerMustBeUpdate) {
       this.ruler.updateProps(this.getRulerProps());
-    } else if (isRulerMustBeCreate) {
-      this.onRulerMount();
     }
 
     const { currentValues, withThumb } = this.modelOptions;
@@ -489,12 +450,9 @@ class View extends Observer {
       this.toggles[index].main.updateProps(toggleProps);
 
       const { thumb } = this.toggles[index];
-      const isThumbExist = withThumb && thumb;
+      const isThumbExist = withThumb && !!thumb;
+
       if (isThumbExist) {
-        thumb.updateProps(this.getThumbProps(value));
-      } else if (withThumb) {
-        this.onThumbMount();
-      } else if (thumb) {
         thumb.updateProps(this.getThumbProps(value));
       }
     });
@@ -504,38 +462,6 @@ class View extends Observer {
     const oldRulerProps = this.ruler.getProps();
     const newRulerProps = this.getRulerProps();
     return JSON.stringify(oldRulerProps) !== JSON.stringify(newRulerProps);
-  };
-
-  private onRulerMount = () => {
-    this.ruler = new Ruler(this.getRulerProps());
-    this.ruler.subscribe(ObserverEvents.rulerHide, this.handleRulerHide);
-    const domRuler = this.ruler.getHtml() as HTMLElement;
-    const domContainer = this.slider.querySelector(`.${sliderClassNames.wrap}`);
-    domContainer.appendChild(domRuler);
-    this.ruler.setDomNode({ ruler: domRuler });
-    const { ruler } = this.ruler.getDomNode();
-    if (this.isVertical) {
-      ruler.classList.add(sliderClassNames.rulerVertical);
-      const rulerItems = ruler.querySelectorAll(`.${sliderClassNames.rulerItem}`);
-      rulerItems.forEach((item) => item.classList.add(`${sliderClassNames.rulerItemVertical}`));
-    }
-    ruler.addEventListener('click', this.handleRulerClick);
-  };
-
-  private onThumbMount = () => {
-    const { currentValues } = this.modelOptions;
-
-    Object.entries(currentValues).forEach(([key, value]) => {
-      const toggleIndexMap = { min: 0, max: 1 };
-      const index = toggleIndexMap[key as 'min' | 'max'];
-      const toggle = this.toggles[index];
-      toggle.thumb = new Thumb(this.getThumbProps(value));
-      toggle.thumb.subscribe(ObserverEvents.thumbHide, this.handleThumbHide);
-      const domToggle = toggle.main.getDomNode().toggle;
-      domToggle.appendChild(toggle.thumb.getHtml());
-      const domThumb = domToggle.querySelector(`.${sliderClassNames.thumb}`) as HTMLElement;
-      toggle.thumb.setDomNode({ thumb: domThumb });
-    });
   };
 }
 

@@ -1,5 +1,4 @@
 import sliderClassNames from '../../utils/sliderClassNames';
-import ObserverEvents from '../../../observer/ObserverEvents';
 import Observer from '../../../observer/Observer';
 import IThumbProps from '../../../interfaces/view/components/thumb/IThumbProps';
 import IDomNode from '../../../interfaces/view/components/thumb/IDomNode';
@@ -30,25 +29,14 @@ class Thumb extends Observer {
     this.domNode = domNode;
   };
 
-  destroyDom = () => {
-    const { thumb } = this.domNode;
-    const parent = thumb.parentElement;
-    parent.removeChild(thumb);
-  };
-
   updateProps = (props: IThumbProps) => {
     this.props = props;
     this.redraw();
   };
 
   private redraw = () => {
-    const { value, withThumb } = this.props;
-
-    if (withThumb) {
-      this.domNode.thumb.textContent = `${value}`;
-    } else {
-      this.notify(ObserverEvents.thumbHide, '');
-    }
+    const { value } = this.props;
+    this.domNode.thumb.textContent = `${value}`;
   };
 }
 

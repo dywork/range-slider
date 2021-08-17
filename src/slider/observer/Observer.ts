@@ -1,4 +1,3 @@
-import has from 'has';
 import ObserverEvents from './ObserverEvents';
 
 type Subscriber = (...args: any[]) => any;
@@ -14,13 +13,7 @@ class Observer {
   }
 
   subscribe = (subName: ObserverEvents, callback: Subscriber) => {
-    const hasProp = has(this.subscribers, subName);
-
-    if (hasProp) {
-      this.subscribers[subName].push(callback);
-    } else {
-      this.subscribers[subName] = [callback];
-    }
+    this.subscribers[subName] = [callback];
   };
 
   notify = <T>(subName: ObserverEvents, data: T) => {
