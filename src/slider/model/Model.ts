@@ -46,6 +46,11 @@ class Model extends Observer {
       confirmedOptions.step = defaultOptions.step;
     }
 
+    const isStepMoreThenRangeMax = !isStepInvalid && step > range.max;
+    if (isStepMoreThenRangeMax) {
+      confirmedOptions.step = range.max;
+    }
+
     if (range.min > range.max) {
       confirmedOptions.range.min = range.max;
     }
