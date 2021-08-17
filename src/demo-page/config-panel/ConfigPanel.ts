@@ -283,6 +283,7 @@ class ConfigPanel {
     if (this.hasRange()) {
       currentValueInput.value = `${currentValues.min}`;
       maxCurrentValueInput.value = `${currentValues.max}`;
+      maxCurrentValueInput.addEventListener('input', this.handleInput);
     } else {
       currentValueInput.value = `${currentValues.min}`;
     }
