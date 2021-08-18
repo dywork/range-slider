@@ -45,7 +45,6 @@ module.exports = {
     new MiniCssExtractPlugin({ filename: '[name].css' }),
   ],
   mode: 'development',
-  devtool: 'inline-source-map',
   resolve: {
     extensions: ['.ts', '.js'],
   },
