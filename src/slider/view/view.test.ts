@@ -15,7 +15,10 @@ beforeEach(() => {
 
 describe('View', () => {
   it('создает слайдер в DOM', () => {
-    const view = new View(modelOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      modelOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -31,7 +34,10 @@ describe('View', () => {
       currentValues: { min: 15, max: 25 },
     };
 
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -42,7 +48,10 @@ describe('View', () => {
 
   it('создает корректную верстку для слайдера с ruler', () => {
     const rangeSliderOptions = { ...modelOptions, withRuler: true };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -53,7 +62,10 @@ describe('View', () => {
 
   it('создает корректную верстку для слайдера без ruler', () => {
     const rangeSliderOptions = { ...modelOptions, withRuler: false };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -64,7 +76,10 @@ describe('View', () => {
 
   it('создает корректную верстку для слайдера с thumb', () => {
     const rangeSliderOptions = { ...modelOptions, withThumb: true };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -75,7 +90,10 @@ describe('View', () => {
 
   it('создает корректную верстку для слайдера без thumb', () => {
     const rangeSliderOptions = { ...modelOptions, withThumb: false };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
@@ -90,17 +108,20 @@ describe('View', () => {
       orientation: 'vertical',
       withRuler: true,
     };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
-    const isBarHaveVerticalClass = document
-      .querySelector(`.${sliderClassNames.bar}`)
-      .classList.contains(`${sliderClassNames.barVertical}`);
-    const isToggleHaveVerticalClass = document
-      .querySelector(`.${sliderClassNames.toggle}`)
-      .classList.contains(`${sliderClassNames.toggleVertical}`);
-    const isRulerHaveVerticalClass = document
-      .querySelector(`.${sliderClassNames.ruler}`)
-      .classList.contains(`${sliderClassNames.rulerVertical}`);
+    const isBarHaveVerticalClass = (
+      document.querySelector(`.${sliderClassNames.bar}`) as HTMLElement
+    ).classList.contains(`${sliderClassNames.barVertical}`);
+    const isToggleHaveVerticalClass = (
+      document.querySelector(`.${sliderClassNames.toggle}`) as HTMLElement
+    ).classList.contains(`${sliderClassNames.toggleVertical}`);
+    const isRulerHaveVerticalClass = (
+      document.querySelector(`.${sliderClassNames.ruler}`) as HTMLElement
+    ).classList.contains(`${sliderClassNames.rulerVertical}`);
     expect(document.querySelectorAll(`.${sliderClassNames.slider}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.wrap}`).length).toEqual(1);
     expect(document.querySelectorAll(`.${sliderClassNames.scale}`).length).toEqual(1);
@@ -112,7 +133,10 @@ describe('View', () => {
 
   it('уведомляет при клике на bar', () => {
     const rangeSliderOptions = { ...modelOptions };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     const spy = jest.spyOn(view, 'notify');
     view.render();
     const bar = document.querySelector(`.${sliderClassNames.bar}`) as HTMLElement;
@@ -122,7 +146,10 @@ describe('View', () => {
 
   it('обрабатывает клик по bar с currentValues.min и currentValues.max', () => {
     const rangeSliderOptions = { ...modelOptions, currentValues: { min: 15, max: 16 } };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     const spy = jest.spyOn(view, 'notify');
     view.render();
     const bar = document.querySelector(`.${sliderClassNames.bar}`) as HTMLElement;
@@ -132,7 +159,10 @@ describe('View', () => {
 
   it('обрабатывает клик по bar при currentValue.min === currentValue.max', () => {
     const rangeSliderOptions = { ...modelOptions, currentValues: { min: 15, max: 15 } };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     const spy = jest.spyOn(view, 'notify');
     view.render();
     const bar = document.querySelector(`.${sliderClassNames.bar}`) as HTMLElement;
@@ -142,7 +172,10 @@ describe('View', () => {
 
   it('обрабатывает клик по thumb', () => {
     const rangeSliderOptions = { ...modelOptions };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
     const toggle = document.querySelector(`.${sliderClassNames.toggle}`) as HTMLElement;
     const thumb = document.querySelector(`.${sliderClassNames.thumb}`) as HTMLElement;
@@ -152,7 +185,10 @@ describe('View', () => {
 
   it('уведомляет при mousemove у toggle', () => {
     const rangeSliderOptions = { ...modelOptions };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     const spy = jest.spyOn(view, 'notify');
     view.render();
     const toggle = document.querySelector(`.${sliderClassNames.handle}`) as HTMLElement;
@@ -164,7 +200,10 @@ describe('View', () => {
 
   it('уведомляет при mousemove у toggle c withRange', () => {
     const rangeSliderOptions = { ...modelOptions, currentValues: { min: 10, max: 15 } };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     const spy = jest.spyOn(view, 'notify');
     view.render();
     const toggle = document.querySelector(`.${sliderClassNames.handle}`) as HTMLElement;
@@ -179,7 +218,10 @@ describe('View', () => {
       ...modelOptions,
       withRuler: true,
     };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     const spy = jest.spyOn(view, 'notify');
     view.render();
     const rulerItem = document.querySelector(`.${sliderClassNames.rulerItem}`) as HTMLElement;
@@ -193,7 +235,10 @@ describe('View', () => {
       currentValues: { min: 14, max: 15 },
       withRuler: true,
     };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     const spy = jest.spyOn(view, 'notify');
     view.render();
     const rulerItem = document.querySelector(`.${sliderClassNames.rulerItem}`) as HTMLElement;
@@ -207,7 +252,10 @@ describe('View', () => {
       currentValues: { min: 10, max: 15 },
       withRuler: true,
     };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     const spy = jest.spyOn(view, 'notify');
     view.render();
     const rulerItem = document.querySelectorAll(`.${sliderClassNames.rulerItem}`)[1] as HTMLElement;
@@ -221,7 +269,10 @@ describe('View', () => {
       currentValues: { min: 10, max: 15 },
       withRuler: true,
     };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     const spy = jest.spyOn(view, 'notify');
     view.render();
     const rulerItem = document.querySelectorAll(`.${sliderClassNames.rulerItem}`)[3] as HTMLElement;
@@ -240,9 +291,12 @@ describe('View', () => {
 
   it('обновляет значение currentValues', () => {
     const rangeSliderOptions = { ...modelOptions, withRuler: true };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
-    const thumb = document.querySelector(`.${sliderClassNames.thumb}`);
+    const thumb = document.querySelector(`.${sliderClassNames.thumb}`) as HTMLElement;
     const thumbValue = Number(thumb.textContent);
     const newMinValue = 15;
     view.updateModelOptions({ ...modelOptions, currentValues: { min: newMinValue } });
@@ -252,9 +306,12 @@ describe('View', () => {
 
   it('обрабатывает случай когда обновленный currentVale > range.max', () => {
     const rangeSliderOptions = { ...modelOptions, currentValues: { min: 10, max: 30 } };
-    const view = new View(rangeSliderOptions, document.querySelector('.js-default-slider'));
+    const view = new View(
+      rangeSliderOptions,
+      document.querySelector('.js-default-slider') as HTMLElement,
+    );
     view.render();
-    const thumb = document.querySelector(`.${sliderClassNames.thumb}`);
+    const thumb = document.querySelector(`.${sliderClassNames.thumb}`) as HTMLElement;
     const thumbValue = Number(thumb.textContent);
     const newMinValue = 31;
     view.updateModelOptions({ ...modelOptions, currentValues: { min: newMinValue } });

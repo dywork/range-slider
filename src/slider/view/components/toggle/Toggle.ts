@@ -7,7 +7,7 @@ const toggleTemplate = require('./template.hbs');
 class Toggle {
   private props: IToggleProps;
 
-  private domNode: IDomNode;
+  private domNode!: IDomNode;
 
   constructor(props: IToggleProps) {
     this.props = props;
@@ -17,9 +17,9 @@ class Toggle {
     const templateOptions = { sliderClassNames };
     const toggle = document.createElement('div');
     toggle.innerHTML = toggleTemplate(templateOptions);
-    const viewToggle = toggle.querySelector(`.${sliderClassNames.toggle}`);
+    const viewToggle = toggle.querySelector(`.${sliderClassNames.toggle}`) as HTMLElement;
     viewToggle.setAttribute('style', this.getTransformStyle());
-    return toggle.firstChild;
+    return toggle.firstChild as HTMLElement;
   };
 
   getDomNode = () => this.domNode;

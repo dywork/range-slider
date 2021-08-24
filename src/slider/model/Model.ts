@@ -21,9 +21,7 @@ class Model extends Observer {
 
   private getConfirmedOptions = (checkingOptions: IModelOptions): IModelOptions => {
     const confirmedOptions = { ...checkingOptions };
-    const {
-      currentValues, range, step,
-    } = confirmedOptions;
+    const { currentValues, range, step } = confirmedOptions;
     const isCurrentValuesNan = Number.isNaN(currentValues.min) || Number.isNaN(currentValues.max);
     const isRangeNan = Number.isNaN(range.min) || Number.isNaN(range.max);
     const isStepNan = Number.isNaN(step);
@@ -59,7 +57,8 @@ class Model extends Observer {
       confirmedOptions.currentValues.min = range.min;
     }
 
-    if (currentValues.max > range.max) {
+    const maxValueMoreThenRangeMax = isRange && currentValues.max! > range.max;
+    if (maxValueMoreThenRangeMax) {
       confirmedOptions.currentValues.max = range.max;
     }
 
@@ -67,11 +66,13 @@ class Model extends Observer {
       confirmedOptions.currentValues.min = range.max;
     }
 
-    if (currentValues.max < range.min) {
+    const maxValueLessThenRangeMax = isRange && currentValues.max! < range.min;
+    if (maxValueLessThenRangeMax) {
       confirmedOptions.currentValues.max = range.min;
     }
 
-    if (currentValues.max < currentValues.min) {
+    const maxValueLessThenMinValue = isRange && currentValues.max! < currentValues.min;
+    if (maxValueLessThenMinValue) {
       currentValues.min = range.min;
       currentValues.max = range.max;
     }

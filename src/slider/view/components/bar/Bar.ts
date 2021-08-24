@@ -8,7 +8,7 @@ const scaleTemplate = require('./template.hbs');
 class Bar {
   private props: IBarProps;
 
-  private domNode: IDomNode;
+  private domNode!: IDomNode;
 
   constructor(props: IBarProps) {
     this.props = props;
@@ -18,9 +18,9 @@ class Bar {
     const templateOptions = { sliderClassNames };
     const scale = document.createElement('div');
     scale.innerHTML = scaleTemplate(templateOptions);
-    const scaleView = scale.querySelector(`.${sliderClassNames.scale}`);
+    const scaleView = scale.querySelector(`.${sliderClassNames.scale}`) as HTMLElement;
     scaleView.setAttribute('style', this.getTransformStyle());
-    return scale.firstChild;
+    return scale.firstChild as HTMLElement;
   };
 
   getPosition = (currentValue: number): number => {
@@ -50,7 +50,7 @@ class Bar {
 
     if (isRange) {
       // eslint-disable-next-line max-len
-      const scalePositions = Object.entries(currentValues).map(([, value]) => this.getPosition(value));
+      const scalePositions = Object.entries(currentValues).map(([, value]) => this.getPosition(value!));
       const translateScale = scalePositions[0] * 100;
       const totalPosition = scalePositions[1] - translateScale * 0.01;
 

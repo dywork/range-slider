@@ -29,7 +29,7 @@ class ConfigPanel {
 
   slider: Slider;
 
-  domElements: DomElements;
+  domElements!: DomElements;
 
   constructor(domParent: HTMLElement, slider: Slider) {
     this.slider = slider;
@@ -254,7 +254,7 @@ class ConfigPanel {
     const { wrap } = sliderClassNames;
     const { verticalSlider } = configPanelClassName;
     const sliderParent = this.slider.getDomParent();
-    const sliderWrap = sliderParent.querySelector(`.${wrap}`);
+    const sliderWrap = sliderParent.querySelector(`.${wrap}`) as HTMLElement;
     sliderParent.classList.toggle(verticalSlider);
     sliderWrap.classList.toggle(verticalSlider);
   };

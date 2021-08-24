@@ -8,7 +8,7 @@ const thumbTemplate = require('./template.hbs');
 class Thumb extends Observer {
   private props: IThumbProps;
 
-  private domNode: IDomNode;
+  private domNode!: IDomNode;
 
   constructor(props: IThumbProps) {
     super();
@@ -20,7 +20,7 @@ class Thumb extends Observer {
     const templateOptions = { sliderClassNames, value };
     const thumb = document.createElement('div');
     thumb.innerHTML = thumbTemplate(templateOptions);
-    return thumb.firstChild;
+    return thumb.firstChild as HTMLElement;
   };
 
   getDomNode = () => this.domNode;

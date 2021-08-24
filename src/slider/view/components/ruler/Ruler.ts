@@ -11,7 +11,7 @@ const rulerTemplate = require('./template.hbs');
 class Ruler extends Observer {
   private props: IRulerProps;
 
-  private domNode: IDomNode;
+  private domNode!: IDomNode;
 
   constructor(props: IRulerProps) {
     super();
@@ -27,7 +27,7 @@ class Ruler extends Observer {
     };
     const ruler = document.createElement('div');
     ruler.innerHTML = rulerTemplate(templateOptions);
-    return ruler.firstChild;
+    return ruler.firstChild as HTMLElement;
   };
 
   getDomNode = () => this.domNode;
@@ -48,7 +48,7 @@ class Ruler extends Observer {
 
   destroyDom = () => {
     const { ruler } = this.domNode;
-    const parent = ruler.parentElement;
+    const parent = ruler.parentElement as HTMLElement;
     parent.removeChild(ruler);
   };
 
