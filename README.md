@@ -2,6 +2,10 @@
 
 [Просмотр](https://dywork.github.io/range-slider/)
 
+## Окружение
+
+`Node: v14.18.1`
+
 ## Установка
 
 ```
